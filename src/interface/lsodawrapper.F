@@ -1,153 +1,183 @@
+c-----------------------------------------------------------------------
+c 
+c                               LSODAMEX                                
+c
+c-----------------------------------------------------------------------
+c
+c Copyright (c) 2014, Pascal Pieters, All rights reserved.
+c 
+c This library is free software; you can redistribute it and/or
+c modify it under the terms of the GNU Lesser General Public
+c License as published by the Free Software Foundation; either
+c version 3.0 of the License, or (at your option) any later version.
+c
+c This library is distributed in the hope that it will be useful,
+c but WITHOUT ANY WARRANTY; without even the implied warranty of
+c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+c Lesser General Public License for more details.
+c
+c You should have received a copy of the GNU Lesser General Public
+c License along with this library.
+c
+c-----------------------------------------------------------------------
 
-c-----------------------------------------------------------------------
-c Pascal Pieters <p.a.pieters@student.tue.nl>
-c-----------------------------------------------------------------------
 
 c-----------------------------------------------------------------------
 c
 c LSODAW - LSODA Wrapper
+c
+c DEVELOPED BY:
+c
+c   Pascal Pieters <p.a.pieters@student.tue.nl>
+c
+c-----------------------------------------------------------------------
 c 
 c-----------------------------------------------------------------------
+c
 c ARGUMENTS:
 c
-c    neq : (int)  Number of states/equations.
-c   atol : (real) Absolute tolerance.
-c   rtol : (real) Relative tolerance.
-c  timef : (int)  Time function to use:
-c                 1 = Linear time function (t=dt*i)
-c                 2 = Exponential timefunction (t=10**(dt*i))
-c   nout : (int)  Number of output timepoints.
-c   tbeg : (real) The first timepoint to return. For the linear time
-c                 function t0=tbeg. For the exponential time function
-c                 t0=10**tbeg.
-c   tend : (real) The end time of the simulation. For the exponential
-c                 time function the last timepoint will be 10**tend.
+c    neq :in    Number of states/equations.
+c   atol :in    Absolute tolerance.
+c   rtol :in    Relative tolerance.
+c   nout :in    Number of output time points.
+c  times :in    Vector of time points to calculate the ODEs at. times
+c               should be a noutx1 or 1xnout vector.
+c   npar :in    Number of parameters in the system.
+c    par :in    Vector of parameter values. par should be a nparx1 or
+c               1xnpar vector.
+c     y0 :in    Initial values of the states of the system. y0 should be
+c               a neqx1 or 1xneq vector.
+c   tret :out   Vector that will hold the time point values where the
+c               ODEs of the system have been calculated.
+c   yret :out   A vector of the values of all states corresponing to the
+c               time points of tret.
+c
+c-----------------------------------------------------------------------
+#include "defs.h"
+
+      subroutine lsodaw(neq, atol, rtol, nout, times, npar, par, y0,
+     + tret, yret)
+
+c-----------------------------------------------------------------------
+c
+c Declare all variables.
+c
 c-----------------------------------------------------------------------
 
-      subroutine lsodaw(neq, atol, rtol, timef, nout,
-     + tbeg, tend, y0, text, yext)
-
+c Declare externals.
       external func, dummy
-      integer i, iopar, iopt, iout, istate, itask, itol,
-     1 leniw, lenrw, lout, jt, rout, ml, mu,
-     2 neq, nerr, nfe, nfea, nje, nout, nqu, nst,
-     3 timef, lrw, liw, iwork, cnout, ctimef
-      double precision atol, dtout, er, erm, ero, hu, rtol,
-     1 t, tout, tout1, y, timfun, rwork, satol, srtol,
-     2 tbeg, tend, ctbeg, ctend, y0
-c MEX printing
+c Declare input arguments.
+      integer, intent(in) :: neq, npar, nout
+
+      double precision, intent(in) :: atol, rtol
+      double precision, intent(in) :: y0(neq), times(nout)
+      double precision, intent(in), target :: par(npar)
+c Declare output arguments.
+      real*8, intent(out) :: tret(nout), yret(nout, neq)
+c Declare local variables.
+      integer :: iwork(22 + neq)
+      integer i, iopar, iopt, iout, istate, itask, itol, leniw, lenrw,
+     1 jt, ml, mu, nerr, nfe, nfea, nje, nqu, nst, lrw, liw, np
+
+      double precision, pointer :: p(:)
+      double precision :: dtout, er, erm, ero, hu, tout, t
+      double precision :: y(neq), rwork(22 + neq * max(16, neq + 9))
+#ifdef DEBUG
+c Delcare variables used for printing tret in MEX.
       character*120 line
       integer*4 k
       integer*4 mexPrintf
-      real*8 text(nout), yext(nout,neq)
+c The following code can be used to print variable values.
+c#      write(line,*) 'neq = ',neq
+c#      k = mexPrintf(line//achar(13))
+#endif
+c Common variables used for passing parameters to
+c ODE function.
+      COMMON  /funcpar/ np, p
 
-      COMMON  /opts/ ctimef, ctbeg, ctend, cnout
+c-----------------------------------------------------------------------
+c
+c Initialize all variables.
+c
+c-----------------------------------------------------------------------
 
-      dimension y(neq), rwork(22 + neq * max(16, neq + 9)),
-     1 iwork(22 + neq), y0(neq)
-
-      data lout/6/, rout/20/
-
+c Calculate the correct size of the iwork and rwork
+c variables, based on the description of the LSODA
+c function.
       lrw = 22 + neq * max(16, neq + 9)
       liw = 22 + neq
-
-      ctimef = timef
-      cnout = nout
-      ctbeg = tbeg
-      ctend = tend
-
-      tout1 = timfun(1)
-
-c
-c Some default values
-c
-
+c The first time to output is the first value in the times
+c vector.
+      tout = times(1)
+c Make the pointer p point to the vector of parameters. the
+c pointer can be accessed in the ODE function via the 
+c /funcpar/ common block.
+      np = npar
+      p => par
+c Initialize the error counter.
       nerr = 0
-c Specify tolerance as a scalar (2 for vector/array)
+c Specify tolerance as a scalar (2 for vector/array).
       itol = 1
-
-c No optional inputs
+c No optional inputs.
       iopt = 0
-
-c Define the Jacobian type (full)
+c Define the Jacobian type (full).
       jt = 2
-
-c Always start at t=0
+c Always start at t=0.
       t = 0.0d0
-
-c Initial values (start at 1 with arrays!)
+c Initial value for the ODE problem.
       y = y0
-
+c Intial value of itask should be 1.
       itask = 1
-c Set as first call (istate = 2 for subsequent call)
+c Intial value of istate should be 1.
+c (istate = 2 for subsequent calls)
       istate = 1
-
-c First output time point
-      tout = tout1
-
-c Absolute tolerance can be adjusted
-      satol = atol
-      srtol = rtol
-
-c Keep track of the maximum error
+c Keep track of the maximum error.
       ero = 0.0d0
 
-c
-c Open file for output
-c
 
-c      open (UNIT=rout, FILE="lsoda_out.txt",
-c     + ACTION="write", STATUS="replace")
-
+c-----------------------------------------------------------------------
 c
-c Loop through al desired output points
+c Loop through al desired output points.
 c
+c-----------------------------------------------------------------------
 
       do 170 iout = 1,nout
 c Call the solver
-        call dlsoda(func,neq,y,t,tout,itol,srtol,
-     1   satol,itask,istate,iopt,rwork,lrw,iwork,
-     2   liw,dummy,jt)
+        call dlsoda(func, neq, y, t, tout, itol, rtol, atol, itask,
+     1   istate, iopt, rwork, lrw, iwork, liw, dummy, jt)
+c Copy the value of y(:) to the output vector.
+        yret(iout, :) = y
+c Copy this time point to the output vector of times.
+        tret(iout) = t
 
-c        write (lout,140) iwork(19), iwork(14), iwork(13),
-c     1   iwork(12), rwork(13), rwork(11)
-c 140    format(//'; Method: ',i4/
-c     1   '; Order: ',i4/
-c     2   '; J-evals (cumm.): ',i4/
-c     3   '; evals (cumm.): ',i6/
-c     4   '; TOLSF: ',d15.3/
-c     5   '; dt: ',d15.3)
-
-c Write the calculations to a file
-c        write (rout,150) t,y(1),y(2)
-c 150    format(d15.5,d16.5,d14.3)
-        do 160 i = 1,neq
-          yext(iout, i) = y(i)
- 160    continue
-        text(iout) = t
-
-c        write (rout, "(d15.5)", advance="no") text(iout)
-c        write( rout,*) (yext(iout,i), i=1,neq)
-
-c        if ((istate .eq. -3) .or. (istate .eq. -2)) then
-c          satol = satol * rwork(13)
-c          srtol = srtol * rwork(13)
-c          go to 170
-c        endif
-
-
-c If istate < 0: the call was unsuccessful
+c Check whether the solver was successful.
         if (istate .lt. 0) go to 175
+#ifdef DEBUG
+        iopar = iout - 2*(iout/2)
+        if (iopar .ne. 0) go to 170
+        er = abs(y(1))/atol
+        ero = max(ero,er)
+        if (er .gt. 1000.0d0) then
+c          write(line,*) 'Warning: error exceeds 1000 * tolerance.'
+c          k = mexPrintf(line//achar(13))
+          nerr = nerr + 1
+        endif
+#endif
+c Get the new time point.
+ 170    tout = times(iout+1)
 
- 170    tout = timfun(iout + 1)
  175  continue
-
-c Close the file
-c      close (rout)
 
 c Check for errors one more time
       if (istate .lt. 0) nerr = nerr + 1
 
+c-----------------------------------------------------------------------
+c
+c Calculate some stats of the solver/solution.
+c
+c-----------------------------------------------------------------------
+
+#ifdef DEBUG
 c Number of steps
       nst = iwork(11)
 c Number of function evaluations
@@ -160,37 +190,24 @@ c IWork size (int)
       leniw = iwork(18)
 
 c Print summary
-      write (lout,180) lenrw,leniw,nst,nfe,nje,ero
- 180  format(//' Final statistics for this run:'/
-     1  ' rwork size =',i4,'   iwork size =',i4/
-     2  ' number of steps =',i5/
-     3  ' number of f-s   =',i5/
-     4  ' number of J-s   =',i5/
-     5  ' error overrun =',d10.2)
-
+      write(line,*) 'number of steps = ',nst
+      k = mexPrintf(line//achar(13))
+      write(line,*) 'number of f-s = ',nfe
+      k = mexPrintf(line//achar(13))
+      write(line,*) 'number of J-s = ',nje
+      k = mexPrintf(line//achar(13))
+      write(line,*) 'error overrun = ',ero
+      k = mexPrintf(line//achar(13))
+#endif
       return
       end
 
-      double precision function timfun (i)
-      double precision ctbeg, ctend, a
-      integer i, ctimef, cnout
-      COMMON  /opts/ ctimef, ctbeg, ctend, cnout
-
-      if (ctimef .eq. 1) then
-        timfun = i * ((ctend-ctbeg)/cnout) + ctbeg
-      elseif (ctimef .eq. 2) then
-        a = i * ((ctend-ctbeg)/cnout)
-        timfun = 10.0d0 ** (a + ctbeg)
-      else
-        print *, "ERROR: Unknown time function."
-        stop
-        return
-      endif
-
-      return
-      end
-
-
+c-----------------------------------------------------------------------
+c
+c Dummy routine that is passed because we are not using a analytical
+c Jacobian function.
+c
+c-----------------------------------------------------------------------
       subroutine dummy (neq, t, y, ml, mu, pd, nrowpd)
       return
       end

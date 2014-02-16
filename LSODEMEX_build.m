@@ -1,4 +1,4 @@
-function LSODEMEX_build(infile, outfile)
+function LSODEMEX_build(infile, outfile, varargin)
 % Build the LSODE solver
 disp('Building the LSODE solver.');
 
@@ -44,8 +44,27 @@ if ~exist(insource)
 end
 sourcefiles = [sourcefiles '''' insource ''''];
 
+%% Handle options
+opts = {'DEBUG'};
+defaults = {0};
+
+values = containers.Map(upper(opts),defaults);
+for k = 1:2:length(varargin)
+    if isKey(values,upper(varargin{k}))
+        values(upper(varargin{k})) = varargin{k+1};
+    else
+        error('The provided property ''%s'' is not available for this function.', varargin{k});
+    end
+end
+
+fid = fopen(fullfile(builddir, 'defs.h'), 'w');
+if values('DEBUG')
+    fprintf(fid, '#define DEBUG\n');
+end
+fclose(fid);
+
 outmex = fullfile(pwd, outfile);
 
-eval(sprintf('mex %s %s -o ''%s'' FFLAGS=''$FFLAGS %s'' ''%s''', mexflags, sourcefiles, outmex, mexfflags, fullfile(libdir, [libname libext])));
+eval(sprintf('mex %s %s -I''%s'' -o ''%s'' FFLAGS=''$FFLAGS %s'' ''%s''', mexflags, sourcefiles, builddir, outmex, mexfflags, fullfile(libdir, [libname libext])));
 
 end

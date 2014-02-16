@@ -1,22 +1,69 @@
+c-----------------------------------------------------------------------
+c 
+c                               LSODAMEX                                
+c
+c-----------------------------------------------------------------------
+c
+c Copyright (c) 2014, Pascal Pieters, All rights reserved.
+c 
+c This library is free software; you can redistribute it and/or
+c modify it under the terms of the GNU Lesser General Public
+c License as published by the Free Software Foundation; either
+c version 3.0 of the License, or (at your option) any later version.
+c
+c This library is distributed in the hope that it will be useful,
+c but WITHOUT ANY WARRANTY; without even the implied warranty of
+c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+c Lesser General Public License for more details.
+c
+c You should have received a copy of the GNU Lesser General Public
+c License along with this library.
+c
+c-----------------------------------------------------------------------
+
 
 c-----------------------------------------------------------------------
-c Basic LSODA call
-c Pascal Pieters <p.a.pieters@student.tue.nl>
+c
+c LSODA ODE function - GSDim
+c   Nucleation-Elongation model (with dimensions) by 
+c   Goldstein and Stryer.
+c
+c DEVELOPED BY:
+c
+c   Pascal Pieters <p.a.pieters@student.tue.nl>
+c
 c-----------------------------------------------------------------------
-c      program lsodac
-c      call lsodaw(500, 1.0d-6, 1.0d-5, 2, 10000, -100.0d0,
-c     + -1.0d0)
-c      stop
-c      end
+c
+c ARGUMENTS:
+c
+c    neq :in    Number of states/equations.
+c      t :in    Current time point.
+c      y :in    Vector of the current values of the states.
+c   ydot :out   Vector of the numerical derivatives of the states (dy/dt).
+c
+c PARAMETERS:
+c
+c   p(1) :in    s   : Number of monomers of the nucleus.
+c   p(2) :in    kp  : Forward reaction rate until the nucleus.
+c   p(3) :in    km  : Backward reaction rate until the nucleus.
+c   p(4) :in    gp  : Forward reaction rate after the nucleus.
+c   p(5) :in    gm  : Backward reaction rate after the nucleus.
+c
+c-----------------------------------------------------------------------
 
       subroutine func (neq, t, y, ydot)
-      integer neq, i, s
+      integer neq, i, s, np
       double precision t, y, ydot, kp, km
      1 h1, h2, gp, gm
+      double precision, pointer :: p(:)
       dimension y(neq), ydot(neq)
+      COMMON  /funcpar/ np, p
 
-      data s/2/, kp/1.0d5/, km/1.0d0/,
-     + gp/1.0d5/, gm/1.0d-2/
+      s = int(p(1))
+      kp = p(2)
+      km = p(3)
+      gp = p(4)
+      gm = p(5)
 
 c Help variable 1
       h1 = 0
