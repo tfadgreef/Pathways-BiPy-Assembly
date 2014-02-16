@@ -77,12 +77,11 @@ c Declare output arguments.
 c Declare local variables.
       integer :: iwork(22 + neq)
       integer i, iopar, iopt, iout, istate, itask, itol, leniw, lenrw,
-     1 jt, ml, mu, nerr, nfe, nfea, nje, nqu, nst, lrw, liw, np
+     1 jt, ml, mu, nerr, nfe, nfea, nje, nqu, nst, lrw, liw, np, j
 
       double precision, pointer :: p(:)
       double precision :: dtout, er, erm, ero, hu, tout, t
       double precision :: y(neq), rwork(22 + neq * max(16, neq + 9))
-#ifdef DEBUG
 c Delcare variables used for printing tret in MEX.
       character*120 line
       integer*4 k
@@ -90,10 +89,12 @@ c Delcare variables used for printing tret in MEX.
 c The following code can be used to print variable values.
 c#      write(line,*) 'neq = ',neq
 c#      k = mexPrintf(line//achar(13))
-#endif
 c Common variables used for passing parameters to
 c ODE function.
       COMMON  /funcpar/ np, p
+
+c Redirect all output of the LSODE solver to a file.
+      open(unit=6, file="lsode.log", form="formatted")
 
 c-----------------------------------------------------------------------
 c
@@ -133,7 +134,13 @@ c (istate = 2 for subsequent calls)
       istate = 1
 c Keep track of the maximum error.
       ero = 0.0d0
-
+c Set the output variables to zeros.
+      do 110 i=1, nout
+        tret(i) = 0.0d0
+        do 100 j=1, neq
+          yret(i,j) = 0.0d0
+  100   continue
+  110 continue
 
 c-----------------------------------------------------------------------
 c
@@ -199,6 +206,15 @@ c Print summary
       write(line,*) 'error overrun = ',ero
       k = mexPrintf(line//achar(13))
 #endif
+
+c Print the LSODE output.
+      rewind 6
+      do
+        read(6,'(a)',end=500) line
+        k = mexPrintf(line//achar(13))
+      enddo
+  500 close(unit=6)
+
       return
       end
 
