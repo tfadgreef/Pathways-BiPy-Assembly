@@ -10,7 +10,7 @@ fortranext = '.F';
 buildext = '.o';
 libext = '.a';
 
-mexfflags = '-w -fPIC';
+mexfflags = '-fPIC'; % -w 
 mexflags = ''; % -v
 
 if ~exist(fullfile(libdir, [libname libext]))
@@ -45,8 +45,8 @@ end
 sourcefiles = [sourcefiles '''' insource ''''];
 
 %% Handle options
-opts = {'DEBUG'};
-defaults = {0};
+opts = {'DEBUG','MAXSTEPS'};
+defaults = {0, 0};
 
 values = containers.Map(upper(opts),defaults);
 for k = 1:2:length(varargin)
@@ -58,8 +58,14 @@ for k = 1:2:length(varargin)
 end
 
 fid = fopen(fullfile(builddir, 'defs.h'), 'w');
-if values('DEBUG')
-    fprintf(fid, '#define DEBUG\n');
+if values('MAXSTEPS') || values('DEBUG')
+    fprintf(fid, '#define OPTIONALINPUTS\n');
+    if values('DEBUG')
+        fprintf(fid, '#define DEBUG\n');
+    end
+    if values('MAXSTEPS')
+        fprintf(fid, '#define MAXSTEPS %i\n', values('MAXSTEPS'));
+    end
 end
 fclose(fid);
 

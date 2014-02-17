@@ -3952,6 +3952,7 @@ C Initialize switching parameters.  METH = 1 is assumed initially. -----
       IRFLAG = 0
       PDEST = 0.0D0
       PDLAST = 0.0D0
+c Switching ratio [NOTE]
       RATIO = 5.0D0
       CALL DCFODE (2, ELCO, TESCO)
       DO 10 I = 1,5
@@ -4238,6 +4239,7 @@ C-----------------------------------------------------------------------
       RH2 = 1.0D0/(1.2D0*DM2**EXSM + 0.0000012D0)
       NQM2 = NQ
  476  CONTINUE
+c NOTE: Switching ratio (5.0d0 * )
       IF (RH2 .LT. RATIO*RH1) GO TO 488
 C THE SWITCH TEST PASSED.  RESET RELEVANT QUANTITIES FOR BDF. ----------
  478  RH = RH2
@@ -4277,7 +4279,7 @@ C-----------------------------------------------------------------------
       IF (PDH*RH1 .GT. 0.00001D0) RH1IT = SM1(NQM1)/PDH
       RH1 = MIN(RH1,RH1IT)
       RH2 = 1.0D0/(1.2D0*DSM**EXSM + 0.0000012D0)
-c Switching ratio [NOTE]
+c Switching ratio [NOTE] (5.0D0 default)
       IF (RH1*RATIO .LT. 5.0D0*RH2) GO TO 488
       ALPHA = MAX(0.001D0,RH1)
       DM1 = (ALPHA**EXM1)*DM1

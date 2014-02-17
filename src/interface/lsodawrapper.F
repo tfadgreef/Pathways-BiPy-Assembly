@@ -119,10 +119,29 @@ c Initialize the error counter.
       nerr = 0
 c Specify tolerance as a scalar (2 for vector/array).
       itol = 1
-c No optional inputs.
-      iopt = 0
 c Define the Jacobian type (full).
       jt = 2
+
+#ifdef OPTIONALINPUTS
+c Optional inputs.
+      iopt = 1
+c Set all optional inputs to default.
+      do 70 i=5, 10
+        rwork(i) = 0.0d0
+        iwork(i) = 0
+  70  continue
+#ifdef MAXSTEPS
+      iwork(6) = MAXSTEPS
+#endif
+#ifdef DEBUG
+      iwork(5) = 1
+#endif
+
+#else
+c No optional inputs.
+      iopt = 0
+#endif
+
 c Always start at t=0.
       t = 0.0d0
 c Initial value for the ODE problem.
@@ -197,13 +216,13 @@ c IWork size (int)
       leniw = iwork(18)
 
 c Print summary
-      write(line,*) 'number of steps = ',nst
+      write(line,*) 'number of steps = ', nst
       k = mexPrintf(line//achar(13))
-      write(line,*) 'number of f-s = ',nfe
+      write(line,*) 'number of f-s = ', nfe
       k = mexPrintf(line//achar(13))
-      write(line,*) 'number of J-s = ',nje
+      write(line,*) 'number of J-s = ', nje
       k = mexPrintf(line//achar(13))
-      write(line,*) 'error overrun = ',ero
+      write(line,*) 'error overrun = ', ero
       k = mexPrintf(line//achar(13))
 #endif
 
@@ -213,14 +232,14 @@ c Print the LSODE output.
         read(6,'(a)',end=500) line
         k = mexPrintf(line//achar(13))
       enddo
-  500 close(unit=6)
+  500 close(unit=6, status='delete')
 
       return
       end
 
 c-----------------------------------------------------------------------
 c
-c Dummy routine that is passed because we are not using a analytical
+c Dummy routine that is passed since we are not using a analytical
 c Jacobian function.
 c
 c-----------------------------------------------------------------------

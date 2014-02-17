@@ -76,8 +76,8 @@ c Declare pointers for the input arguments.
       mwpointer tp, yp, neqp, atolp, rtolp, timesp,
      + y0p, parp
 c Declare the position of each input argument.
-      parameter (argneq = 1, argatol = 2, argrtol = 3,
-     + argtimes = 4, argpar = 5, argy0 = 6)
+      integer, parameter :: argneq = 1, argatol = 2, argrtol = 3,
+     + argtimes = 4, argpar = 5, argy0 = 6
 
 c Declare local variables.
       mwsize m, n, nel, nel2
