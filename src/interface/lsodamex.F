@@ -55,6 +55,7 @@ c               time points of tret.
 c
 c-----------------------------------------------------------------------
 #include <fintrf.h>
+#include "defs.h"
 
       subroutine mexfunction(nlhs, plhs, nrhs, prhs)
 
@@ -173,7 +174,17 @@ c Copy the value of the arguments to the pointers.
       CALL mxcopyptrtoreal8(parp, par, nel)
 
 c Call the LSODA wrapper, which will call the LSODA solver.
+#ifdef ODEPACK
       call lsodaw(neq, atol, rtol, nout, times, npar, par, y0, t, y)
+#else
+#ifdef RKSUITE
+      call rksuitew(neq, atol, rtol, nout, times, npar, par, y0, t, y)
+#else
+#ifdef MEBDFSO
+      call mebdfsow(neq, atol, rtol, nout, times, npar, par, y0, t, y)
+#endif
+#endif
+#endif
 
 c Copy the result.
       nel = nout

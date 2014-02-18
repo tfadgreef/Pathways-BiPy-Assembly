@@ -1,8 +1,8 @@
 function LSODEMEX_init()
 % Build the ODEPACK library
 
-libname = 'ODEPACK';
-fprintf('Building the %s library.\n', libname);
+libnames = {'ODEPACK', 'RKSUITE', 'MEBDFSO'};
+libdeps = {{'opkdmain', 'opkda1', 'opkda2'}, {'rksuite'}, {'yale', 'mebdfso'}};
 
 [basedir, ~, ~] = fileparts(mfilename('fullpath'));
 builddir = fullfile(basedir, 'build');
@@ -14,41 +14,47 @@ libext = '.a';
 mexfflags = '-w -fPIC';
 mexflags = ''; % -v
 
-%% ODEPACK
-odepackdir = fullfile(basedir, 'src', 'ODEPACK');
-odepackdep = {'opkdmain', 'opkda1', 'opkda2'};
+for curlibi=1:length(libnames)
+    libname = libnames{curlibi};
+    libdep = libdeps{curlibi};
 
-%% Create the directories directory
-[stat, ~, ~] = mkdir(builddir);
-if ~stat
-    error('Could not create the ''build'' directory.');
-end
-[stat, ~, ~] = mkdir(libdir);
-if ~stat
-    error('Could not create the ''lib'' directory.');
-end
+    fprintf('Building the %s library.\n', libname);
 
-%% Dependency check
-odepacksourcefiles = '';
-odepackbuildfiles = '';
-for i=1:length(odepackdep)
-    % Source files
-    f = fullfile(odepackdir, [odepackdep{i} fortranext]);
-    odepacksourcefiles = [odepacksourcefiles '''' f ''' '];
+    %% ODEPACK
+    libsourcedir = fullfile(basedir, 'src', libname);
 
-    if ~exist(f, 'file')
-        error('Missing ''ODEPACK'' dependencies.');
+    %% Create the directories directory
+    [stat, ~, ~] = mkdir(builddir);
+    if ~stat
+        error('Could not create the ''build'' directory.');
+    end
+    [stat, ~, ~] = mkdir(libdir);
+    if ~stat
+        error('Could not create the ''lib'' directory.');
     end
 
-    % Build files
-    f = fullfile(builddir, [odepackdep{i} buildext]);
-    odepackbuildfiles = [odepackbuildfiles '''' f ''' '];
+    %% Dependency check
+    sourcefiles = '';
+    buildfiles = '';
+    for i=1:length(libdep)
+        % Source files
+        f = fullfile(libsourcedir, [libdep{i} fortranext]);
+        sourcefiles = [sourcefiles '''' f ''' '];
+
+        if ~exist(f, 'file')
+            error(['Missing ''' libname ''' dependencies.']);
+        end
+
+        % Build files
+        f = fullfile(builddir, [libdep{i} buildext]);
+        buildfiles = [buildfiles '''' f ''' '];
+    end
+    sourcefiles = sourcefiles(1:end-1); % Remove last whitespace
+    buildfiles = buildfiles(1:end-1); % Remove last whitespace
+
+
+    eval(sprintf('mex %s -c %s -outdir ''%s'' FFLAGS=''$FFLAGS %s''', mexflags, sourcefiles, builddir, mexfflags));
+    system(sprintf('ar -rcs ''%s'' %s', fullfile(libdir, [libname libext]), buildfiles));
 end
-odepacksourcefiles = odepacksourcefiles(1:end-1); % Remove last whitespace
-odepackbuildfiles = odepackbuildfiles(1:end-1); % Remove last whitespace
-
-
-eval(sprintf('mex %s -c %s -outdir ''%s'' FFLAGS=''$FFLAGS %s''', mexflags, odepacksourcefiles, builddir, mexfflags));
-system(sprintf('ar -rcs ''%s'' %s', fullfile(libdir, [libname libext]), odepackbuildfiles));
 
 end

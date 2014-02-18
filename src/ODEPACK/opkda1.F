@@ -3814,8 +3814,8 @@ c  ******  solve  lt x = y  by back substitution  **********************
       INTEGER IOWND2, ICOUNT, IRFLAG, JTYP, MUSED, MXORDN, MXORDS
       DOUBLE PRECISION CONIT, CRATE, EL, ELCO, HOLD, RMAX, TESCO,
      2   CCMAX, EL0, H, HMIN, HMXI, HU, RC, TN, UROUND
-      DOUBLE PRECISION ROWND2, CM1, CM2, PDEST, PDLAST, RATIO,
-     1   PDNORM
+      DOUBLE PRECISION ROWND2, CM1, CM2, PDEST, PDLAST, RATIOP,
+     1   PDNORM, RATIOM
       COMMON /DLS001/ CONIT, CRATE, EL(13), ELCO(13,12),
      1   HOLD, RMAX, TESCO(3,12),
      2   CCMAX, EL0, H, HMIN, HMXI, HU, RC, TN, UROUND,
@@ -3823,8 +3823,8 @@ c  ******  solve  lt x = y  by back substitution  **********************
      4   ICF, IERPJ, IERSL, JCUR, JSTART, KFLAG, L,
      5   LYH, LEWT, LACOR, LSAVF, LWM, LIWM, METH, MITER,
      6   MAXORD, MAXCOR, MSBP, MXNCF, N, NQ, NST, NFE, NJE, NQU
-      COMMON /DLSA01/ ROWND2, CM1(12), CM2(5), PDEST, PDLAST, RATIO,
-     1   PDNORM,
+      COMMON /DLSA01/ ROWND2, CM1(12), CM2(5), PDEST, PDLAST, RATIOP,
+     1   PDNORM, RATIOM
      2   IOWND2(3), ICOUNT, IRFLAG, JTYP, MUSED, MXORDN, MXORDS
       INTEGER I, I1, IREDO, IRET, J, JB, M, NCF, NEWQ
       INTEGER LM1, LM1P1, LM2, LM2P1, NQM1, NQM2
@@ -3952,8 +3952,10 @@ C Initialize switching parameters.  METH = 1 is assumed initially. -----
       IRFLAG = 0
       PDEST = 0.0D0
       PDLAST = 0.0D0
-c Switching ratio [NOTE]
-      RATIO = 5.0D0
+c Switching ratio [NOTE] (5.0D0)
+cP      RATIO = 5.0D0
+      RATIOP = 5.0D0
+      RATIOM = 1.0D0
       CALL DCFODE (2, ELCO, TESCO)
       DO 10 I = 1,5
  10     CM2(I) = TESCO(2,I)*ELCO(I+1,I)
@@ -4239,8 +4241,13 @@ C-----------------------------------------------------------------------
       RH2 = 1.0D0/(1.2D0*DM2**EXSM + 0.0000012D0)
       NQM2 = NQ
  476  CONTINUE
+      WRITE(6,477) RH1, RH2, RATIOP
+ 477  FORMAT(///'RH1(N) = ',D15.3/
+     1 'RH2(S) = ',D15.3/
+     2 'RATIOP = ',D15.3)
 c NOTE: Switching ratio (5.0d0 * )
-      IF (RH2 .LT. RATIO*RH1) GO TO 488
+cP      IF (RH2 .LT. RATIO*RH1) GO TO 488
+      IF (RH2 .LT. RATIOP*RH1) GO TO 488
 C THE SWITCH TEST PASSED.  RESET RELEVANT QUANTITIES FOR BDF. ----------
  478  RH = RH2
       ICOUNT = 20
@@ -4280,10 +4287,17 @@ C-----------------------------------------------------------------------
       RH1 = MIN(RH1,RH1IT)
       RH2 = 1.0D0/(1.2D0*DSM**EXSM + 0.0000012D0)
 c Switching ratio [NOTE] (5.0D0 default)
-      IF (RH1*RATIO .LT. 5.0D0*RH2) GO TO 488
+      WRITE(6,487) RH1, RH2, RATIOM
+ 487  FORMAT(///'RH1(N) = ',D15.3/
+     1 'RH2(S) = ',D15.3/
+     2 'RATIOM = ',D15.3)
+cP      IF (RH1*RATIO .LT. 5.0D0*RH2) GO TO 488
+      IF (RH1 .LT. RATIOM*RH2) GO TO 488
+      print*,"Check 4"
       ALPHA = MAX(0.001D0,RH1)
       DM1 = (ALPHA**EXM1)*DM1
       IF (DM1 .LE. 1000.0D0*UROUND*PNORM) GO TO 488
+      print*,"Check 5"
 C The switch test passed.  Reset relevant quantities for Adams. --------
       RH = RH1
       ICOUNT = 20

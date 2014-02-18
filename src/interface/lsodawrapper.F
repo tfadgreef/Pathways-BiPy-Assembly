@@ -80,7 +80,8 @@ c Declare local variables.
      1 jt, ml, mu, nerr, nfe, nfea, nje, nqu, nst, lrw, liw, np, j
 
       double precision, pointer :: p(:)
-      double precision :: dtout, er, erm, ero, hu, tout, t
+      double precision :: dtout, er, erm, ero, hu, tout, t, rtols,
+     1 tolsf, atols
       double precision :: y(neq), rwork(22 + neq * max(16, neq + 9))
 c Delcare variables used for printing tret in MEX.
       character*120 line
@@ -119,8 +120,19 @@ c Initialize the error counter.
       nerr = 0
 c Specify tolerance as a scalar (2 for vector/array).
       itol = 1
+c      itol = 2
 c Define the Jacobian type (full).
       jt = 2
+
+c Start with the given tolerances.
+      atols = atol
+      rtols = rtol
+c      do 60 i=1, neq
+c        atols(i) = 10**(((neq-i)*(log10(atol)+4)/neq) - 4)
+c        rtols(i) = 10**(((neq-i)*(log10(rtol)+4)/neq) - 4)
+c        write(line,*) 'rtols(', i, ') = ', rtols(i)
+c        k = mexPrintf(line//achar(13))
+c  60  continue
 
 #ifdef OPTIONALINPUTS
 c Optional inputs.
@@ -134,7 +146,9 @@ c Set all optional inputs to default.
       iwork(6) = MAXSTEPS
 #endif
 #ifdef DEBUG
+#ifdef SWITCHINGSOLVER
       iwork(5) = 1
+#endif
 #endif
 
 #else
@@ -169,12 +183,40 @@ c-----------------------------------------------------------------------
 
       do 170 iout = 1,nout
 c Call the solver
-        call dlsoda(func, neq, y, t, tout, itol, rtol, atol, itask,
+#ifdef STIFFSOLVER
+        call dlsode(func, neq, y, t, tout, itol, rtols, atols, itask,
+     1   istate, iopt, rwork, lrw, iwork, liw, dummy, 22)
+#else
+#ifdef NONSTIFFSOLVER
+        call dlsode(func, neq, y, t, tout, itol, rtols, atols, itask,
+     1   istate, iopt, rwork, lrw, iwork, liw, dummy, 10)
+#else
+#ifdef SWITCHINGSOLVER
+        call dlsoda(func, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, jt)
+#endif
+#endif
+#endif
 c Copy the value of y(:) to the output vector.
         yret(iout, :) = y
 c Copy this time point to the output vector of times.
         tret(iout) = t
+
+#ifdef ADJUSTTOLERANCES
+c        tolsf = RWORK(14)
+c        if ((tolsf .ne. 0.0d0) .and. (tolsf .gt. 1/rtols)) then
+c          rtols = rtols * tolsf
+c          atols = atols * tolsf
+#ifdef DEBUG
+c          write(line,*) 'TOLSF = ', tolsf
+c          k = mexPrintf(line//achar(13))
+c          write(line,*) 'new atol = ', atols
+c          k = mexPrintf(line//achar(13))
+c          write(line,*) 'new rtol = ', rtols
+c          k = mexPrintf(line//achar(13))
+#endif
+c        endif
+#endif
 
 c Check whether the solver was successful.
         if (istate .lt. 0) go to 175
