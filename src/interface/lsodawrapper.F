@@ -181,7 +181,7 @@ c Loop through al desired output points.
 c
 c-----------------------------------------------------------------------
 
-      do 170 iout = 1,nout
+      do 175 iout = 1,nout
 c Call the solver
 #ifdef STIFFSOLVER
         call dlsode(func, neq, y, t, tout, itol, rtols, atols, itask,
