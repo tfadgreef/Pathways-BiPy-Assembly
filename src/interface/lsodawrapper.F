@@ -1,6 +1,6 @@
 c-----------------------------------------------------------------------
 c 
-c                               LSODAMEX                                
+c                              PPODE SUITE                              
 c
 c-----------------------------------------------------------------------
 c
@@ -56,7 +56,7 @@ c-----------------------------------------------------------------------
 #include "defs.h"
 
       subroutine lsodaw(neq, atol, rtol, nout, times, npar, par, y0,
-     + tret, yret)
+     + tret, yret, oret)
 
 c-----------------------------------------------------------------------
 c
@@ -74,6 +74,9 @@ c Declare input arguments.
       double precision, intent(in), target :: par(npar)
 c Declare output arguments.
       real*8, intent(out) :: tret(nout), yret(nout, neq)
+#ifdef TIMING
+      double precision, intent(out) :: oret(nout)
+#endif
 c Declare local variables.
       integer :: iwork(22 + neq)
       integer i, iopar, iopt, iout, istate, itask, itol, leniw, lenrw,
@@ -81,10 +84,16 @@ c Declare local variables.
 
       double precision, pointer :: p(:)
       double precision :: dtout, er, erm, ero, hu, tout, t, rtols,
-     1 tolsf, atols
+     1 tolsf, atols, maxint
       double precision :: y(neq), rwork(22 + neq * max(16, neq + 9))
+#ifdef MAXTIME
+      real maxt0, maxt1
+#endif
+#ifdef TIMING
+      real bench0, bench1
+#endif
 c Delcare variables used for printing tret in MEX.
-      character*120 line
+      character*200 line
       integer*4 k
       integer*4 mexPrintf
 c The following code can be used to print variable values.
@@ -94,6 +103,11 @@ c Common variables used for passing parameters to
 c ODE function.
       COMMON  /funcpar/ np, p
 
+#ifdef MAXTIME
+c Initialize time tracking.
+      call cpu_time(maxt0)
+#endif
+
 c Redirect all output of the LSODE solver to a file.
       open(unit=6, file="lsode.log", form="formatted")
 
@@ -102,6 +116,8 @@ c
 c Initialize all variables.
 c
 c-----------------------------------------------------------------------
+
+      maxint = dble(huge(iwork(6)))
 
 c Calculate the correct size of the iwork and rwork
 c variables, based on the description of the LSODA
@@ -127,12 +143,6 @@ c Define the Jacobian type (full).
 c Start with the given tolerances.
       atols = atol
       rtols = rtol
-c      do 60 i=1, neq
-c        atols(i) = 10**(((neq-i)*(log10(atol)+4)/neq) - 4)
-c        rtols(i) = 10**(((neq-i)*(log10(rtol)+4)/neq) - 4)
-c        write(line,*) 'rtols(', i, ') = ', rtols(i)
-c        k = mexPrintf(line//achar(13))
-c  60  continue
 
 #ifdef OPTIONALINPUTS
 c Optional inputs.
@@ -144,7 +154,23 @@ c Set all optional inputs to default.
   70  continue
 #ifdef MAXSTEPS
       iwork(6) = MAXSTEPS
+#else
+      iwork(6) = 1000
 #endif
+
+#ifdef SWITCHINGSOLVER
+#ifdef MAXORDER1
+      iwork(9) = MAXORDER1
+#endif
+#ifdef MAXORDER2
+      iwork(8) = MAXORDER2
+#endif
+#else
+#ifdef MAXORDER1
+      iwork(5) = MAXORDER1
+#endif
+#endif
+
 #ifdef DEBUG
 #ifdef SWITCHINGSOLVER
       iwork(5) = 1
@@ -182,44 +208,62 @@ c
 c-----------------------------------------------------------------------
 
       do 175 iout = 1,nout
+
+#ifdef IMAXSTEPS
+        if ((IMAXSTEPS*times(iout)) .gt. maxint) then
+          iwork(6) = maxint
+        else
+          iwork(6) = (IMAXSTEPS*times(iout))
+        endif
+#endif
+
+#ifdef TIMING
+c Benchmarking
+        call cpu_time(bench0)
+#endif
 c Call the solver
-#ifdef STIFFSOLVER
+#if defined(STIFFSOLVER)
         call dlsode(func, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, 22)
-#else
-#ifdef NONSTIFFSOLVER
+#elif defined(NONSTIFFSOLVER)
         call dlsode(func, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, 10)
-#else
-#ifdef SWITCHINGSOLVER
+#elif defined(SWITCHINGSOLVER)
         call dlsoda(func, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, jt)
-#endif
-#endif
 #endif
 c Copy the value of y(:) to the output vector.
         yret(iout, :) = y
 c Copy this time point to the output vector of times.
         tret(iout) = t
 
-#ifdef ADJUSTTOLERANCES
-c        tolsf = RWORK(14)
-c        if ((tolsf .ne. 0.0d0) .and. (tolsf .gt. 1/rtols)) then
-c          rtols = rtols * tolsf
-c          atols = atols * tolsf
-#ifdef DEBUG
-c          write(line,*) 'TOLSF = ', tolsf
-c          k = mexPrintf(line//achar(13))
-c          write(line,*) 'new atol = ', atols
-c          k = mexPrintf(line//achar(13))
-c          write(line,*) 'new rtol = ', rtols
-c          k = mexPrintf(line//achar(13))
-#endif
-c        endif
+#ifdef TIMING
+c Benchmarking
+          call cpu_time(bench1)
+          oret(iout) = (bench1-bench0)
 #endif
 
 c Check whether the solver was successful.
-        if (istate .lt. 0) go to 175
+        if (istate .lt. 0) then
+          select case (istate)
+            case(-1)
+              write(line,8001) istate
+            case(-2)
+              write(line,8002) istate
+            case(-3)
+              write(line,8003) istate
+            case(-4)
+              write(line,8004) istate
+            case(-5)
+              write(line,8005) istate
+            case(-6)
+              write(line,8006) istate
+            case default
+              write(line,8000) istate
+          end select
+          k = mexPrintf(line//achar(13))
+          go to 400
+        endif
 #ifdef DEBUG
         iopar = iout - 2*(iout/2)
         if (iopar .ne. 0) go to 170
@@ -231,13 +275,24 @@ c          k = mexPrintf(line//achar(13))
           nerr = nerr + 1
         endif
 #endif
+
+#ifdef MAXTIME
+c Check whether the passed time is below the maximum time.
+        call cpu_time(maxt1)
+        if ((maxt1-maxt0) .ge. MAXTIME) then
+          write(line,9001) 1, (maxt1-maxt0)
+          k = mexPrintf(line//achar(13))
+          go to 180
+        endif
+#endif
+
 c Get the new time point.
  170    tout = times(iout+1)
 
  175  continue
 
 c Check for errors one more time
-      if (istate .lt. 0) nerr = nerr + 1
+ 180  if (istate .lt. 0) nerr = nerr + 1
 
 c-----------------------------------------------------------------------
 c
@@ -269,7 +324,7 @@ c Print summary
 #endif
 
 c Print the LSODE output.
-      rewind 6
+  400 rewind 6
       do
         read(6,'(a)',end=500) line
         k = mexPrintf(line//achar(13))
@@ -277,6 +332,29 @@ c Print the LSODE output.
   500 close(unit=6, status='delete')
 
       return
+c
+c Error messages
+c
+
+ 8000 format('ERROR(LSODE)[',i2,']: Unknown error.')
+ 8001 format('ERROR(LSODE)[',i2,']: Excess work done. Maybe a '
+     +       'different solver is able to solve this problem.')
+ 8002 format('ERROR(LSODE)[',i2,']: Excess accuracy requested. The '
+     +       'tolerances are set too small.')
+ 8003 format('ERROR(LSODE)[',i2,']: Illegal input detected.')
+ 8004 format('ERROR(LSODE)[',i2,']: Repeated error test failures.')
+ 8005 format('ERROR(LSODE)[',i2,']: Repeated convergence failures. Try '
+     +       'other choices of solver or tolerances.')
+ 8006 format('ERROR(LSODE)[',i2,']: Error weight became zero during '
+     +       'problem.')
+
+c
+c Warning messages
+c
+
+ 9001 format('WARNING(LSODE)[',i2,']: Maximum time exceeded. After ',
+     +       d10.2, ' seconds the last time point was not reached.')
+
       end
 
 c-----------------------------------------------------------------------

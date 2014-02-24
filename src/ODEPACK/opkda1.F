@@ -4241,10 +4241,10 @@ C-----------------------------------------------------------------------
       RH2 = 1.0D0/(1.2D0*DM2**EXSM + 0.0000012D0)
       NQM2 = NQ
  476  CONTINUE
-      WRITE(6,477) RH1, RH2, RATIOP
- 477  FORMAT(///'RH1(N) = ',D15.3/
-     1 'RH2(S) = ',D15.3/
-     2 'RATIOP = ',D15.3)
+c      WRITE(6,477) RH1, RH2, RATIOP
+c 477  FORMAT(///'RH1(N) = ',D15.3/
+c     1 'RH2(S) = ',D15.3/
+c     2 'RATIOP = ',D15.3)
 c NOTE: Switching ratio (5.0d0 * )
 cP      IF (RH2 .LT. RATIO*RH1) GO TO 488
       IF (RH2 .LT. RATIOP*RH1) GO TO 488
@@ -4287,17 +4287,17 @@ C-----------------------------------------------------------------------
       RH1 = MIN(RH1,RH1IT)
       RH2 = 1.0D0/(1.2D0*DSM**EXSM + 0.0000012D0)
 c Switching ratio [NOTE] (5.0D0 default)
-      WRITE(6,487) RH1, RH2, RATIOM
- 487  FORMAT(///'RH1(N) = ',D15.3/
-     1 'RH2(S) = ',D15.3/
-     2 'RATIOM = ',D15.3)
+c      WRITE(6,487) RH1, RH2, RATIOM
+c 487  FORMAT(///'RH1(N) = ',D15.3/
+c     1 'RH2(S) = ',D15.3/
+c     2 'RATIOM = ',D15.3)
 cP      IF (RH1*RATIO .LT. 5.0D0*RH2) GO TO 488
       IF (RH1 .LT. RATIOM*RH2) GO TO 488
-      print*,"Check 4"
+c      print*,"Check 4"
       ALPHA = MAX(0.001D0,RH1)
       DM1 = (ALPHA**EXM1)*DM1
       IF (DM1 .LE. 1000.0D0*UROUND*PNORM) GO TO 488
-      print*,"Check 5"
+c      print*,"Check 5"
 C The switch test passed.  Reset relevant quantities for Adams. --------
       RH = RH1
       ICOUNT = 20
