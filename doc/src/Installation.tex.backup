@@ -1,0 +1,15 @@
+\chapter[Installation]{Installation}
+The \PPODESUITE package depends on:
+\begin{description}
+  \item[\MATLAB] Tested on \MATLAB version R2013b (8.2) 64-bit.
+  \item[gfortran (GCC)] Tested on version 4.8.1 64-bit.
+\end{description}
+In order to fulfill these requirements under \MSDOS, the ... package is needed.
+\section[*nix]{Linux and other Unix variants}
+\begin{enumerate}
+ \item Meet the software requirements by installing \MATLAB and the GCC package. \MATLAB download and installation instructions can be found on the \MATHWORKS website. The gfortran/GCC package can be obtained from the *nix distribution repository through the distribution package manager. Using \UBUNTU for example:
+ \shellcmd{sudo apt-get install gfortran}
+ \item Download and extract the \PPODESUITE package.
+ \item Open matlab and navigate to the extracted \PPODESUITE folder. Execute the PPODE\_addPaths command to add the \PPODE paths to the matlab path variable.\matlabcmd{PPODE\_addPaths}
+
+\end{enumerate}

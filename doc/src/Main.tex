@@ -1,0 +1,56 @@
+\documentclass[a4paper,10pt]{book}
+\usepackage[utf8]{inputenc}
+
+\usepackage{textcomp}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{environ}
+
+\newcommand{\PPODESUITE}{\emph{PPODESUITE}~}
+\newcommand{\PPODE}{\emph{PPODE}~}
+\newcommand{\MATLAB}{MATLAB~}
+\newcommand{\MSDOS}{Windows~}
+\newcommand{\MATHWORKS}{MathWorks~}
+\newcommand{\UBUNTU}{Ubuntu~}
+\newcommand{\nix}{\textborn nix~}
+\newcommand{\Fortran}{Fortran}
+
+\newcommand{\shellcmd}[1]{\\\indent\indent\texttt{\footnotesize \$ #1}\\}
+\newcommand{\matlabcmd}[1]{\\\indent\indent\texttt{\footnotesize >> #1}\\}
+\newcommand{\sourceword}[1]{\texttt{\footnotesize#1}}
+\newcommand{\ph}[1]{\textlangle #1\textrangle}
+\newcommand{\filepath}[1]{{\footnotesize\textacutedbl #1\textacutedbl}}
+
+\lstdefinestyle{fortrancode}{
+  basicstyle=\fontsize{7pt}{1em}\ttfamily,
+  language=Fortran,
+  keywordstyle=\color{blue},
+  morekeywords={precision\,}
+  texcl=true,
+  frame=single,
+  backgroundcolor=\color[rgb]{0.99,0.99,0.99},
+  escapechar=\%,
+  alsoletter={.,+,-,*,=},
+  emph={[1], .eq., .gt.,},
+  emphstyle={[1]\color[rgb]{0.0,0.5,0.0}},
+  emph={[2],+,-,*,=},
+  emphstyle={[2]\color[rgb]{0.6,0.0,0.3}}
+}
+
+\title{\PPODESUITE Manual}
+\author{Pascal A. Pieters}
+\date{March 2014}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+\tableofcontents
+
+\mainmatter
+\include{Installation}
+
+\include{Usage}
+
+\end{document}

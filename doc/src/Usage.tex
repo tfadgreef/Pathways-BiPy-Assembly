@@ -1,0 +1,39 @@
+\chapter[Usage]{Usage}
+\section[ODE Function]{The ODE Function}
+\subsection{Introduction}
+The ODE function of the problem should be written in \Fortran 95. Here are some main \Fortran peculiarities to consider when writing \Fortran code.
+\begin{description}
+ \item[Line Formatting] The maximum line width is 72 characters. The first character is used to indicate whether the line is a comment line. The second to fifth character are used to indicate labels. The $6^{th}$ character is used to indicate the continuation of the previous line.
+ \begin{lstlisting}[style=fortrancode,caption=Syntax Example]
+          1         2         3         4         5         6         7
+123456789012345678901234567890123456789012345678901234567890123456789012
+
+! Comments should be introduced by either a 'c' or a '!'.
+      if (answer .gt. 42) go to 4242
+ 4242 ydot(s) = y(1) * (kp * y(s - 1) - gp * y(s)) + gm * y(s + 1) +
+     + km * y(s)
+ \end{lstlisting}
+ \item[For Loops] For loops are written using the \sourceword{do} statement. They should be written in the form \sourceword{do \ph{label} \ph{var}=\ph{start}, \ph{stop}[, \ph{step}]}. The label should refer to a \sourceword{continue} statement at the end of the loop.
+  \begin{lstlisting}[style=fortrancode,caption=Do-Loop]
+      a = 0
+      do 42 i=1, 20
+        a = a + 1
+   42 continue
+! a has the value 20 here.
+ \end{lstlisting}
+ \item[Case Sensitivity] The \Fortran language is not case sensitive.
+\end{description}
+
+\subsection{Template}
+The \Fortran subroutine that defines the ODE system should have the following arguments:
+\begin{description}
+ \item[neq] \emph{input} Number of equations.
+ \item[t] \emph{input} The current time point.
+ \item[y] \emph{input} The current value of all states. The length of this vector is equal to \sourceword{neq}.
+ \item[ydot] \emph{output} This is a vector of length \sourceword{neq} to which all derivatives of the states should be written.
+\end{description}
+The parameters are passed using a \sourceword{common} block. The variable \textbf{np} represents the number of parameters. The vector \textbf{p} contains the values of all parameters.
+
+\lstinputlisting[style=fortrancode,caption=ODE Template]{ODETemplate.F}
+
+Examples can be found in the \filepath{\ph{\PPODESUITE Source}/examples} folder.
