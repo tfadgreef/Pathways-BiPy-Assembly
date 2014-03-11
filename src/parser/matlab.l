@@ -9,7 +9,9 @@ E                       [DdEe][+-]?{D}+
 **/
 
 #include "y.tab.h"
+#include "fortran.h"
 #include "tree.h"
+#include "node.h"
 
 void count();
 %}

@@ -69,12 +69,14 @@
     #include <stdlib.h>
     #include <string.h>
 
+    #include "fortran.h"
     #include "tree.h"
+    #include "node.h"
     void yyerror(char *);
 
 
 /* Line 371 of yacc.c  */
-#line 78 "y.tab.c"
+#line 80 "y.tab.c"
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -170,11 +172,11 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 387 of yacc.c  */
-#line 10 "matlab.y"
+#line 12 "matlab.y"
  struct NumSpec *num; struct Node *node; char *iden; 
 
 /* Line 387 of yacc.c  */
-#line 178 "y.tab.c"
+#line 180 "y.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -202,7 +204,7 @@ int yyparse ();
 /* Copy the second part of user declarations.  */
 
 /* Line 390 of yacc.c  */
-#line 206 "y.tab.c"
+#line 208 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -540,16 +542,16 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    61,    61,    63,    65,    67,    69,    71,    76,    78,
-      80,    82,    87,    89,    94,    96,   100,   105,   107,   112,
-     113,   114,   118,   120,   122,   124,   125,   126,   128,   130,
-     132,   137,   138,   140,   145,   147,   149,   151,   153,   158,
-     160,   162,   167,   169,   174,   176,   181,   183,   188,   193,
-     194,   195,   196,   200,   202,   204,   206,   208,   210,   212,
-     217,   219,   224,   225,   229,   233,   238,   240,   245,   250,
-     251,   255,   256,   260,   262,   264,   266,   272,   274,   279,
-     281,   283,   288,   289,   293,   295,   300,   302,   307,   309,
-     314,   316,   318,   323,   324
+       0,    63,    63,    65,    67,    69,    71,    73,    78,    80,
+      82,    84,    89,    91,    96,    98,   102,   107,   109,   114,
+     115,   116,   120,   122,   124,   126,   127,   128,   130,   132,
+     134,   139,   140,   142,   147,   149,   151,   153,   155,   160,
+     162,   164,   169,   171,   176,   178,   183,   185,   190,   195,
+     196,   197,   198,   202,   204,   206,   208,   210,   212,   214,
+     219,   221,   226,   227,   231,   235,   240,   242,   247,   252,
+     253,   257,   258,   262,   264,   266,   268,   274,   276,   281,
+     283,   285,   290,   291,   295,   297,   302,   304,   309,   311,
+     316,   318,   320,   325,   326
 };
 #endif
 
@@ -1629,439 +1631,439 @@ yyreduce:
     {
         case 2:
 /* Line 1787 of yacc.c  */
-#line 62 "matlab.y"
+#line 64 "matlab.y"
     { (yyval.node) = addVariable((yyvsp[(1) - (1)].iden)); }
     break;
 
   case 3:
 /* Line 1787 of yacc.c  */
-#line 64 "matlab.y"
+#line 66 "matlab.y"
     { (yyval.node) = addConstant((yyvsp[(1) - (1)].num)); }
     break;
 
   case 4:
 /* Line 1787 of yacc.c  */
-#line 66 "matlab.y"
+#line 68 "matlab.y"
     { fprintf(warn, "String Literal\n"); }
     break;
 
   case 5:
 /* Line 1787 of yacc.c  */
-#line 68 "matlab.y"
+#line 70 "matlab.y"
     { (yyval.node) = (yyvsp[(2) - (3)].node); }
     break;
 
   case 6:
 /* Line 1787 of yacc.c  */
-#line 70 "matlab.y"
+#line 72 "matlab.y"
     { (yyval.node) = NULL; fatalError("Arrays not supported."); }
     break;
 
   case 7:
 /* Line 1787 of yacc.c  */
-#line 72 "matlab.y"
+#line 74 "matlab.y"
     { (yyval.node) = NULL; fatalError("Arrays not supported."); }
     break;
 
   case 8:
 /* Line 1787 of yacc.c  */
-#line 77 "matlab.y"
+#line 79 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 9:
 /* Line 1787 of yacc.c  */
-#line 79 "matlab.y"
+#line 81 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 10:
 /* Line 1787 of yacc.c  */
-#line 81 "matlab.y"
+#line 83 "matlab.y"
     { (yyval.node) = NULL; fatalError("Transpose not supported."); }
     break;
 
   case 11:
 /* Line 1787 of yacc.c  */
-#line 83 "matlab.y"
+#line 85 "matlab.y"
     { (yyval.node) = NULL; fatalError("Transpose not supported."); }
     break;
 
   case 12:
 /* Line 1787 of yacc.c  */
-#line 88 "matlab.y"
+#line 90 "matlab.y"
     { (yyval.node) = addVariable(":"); (yyval.node)->ignore = 1; }
     break;
 
   case 13:
 /* Line 1787 of yacc.c  */
-#line 90 "matlab.y"
+#line 92 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 14:
 /* Line 1787 of yacc.c  */
-#line 95 "matlab.y"
+#line 97 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 16:
 /* Line 1787 of yacc.c  */
-#line 101 "matlab.y"
+#line 103 "matlab.y"
     { (yyval.node) = addOperationWithIdentifier(TARRAYINDEX, (yyvsp[(3) - (4)].node), NULL, (yyvsp[(1) - (4)].iden)); }
     break;
 
   case 17:
 /* Line 1787 of yacc.c  */
-#line 106 "matlab.y"
+#line 108 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 18:
 /* Line 1787 of yacc.c  */
-#line 108 "matlab.y"
+#line 110 "matlab.y"
     { (yyval.node) = (yyvsp[(2) - (2)].node); }
     break;
 
   case 22:
 /* Line 1787 of yacc.c  */
-#line 119 "matlab.y"
+#line 121 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 23:
 /* Line 1787 of yacc.c  */
-#line 121 "matlab.y"
+#line 123 "matlab.y"
     { (yyval.node) = addOperation(TMUL, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 24:
 /* Line 1787 of yacc.c  */
-#line 123 "matlab.y"
+#line 125 "matlab.y"
     { (yyval.node) = addOperation(TDIV, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 27:
 /* Line 1787 of yacc.c  */
-#line 127 "matlab.y"
+#line 129 "matlab.y"
     { (yyval.node) = NULL; fatalError("Array multiplication not supported."); }
     break;
 
   case 28:
 /* Line 1787 of yacc.c  */
-#line 129 "matlab.y"
+#line 131 "matlab.y"
     { (yyval.node) = NULL; fatalError("Array division not supported."); }
     break;
 
   case 29:
 /* Line 1787 of yacc.c  */
-#line 131 "matlab.y"
+#line 133 "matlab.y"
     { (yyval.node) = NULL; fatalError("Array division not supported."); }
     break;
 
   case 30:
 /* Line 1787 of yacc.c  */
-#line 133 "matlab.y"
+#line 135 "matlab.y"
     { (yyval.node) = NULL; fatalError("Array power not supported."); }
     break;
 
   case 32:
 /* Line 1787 of yacc.c  */
-#line 139 "matlab.y"
+#line 141 "matlab.y"
     { (yyval.node) = addOperation(TPLUS, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 33:
 /* Line 1787 of yacc.c  */
-#line 141 "matlab.y"
+#line 143 "matlab.y"
     { (yyval.node) = addOperation(TMINUS, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 34:
 /* Line 1787 of yacc.c  */
-#line 146 "matlab.y"
+#line 148 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 35:
 /* Line 1787 of yacc.c  */
-#line 148 "matlab.y"
+#line 150 "matlab.y"
     { (yyval.node) = addOperation(TLT_OP, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 36:
 /* Line 1787 of yacc.c  */
-#line 150 "matlab.y"
+#line 152 "matlab.y"
     { (yyval.node) = addOperation(TGT_OP, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 37:
 /* Line 1787 of yacc.c  */
-#line 152 "matlab.y"
+#line 154 "matlab.y"
     { (yyval.node) = addOperation(TLE_OP, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 38:
 /* Line 1787 of yacc.c  */
-#line 154 "matlab.y"
+#line 156 "matlab.y"
     { (yyval.node) = addOperation(TGE_OP, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 39:
 /* Line 1787 of yacc.c  */
-#line 159 "matlab.y"
+#line 161 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 40:
 /* Line 1787 of yacc.c  */
-#line 161 "matlab.y"
+#line 163 "matlab.y"
     { (yyval.node) = addOperation(TEQ_OP, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 41:
 /* Line 1787 of yacc.c  */
-#line 163 "matlab.y"
+#line 165 "matlab.y"
     { (yyval.node) = addOperation(TNE_OP, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 42:
 /* Line 1787 of yacc.c  */
-#line 168 "matlab.y"
+#line 170 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 43:
 /* Line 1787 of yacc.c  */
-#line 170 "matlab.y"
+#line 172 "matlab.y"
     { (yyval.node) = addOperation(TAND, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 44:
 /* Line 1787 of yacc.c  */
-#line 175 "matlab.y"
+#line 177 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 45:
 /* Line 1787 of yacc.c  */
-#line 177 "matlab.y"
+#line 179 "matlab.y"
     { (yyval.node) = addOperation(TOR, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 46:
 /* Line 1787 of yacc.c  */
-#line 182 "matlab.y"
+#line 184 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 47:
 /* Line 1787 of yacc.c  */
-#line 184 "matlab.y"
+#line 186 "matlab.y"
     { (yyval.node) = addOperation(TRANGE, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 48:
 /* Line 1787 of yacc.c  */
-#line 189 "matlab.y"
+#line 191 "matlab.y"
     { (yyval.node) = addOperation(TASSIGN, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 53:
 /* Line 1787 of yacc.c  */
-#line 201 "matlab.y"
+#line 203 "matlab.y"
     { fprintf(warn, "Global Statement not supported.\n"); }
     break;
 
   case 54:
 /* Line 1787 of yacc.c  */
-#line 203 "matlab.y"
+#line 205 "matlab.y"
     { fprintf(warn, "Clear Statement not supported.\n"); }
     break;
 
   case 55:
 /* Line 1787 of yacc.c  */
-#line 205 "matlab.y"
+#line 207 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 56:
 /* Line 1787 of yacc.c  */
-#line 207 "matlab.y"
+#line 209 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 57:
 /* Line 1787 of yacc.c  */
-#line 209 "matlab.y"
+#line 211 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 58:
 /* Line 1787 of yacc.c  */
-#line 211 "matlab.y"
+#line 213 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 59:
 /* Line 1787 of yacc.c  */
-#line 213 "matlab.y"
+#line 215 "matlab.y"
     { fprintf(warn, "Jump Statement not supported.\n"); }
     break;
 
   case 60:
 /* Line 1787 of yacc.c  */
-#line 218 "matlab.y"
+#line 220 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 61:
 /* Line 1787 of yacc.c  */
-#line 220 "matlab.y"
+#line 222 "matlab.y"
     { (yyval.node) = addStatement((yyvsp[(1) - (2)].node), (yyvsp[(2) - (2)].node)); }
     break;
 
   case 65:
 /* Line 1787 of yacc.c  */
-#line 234 "matlab.y"
+#line 236 "matlab.y"
     { fprintf(warn, "Warning: Clear statement ignored.\n"); }
     break;
 
   case 66:
 /* Line 1787 of yacc.c  */
-#line 239 "matlab.y"
+#line 241 "matlab.y"
     { (yyval.node) = NULL; /*$$ = addStub();*/ }
     break;
 
   case 67:
 /* Line 1787 of yacc.c  */
-#line 241 "matlab.y"
+#line 243 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (2)].node); }
     break;
 
   case 68:
 /* Line 1787 of yacc.c  */
-#line 246 "matlab.y"
+#line 248 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (2)].node); }
     break;
 
   case 73:
 /* Line 1787 of yacc.c  */
-#line 261 "matlab.y"
+#line 263 "matlab.y"
     { (yyval.node) = addOperation(TIF, (yyvsp[(2) - (5)].node), (yyvsp[(3) - (5)].node)); }
     break;
 
   case 74:
 /* Line 1787 of yacc.c  */
-#line 263 "matlab.y"
+#line 265 "matlab.y"
     { (yyval.node) = addOperation3(TIFELSE, (yyvsp[(2) - (7)].node), (yyvsp[(3) - (7)].node), (yyvsp[(5) - (7)].node)); }
     break;
 
   case 75:
 /* Line 1787 of yacc.c  */
-#line 265 "matlab.y"
+#line 267 "matlab.y"
     { (yyval.node) = addOperation3(TIFELSEIF, (yyvsp[(2) - (6)].node), (yyvsp[(3) - (6)].node), (yyvsp[(4) - (6)].node)); }
     break;
 
   case 76:
 /* Line 1787 of yacc.c  */
-#line 268 "matlab.y"
+#line 270 "matlab.y"
     { (yyval.node) = addOperation4(TIFELSEIFELSE, (yyvsp[(2) - (8)].node), (yyvsp[(3) - (8)].node), (yyvsp[(4) - (8)].node), (yyvsp[(6) - (8)].node)); }
     break;
 
   case 77:
 /* Line 1787 of yacc.c  */
-#line 273 "matlab.y"
+#line 275 "matlab.y"
     { (yyval.node) = addOperation(TELSEIF, (yyvsp[(2) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 78:
 /* Line 1787 of yacc.c  */
-#line 275 "matlab.y"
+#line 277 "matlab.y"
     { (yyval.node) = addStatement((yyvsp[(1) - (4)].node), addOperation(TELSEIF, (yyvsp[(3) - (4)].node), (yyvsp[(4) - (4)].node))); }
     break;
 
   case 79:
 /* Line 1787 of yacc.c  */
-#line 280 "matlab.y"
+#line 282 "matlab.y"
     { (yyval.node) = addOperation(TWHILE, (yyvsp[(2) - (5)].node), (yyvsp[(3) - (5)].node)); }
     break;
 
   case 80:
 /* Line 1787 of yacc.c  */
-#line 282 "matlab.y"
+#line 284 "matlab.y"
     { (yyval.node) = addOperationWithIdentifier(TFOR, (yyvsp[(4) - (7)].node), (yyvsp[(5) - (7)].node), (yyvsp[(2) - (7)].iden)); }
     break;
 
   case 81:
 /* Line 1787 of yacc.c  */
-#line 284 "matlab.y"
+#line 286 "matlab.y"
     { (yyval.node) = addOperationWithIdentifier(TFOR, (yyvsp[(5) - (9)].node), (yyvsp[(7) - (9)].node), (yyvsp[(3) - (9)].iden)); }
     break;
 
   case 84:
 /* Line 1787 of yacc.c  */
-#line 294 "matlab.y"
+#line 296 "matlab.y"
     { fatalError("The file should provide a function, not a script."); }
     break;
 
   case 85:
 /* Line 1787 of yacc.c  */
-#line 296 "matlab.y"
-    { functionToFortran((yyvsp[(2) - (4)].node), (yyvsp[(4) - (4)].node)); }
+#line 298 "matlab.y"
+    { functionToFortran((yyvsp[(2) - (4)].node), (yyvsp[(4) - (4)].node)); /*fprintf(warn, "\n"); print_tree(0, $4); fprintf(warn, "\n");*/ }
     break;
 
   case 86:
 /* Line 1787 of yacc.c  */
-#line 301 "matlab.y"
+#line 303 "matlab.y"
     { (yyval.node) = addOperation(TLIST, addVariable((yyvsp[(1) - (1)].iden)), NULL); }
     break;
 
   case 87:
 /* Line 1787 of yacc.c  */
-#line 303 "matlab.y"
+#line 305 "matlab.y"
     { (yyval.node) = (yyvsp[(1) - (3)].node); addStatement((yyvsp[(1) - (3)].node)->children, addVariable((yyvsp[(3) - (3)].iden))); }
     break;
 
   case 88:
 /* Line 1787 of yacc.c  */
-#line 308 "matlab.y"
+#line 310 "matlab.y"
     { (yyval.node) = addOperation(TLIST, addVariable((yyvsp[(1) - (1)].iden)), NULL); }
     break;
 
   case 89:
 /* Line 1787 of yacc.c  */
-#line 310 "matlab.y"
+#line 312 "matlab.y"
     { (yyval.node) = (yyvsp[(2) - (3)].node); }
     break;
 
   case 90:
 /* Line 1787 of yacc.c  */
-#line 315 "matlab.y"
+#line 317 "matlab.y"
     { fatalError("Incorrect number of input arguments."); }
     break;
 
   case 91:
 /* Line 1787 of yacc.c  */
-#line 317 "matlab.y"
+#line 319 "matlab.y"
     { fatalError("Incorrect number of input arguments."); }
     break;
 
   case 92:
 /* Line 1787 of yacc.c  */
-#line 319 "matlab.y"
+#line 321 "matlab.y"
     { (yyval.node) = (yyvsp[(3) - (4)].node); }
     break;
 
   case 94:
 /* Line 1787 of yacc.c  */
-#line 325 "matlab.y"
+#line 327 "matlab.y"
     { (yyval.node) = addOperation(TFUNCDEC, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
 
 /* Line 1787 of yacc.c  */
-#line 2065 "y.tab.c"
+#line 2067 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2293,7 +2295,7 @@ yyreturn:
 
 
 /* Line 2050 of yacc.c  */
-#line 328 "matlab.y"
+#line 330 "matlab.y"
 
 
 int yydebug=1;

@@ -555,11 +555,13 @@ char *yytext;
 **/
 
 #include "y.tab.h"
+#include "fortran.h"
 #include "tree.h"
+#include "node.h"
 
 void count();
 
-#line 563 "lex.yy.c"
+#line 565 "lex.yy.c"
 
 #define INITIAL 0
 #define ST 1
@@ -751,9 +753,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 18 "matlab.l"
+#line 20 "matlab.l"
 
-#line 757 "lex.yy.c"
+#line 759 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -846,7 +848,7 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 19 "matlab.l"
+#line 21 "matlab.l"
 
 	YY_BREAK
 case 2:
@@ -854,100 +856,100 @@ case 2:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 20 "matlab.l"
+#line 22 "matlab.l"
 
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 21 "matlab.l"
+#line 23 "matlab.l"
 
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 22 "matlab.l"
+#line 24 "matlab.l"
 
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 23 "matlab.l"
+#line 25 "matlab.l"
 { count(); /* return(CONTINUATION); */ }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 25 "matlab.l"
+#line 27 "matlab.l"
 { count(); BEGIN ST; return(BREAK); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 26 "matlab.l"
+#line 28 "matlab.l"
 { count(); BEGIN ST; return(CLEAR); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 27 "matlab.l"
+#line 29 "matlab.l"
 { count(); BEGIN ST; return(ELSE); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 28 "matlab.l"
+#line 30 "matlab.l"
 { count(); BEGIN ST; return(END); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 29 "matlab.l"
+#line 31 "matlab.l"
 { count(); BEGIN ST; return(ELSEIF); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 30 "matlab.l"
+#line 32 "matlab.l"
 { count(); BEGIN ST; return(FOR); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 31 "matlab.l"
+#line 33 "matlab.l"
 { count(); BEGIN ST; return(FUNCTION); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 32 "matlab.l"
+#line 34 "matlab.l"
 { count(); BEGIN ST; return(GLOBAL); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 33 "matlab.l"
+#line 35 "matlab.l"
 { count(); BEGIN ST; return(IF); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 34 "matlab.l"
+#line 36 "matlab.l"
 { count(); BEGIN ST; return(RETURN); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 35 "matlab.l"
+#line 37 "matlab.l"
 { count(); BEGIN ST; return(WHILE); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 37 "matlab.l"
+#line 39 "matlab.l"
 { count(); BEGIN TR; yylval.iden = emalloc(sizeof(char) * strlen(yytext)); strcpy(yylval.iden, yytext); return(check_type()); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 39 "matlab.l"
+#line 41 "matlab.l"
 { count(); BEGIN TR; struct NumSpec *num = emalloc(sizeof(*num)); num->value = atof(yytext); num->signif = strlen(yytext); yylval.num = num; return(CONSTANT); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 40 "matlab.l"
+#line 42 "matlab.l"
 { count(); BEGIN TR; struct NumSpec *num = emalloc(sizeof(*num)); num->value = atof(yytext); num->signif = strlen(yytext); yylval.num = num; return(CONSTANT); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 41 "matlab.l"
+#line 43 "matlab.l"
 { count(); BEGIN TR; struct NumSpec *num = emalloc(sizeof(*num)); num->value = atof(yytext); num->signif = strlen(yytext); yylval.num = num; return(CONSTANT); }
 	YY_BREAK
 case 21:
@@ -955,181 +957,181 @@ case 21:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 43 "matlab.l"
+#line 45 "matlab.l"
 { BEGIN ST; yymore(); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 44 "matlab.l"
+#line 46 "matlab.l"
 { count(); BEGIN 0;  return(STRING_LITERAL); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 45 "matlab.l"
+#line 47 "matlab.l"
 { count(); BEGIN TR; return(TRANSPOSE); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 47 "matlab.l"
+#line 49 "matlab.l"
 { count(); BEGIN ST; return(ARRAYMUL); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 48 "matlab.l"
+#line 50 "matlab.l"
 { count(); BEGIN ST; return(ARRAYPOW); }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 49 "matlab.l"
+#line 51 "matlab.l"
 { count(); BEGIN ST; return(ARRAYDIV); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 50 "matlab.l"
+#line 52 "matlab.l"
 { count(); BEGIN ST; return(ARRAYRDIV); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 51 "matlab.l"
+#line 53 "matlab.l"
 { count(); BEGIN TR; return(TRANSPOSE); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 52 "matlab.l"
+#line 54 "matlab.l"
 { count(); BEGIN ST; return(LE_OP); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 53 "matlab.l"
+#line 55 "matlab.l"
 { count(); BEGIN ST; return(GE_OP); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 54 "matlab.l"
+#line 56 "matlab.l"
 { count(); BEGIN ST; return(EQ_OP); }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 55 "matlab.l"
+#line 57 "matlab.l"
 { count(); BEGIN ST; return(NE_OP); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 56 "matlab.l"
+#line 58 "matlab.l"
 { count(); BEGIN ST; return('~'); }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 57 "matlab.l"
+#line 59 "matlab.l"
 { count(); BEGIN ST; return(';'); }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 58 "matlab.l"
+#line 60 "matlab.l"
 { count(); BEGIN ST; return(','); }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 59 "matlab.l"
+#line 61 "matlab.l"
 { count(); BEGIN ST; return(':'); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 60 "matlab.l"
+#line 62 "matlab.l"
 { count(); BEGIN ST; return('='); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 61 "matlab.l"
+#line 63 "matlab.l"
 { count(); BEGIN ST; return('('); }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 62 "matlab.l"
+#line 64 "matlab.l"
 { count(); BEGIN TR; return(')'); }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 63 "matlab.l"
+#line 65 "matlab.l"
 { count(); BEGIN ST; return('['); }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 64 "matlab.l"
+#line 66 "matlab.l"
 { count(); BEGIN TR; return(']'); }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 65 "matlab.l"
+#line 67 "matlab.l"
 { count(); BEGIN ST; return('&'); }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 66 "matlab.l"
+#line 68 "matlab.l"
 { count(); BEGIN ST; return('-'); }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 67 "matlab.l"
+#line 69 "matlab.l"
 { count(); BEGIN ST; return('+'); }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 68 "matlab.l"
+#line 70 "matlab.l"
 { count(); BEGIN ST; return('*'); }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 69 "matlab.l"
+#line 71 "matlab.l"
 { count(); BEGIN ST; return('/'); }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 70 "matlab.l"
+#line 72 "matlab.l"
 { count(); BEGIN ST; return('\\'); }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 71 "matlab.l"
+#line 73 "matlab.l"
 { count(); BEGIN ST; return('<'); }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 72 "matlab.l"
+#line 74 "matlab.l"
 { count(); BEGIN ST; return('>'); }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 73 "matlab.l"
+#line 75 "matlab.l"
 { count(); BEGIN ST; return('^'); }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 74 "matlab.l"
+#line 76 "matlab.l"
 { count(); BEGIN ST; return('|'); }
 	YY_BREAK
 case 52:
 /* rule 52 can match eol */
 YY_RULE_SETUP
-#line 75 "matlab.l"
+#line 77 "matlab.l"
 { count(); BEGIN ST; return(CR); }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 76 "matlab.l"
+#line 78 "matlab.l"
 
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 77 "matlab.l"
+#line 79 "matlab.l"
 
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 79 "matlab.l"
+#line 81 "matlab.l"
 ECHO;
 	YY_BREAK
-#line 1133 "lex.yy.c"
+#line 1135 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(ST):
 case YY_STATE_EOF(TR):
@@ -2132,7 +2134,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 79 "matlab.l"
+#line 81 "matlab.l"
 
 
 

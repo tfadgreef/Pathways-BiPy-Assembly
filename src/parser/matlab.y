@@ -3,7 +3,9 @@
     #include <stdlib.h>
     #include <string.h>
 
+    #include "fortran.h"
     #include "tree.h"
+    #include "node.h"
     void yyerror(char *);
 
 %}
@@ -293,7 +295,7 @@ translation_unit
         : statement_list
         { fatalError("The file should provide a function, not a script."); }
         | FUNCTION function_declare eostmt statement_list
-        { functionToFortran($2, $4); }
+        { functionToFortran($2, $4); /*fprintf(warn, "\n"); print_tree(0, $4); fprintf(warn, "\n");*/ }
         ;
 
 func_ident_list

@@ -106,7 +106,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2053 of yacc.c  */
-#line 10 "matlab.y"
+#line 12 "matlab.y"
  struct NumSpec *num; struct Node *node; char *iden; 
 
 /* Line 2053 of yacc.c  */
