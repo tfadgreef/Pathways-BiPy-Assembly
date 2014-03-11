@@ -18,36 +18,14 @@
 %token IF ELSE ELSEIF WHILE FOR BREAK RETURN END 
 %token FUNCTION TRANSPOSE NCTRANSPOSE CR GLOBAL CLEAR
 
-%type <node> additive_expression
-%type <node> multiplicative_expression
-%type <node> assignment_expression
-%type <node> postfix_expression
-%type <node> iteration_statement
-%type <node> statement
-%type <node> statement_list
-%type <node> assignment_statement
-%type <node> expression_statement
-%type <node> selection_statement
+%type <node> iteration_statement statement statement_list assignment_statement expression_statement selection_statement
 
-%type <node> expression
-%type <node> unary_expression
-%type <node> or_expression
-%type <node> and_expression
-%type <node> equality_expression
-%type <node> relational_expression
-%type <node> array_expression
-%type <node> primary_expression
-%type <node> elseif_clause
-%type <node> index_expression
-%type <node> index_expression_list
-%type <node> func_ident_list
-%type <node> func_return_list
-%type <node> function_declare_lhs
-%type <node> function_declare
+%type <node> expression additive_expression multiplicative_expression assignment_expression postfix_expression unary_expression or_expression and_expression equality_expression relational_expression array_expression primary_expression index_expression
+
+%type <node> elseif_clause index_expression_list func_ident_list func_return_list function_declare_lhs function_declare
+
 %type <num> CONSTANT
 %type <iden> IDENTIFIER
-
-%verbose
 
 %start translation_unit
 %%
@@ -65,7 +43,7 @@ primary_expression
         | CONSTANT
         { $$ = addConstant($1); }
         | STRING_LITERAL
-        { fprintf(warn, "String Literal\n"); }
+        { $$ = NULL; fatalError("Strings not supported.\n"); }
         | '(' expression ')'
         { $$ = $2; }
         | '[' ']'
@@ -100,7 +78,12 @@ index_expression_list
 
 array_expression
         : IDENTIFIER '(' index_expression_list ')'
-        { $$ = addOperationWithIdentifier(TARRAYINDEX, $3, NULL, $1); }
+        { 
+          $$ = createOperation(TARRAYINDEX);
+          appendChild($$, $3);
+          setIdentifier($$, $1);
+          /*$$ = addOperationWithIdentifier(TARRAYINDEX, $3, NULL, $1);*/
+        }
         ;
 
 unary_expression
@@ -120,9 +103,19 @@ multiplicative_expression
         : unary_expression
         { $$ = $1; }
         | multiplicative_expression '*' unary_expression
-        { $$ = addOperation(TMUL, $1, $3); }
+        { 
+          $$ = createOperation(TMUL);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TMUL, $1, $3);*/
+        }
         | multiplicative_expression '/' unary_expression
-        { $$ = addOperation(TDIV, $1, $3); }
+        { 
+          $$ = createOperation(TDIV);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TDIV, $1, $3);*/
+        }
         | multiplicative_expression '\\' unary_expression
         | multiplicative_expression '^' unary_expression
         | multiplicative_expression ARRAYMUL unary_expression
@@ -138,57 +131,117 @@ multiplicative_expression
 additive_expression
         : multiplicative_expression
         | additive_expression '+' multiplicative_expression
-        { $$ = addOperation(TPLUS, $1, $3); }
+        { 
+          $$ = createOperation(TPLUS);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TPLUS, $1, $3);*/
+        }
         | additive_expression '-' multiplicative_expression
-        { $$ = addOperation(TMINUS, $1, $3); }
+        { 
+          $$ = createOperation(TMINUS);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TMINUS, $1, $3);*/
+        }
         ;
 
 relational_expression
         : additive_expression
         { $$ = $1; }
         | relational_expression '<' additive_expression
-        { $$ = addOperation(TLT_OP, $1, $3); }
+        { 
+          $$ = createOperation(TLT_OP);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TLT_OP, $1, $3);*/
+        }
         | relational_expression '>' additive_expression
-        { $$ = addOperation(TGT_OP, $1, $3); }
+        { 
+          $$ = createOperation(TGT_OP);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TGT_OP, $1, $3);*/
+        }
         | relational_expression LE_OP additive_expression
-        { $$ = addOperation(TLE_OP, $1, $3); }
+        { 
+          $$ = createOperation(TLE_OP);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TLE_OP, $1, $3);*/
+        }
         | relational_expression GE_OP additive_expression
-        { $$ = addOperation(TGE_OP, $1, $3); }
+        { 
+          $$ = createOperation(TGE_OP);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TGE_OP, $1, $3);*/
+        }
         ;
 
 equality_expression
         : relational_expression
         { $$ = $1; }
         | equality_expression EQ_OP relational_expression
-        { $$ = addOperation(TEQ_OP, $1, $3); }
+        { 
+          $$ = createOperation(TEQ_OP);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TEQ_OP, $1, $3);*/
+        }
         | equality_expression NE_OP relational_expression
-        { $$ = addOperation(TNE_OP, $1, $3); }
+        { 
+          $$ = createOperation(TNE_OP);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TNE_OP, $1, $3);*/
+        }
         ;
 
 and_expression
         : equality_expression
         { $$ = $1; }
         | and_expression '&' equality_expression
-        { $$ = addOperation(TAND, $1, $3); }
+        { 
+          $$ = createOperation(TAND);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TAND, $1, $3);*/
+        }
         ;
 
 or_expression
         : and_expression
         { $$ = $1; }
         | or_expression '|' and_expression
-        { $$ = addOperation(TOR, $1, $3); }
+        { 
+          $$ = createOperation(TOR);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TOR, $1, $3);*/
+        }
         ;
 
 expression
         : or_expression
         { $$ = $1; }
         | expression ':' or_expression
-        { $$ = addOperation(TRANGE, $1, $3); }
+        { 
+          $$ = createOperation(TRANGE);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TRANGE, $1, $3);*/
+        }
         ;
 
 assignment_expression
         : postfix_expression '=' expression
-        { $$ = addOperation(TASSIGN, $1, $3); }
+        { 
+          $$ = createOperation(TASSIGN);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TASSIGN, $1, $3);*/
+        }
         ;
 
 eostmt
@@ -260,30 +313,81 @@ array_list
  
 selection_statement
         : IF expression statement_list END eostmt
-        { $$ = addOperation(TIF, $2, $3); }
+        { 
+          $$ = createOperation(TIF);
+          appendChild($$, $2);
+          appendChild($$, $3);
+          /*$$ = addOperation(TIF, $2, $3);*/
+        }
         | IF expression statement_list ELSE statement_list END eostmt
-        { $$ = addOperation3(TIFELSE, $2, $3, $5); }
+        { 
+          $$ = createOperation(TIFELSE);
+          appendChild($$, $2);
+          appendChild($$, $3);
+          appendChild($$, $5);
+          /*$$ = addOperation3(TIFELSE, $2, $3, $5);*/
+        }
         | IF expression statement_list elseif_clause END eostmt
-        { $$ = addOperation3(TIFELSEIF, $2, $3, $4); }
+        { 
+          $$ = createOperation(TIFELSEIF);
+          appendChild($$, $2);
+          appendChild($$, $3);
+          appendChild($$, $4);
+          /*$$ = addOperation3(TIFELSEIF, $2, $3, $4);*/
+        }
         | IF expression statement_list elseif_clause
           ELSE statement_list END eostmt
-        { $$ = addOperation4(TIFELSEIFELSE, $2, $3, $4, $6); }
+        { 
+          $$ = createOperation(TIFELSEIFELSE);
+          appendChild($$, $2);
+          appendChild($$, $3);
+          appendChild($$, $4);
+          appendChild($$, $6);
+          /*$$ = addOperation4(TIFELSEIFELSE, $2, $3, $4, $6);*/
+        }
         ;
 
 elseif_clause
         : ELSEIF expression statement_list
-        { $$ = addOperation(TELSEIF, $2, $3); }
+        { 
+          $$ = createOperation(TELSEIF);
+          appendChild($$, $2);
+          appendChild($$, $3);
+          /*$$ = addOperation(TELSEIF, $2, $3);*/
+        }
         | elseif_clause ELSEIF expression statement_list
-        { $$ = addStatement($1, addOperation(TELSEIF, $3, $4)); }
+        {
+          struct Node *n = createOperation(TELSEIF);
+          appendChild($$, $3);
+          appendChild($$, $4);
+          $$ = addStatement($1, n);
+          /*$$ = addStatement($1, addOperation(TELSEIF, $3, $4));*/ }
         ;
 
 iteration_statement
         : WHILE expression statement_list END eostmt
-        { $$ = addOperation(TWHILE, $2, $3); }
+        { 
+          $$ = createOperation(TWHILE);
+          appendChild($$, $2);
+          appendChild($$, $3);
+          /*$$ = addOperation(TWHILE, $2, $3);*/
+        }
         | FOR IDENTIFIER '=' expression statement_list END eostmt
-        { $$ = addOperationWithIdentifier(TFOR, $4, $5, $2); }
+        {
+          $$ = createOperation(TFOR);
+          appendChild($$, $4);
+          appendChild($$, $5);
+          setIdentifier($$, $2);
+          /*$$ = addOperationWithIdentifier(TFOR, $4, $5, $2);*/
+        }
         | FOR '(' IDENTIFIER '=' expression ')' statement_list END eostmt 
-        { $$ = addOperationWithIdentifier(TFOR, $5, $7, $3); }
+        {
+          $$ = createOperation(TFOR);
+          appendChild($$, $5);
+          appendChild($$, $7);
+          setIdentifier($$, $3);
+          /*$$ = addOperationWithIdentifier(TFOR, $5, $7, $3);*/
+        }
         ;
 
 jump_statement
@@ -300,14 +404,26 @@ translation_unit
 
 func_ident_list
         : IDENTIFIER
-        { $$ = addOperation(TLIST, addVariable($1), NULL); }
+        { 
+          $$ = createOperation(TLIST);
+          appendChild($$, addVariable($1));
+          /*$$ = addOperation(TLIST, addVariable($1), NULL);*/
+        }
         | func_ident_list ',' IDENTIFIER
-        { $$ = $1; addStatement($1->children, addVariable($3)); }
+        {
+          $$ = $1;
+          appendChild($1, addVariable($3));
+          /*$$ = $1; addStatement($1->children, addVariable($3));*/
+        }
         ;
 
 func_return_list
         : IDENTIFIER
-        { $$ = addOperation(TLIST, addVariable($1), NULL); }
+        {
+          $$ = createOperation(TLIST);
+          appendChild($$, addVariable($1));
+          /*$$ = addOperation(TLIST, addVariable($1), NULL);*/
+        }
         | '[' func_ident_list ']'
         { $$ = $2; }
         ;
@@ -324,7 +440,12 @@ function_declare_lhs
 function_declare
         : function_declare_lhs
         | func_return_list '=' function_declare_lhs
-        { $$ = addOperation(TFUNCDEC, $1, $3); }
+        {
+          $$ = createOperation(TFUNCDEC);
+          appendChild($$, $1);
+          appendChild($$, $3);
+          /*$$ = addOperation(TFUNCDEC, $1, $3);*/
+        }
         ;
       
 %%

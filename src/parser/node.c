@@ -45,6 +45,10 @@ void appendChild(struct Node *parent, struct Node *child) {
   }
 }
 
+void setIdentifier(struct Node *node, char *identifier) {
+  node->iname = identifier;
+}
+
 struct Node *addOperation(enum NodeTag op, struct Node *l, struct Node *r) {
     struct Node *t = emalloc(sizeof(*t));
     

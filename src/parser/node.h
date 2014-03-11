@@ -29,6 +29,7 @@ struct Node {
 
 struct Node *createOperation(enum NodeTag op);
 void appendChild(struct Node *parent, struct Node *child);
+void setIdentifier(struct Node *node, char *identifier);
 struct Node *last(struct Node *t);
 
 // ENDNEW
