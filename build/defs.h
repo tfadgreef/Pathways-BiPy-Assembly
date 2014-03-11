@@ -1,5 +1,3 @@
-#define SWITCHINGSOLVER
+#define STIFFSOLVER
 #define ODEPACK
 #define MAXORDER1 5
-#define MAXORDER2 12
-#define MAXTIME 3.000000E-02

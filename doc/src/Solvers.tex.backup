@@ -1,0 +1,78 @@
+\chapter{Solvers}
+\section{Introduction}
+The solver for the ODE problem can be specified using the 'Solver' option of the \sourceword{PPODE\_build} function:
+\matlabcmd{PPODE\_build('source.F', 'target', 'Solver', \ph{Solver Name})}
+Valid options for \ph{Solver Name} are:
+\begin{description}
+ \item['Stiff' (or 'BDF')] The BDF based solver of the LSODE package. \emph{See \ref{subsec:LSODEBDF}}.
+ \item['MEBDFSO' (or 'BDFSparse')] The modified BDF based solver using a sparse Jacobian matrix. \emph{See \ref{subsec:MEBDFSO}}.
+ \item['Non-Stiff' (or 'Adams-Moulton')] The Adams-Moulton based solver of the LSODE package. \emph{See \ref{subsec:LSODEAM}}.
+ \item['RK23', 'RK45', 'RK78'] The Runge-Kutta based solvers of the RKSUITE package. \emph{See \ref{subsec:RKSUITE}}.
+ \item['Switching' (or 'LSODA')] The solver that switches between the non-stiff Adams-Moulton based solver and the stiff BDF based solver of the LSODE package. \emph{See \ref{subsec:LSODA}}.
+\end{description}
+
+If you do not know which solver to choose, but you already know which \MATLAB solver performs best, table \ref{tab:MATLABToPPODE} might be helpfull.
+\begin{table}
+\begin{tabular}{ | l || l | p{5cm} | } \hline
+ \textbf{\MATLAB} & \textbf{Equivalent} & \textbf{Probably Also Suitable} \\
+ \hline
+ \hline
+ ode45 & 'RK45' & 'RK78', 'Adams-Moulton' \\ \hline
+ ode23 & 'RK23' & 'RK45', 'Adams-Moulton' \\ \hline
+ ode113 & 'Adams-Moulton' & 'RK45' \\
+ \hline
+ \hline
+ ode15s & 'Stiff' & 'Switching' (partially stiff problems), 'MEBDFSO' (large number of states that are not very interdependent) \\ \hline
+ ode23s & - & 'Stiff', 'Switching', 'MEBDFSO' \\ \hline
+ ode23t & - & 'Switching', 'Stiff', 'MEBDFSO' \\ \hline
+ ode23tb & - & 'Switching', 'Stiff', 'RK45', 'RK23', 'MEBDFSO' \\ \hline
+\end{tabular} 
+\caption{Solver selection helper.\label{tab:MATLABToPPODE}}
+\end{table}
+
+\section{Stiff}
+\subsection{BDF}
+\label{subsec:LSODEBDF}
+The Backward Differential Formulas based method uses the BDF implementation that ODEPACK supplies. The order of these formulae can range between 1 and 5 and can be limited by setting the 'MaxOrder' option when building the ODE system.
+
+\subsubsection{Credits}
+Credits for the ODEPACK package obtained from (\hyperlink{http://www.netlib.org/}).
+\vspace{0.5cm}
+\begin{tabular}{ l l }
+ \textbf{Author}     & Alan C. Hindmarsh \\
+ \textbf{Institution} & Department of Mathematics \\
+                      & Imperial College \\
+                      & London SW7 2AZ \\
+                      & England \\
+ \textbf{Contact}     & t.abdulla@ic.ac.uk \\
+                      & j.cash@ic.ac.uk \\
+\end{tabular}
+\subsection{Modified Extended BDF using Sparse Jacobian}
+\label{subsec:MEBDFSO}
+The Modified Extended Backward Differential Formulae based method uses the BDF implementation that MEBDFSO supplies. The order of these formulas can range between 1 and 5 and can be limited by setting the 'MaxOrder' option when building the ODE system.
+
+\subsubsection{Credits}
+Credits for the MEBDFSO package obtained from (\hyperlink{http://www.netlib.org/}).
+\vspace{0.5cm}
+\begin{tabular}{ l l }
+ \textbf{Authors}     & T.J. Abdulla \\
+                      & J.R. Cash \\
+ \textbf{Institution} & Department of Mathematics \\
+                      & Imperial College \\
+                      & London SW7 2AZ \\
+                      & England \\
+ \textbf{Contact}     & t.abdulla@ic.ac.uk \\
+                      & j.cash@ic.ac.uk \\
+\end{tabular}
+
+\section{Non-Stiff}
+\subsection{Adams-Moulton}
+\label{subsec:LSODEAM}
+The Adams-Moulton method based solver uses the Adams-Moulton implementation that LSODE supplies. The order of these formulae can range between 1 and 12 and can be limited by setting the 'MaxOrder' option when building the ODE system.
+\subsection{Runge-Kutta}
+\label{subsec:RKSUITE}
+The Runga-Kutta methods based solver uses the RKSUITE package. Three Runge-Kutta pairs are available: 2-3, 4-5 and 7-8. Use higher orders in combination with smaller tolerances. 
+\section{Mixed}
+\subsection{Switching between BDF and Adams-Moulton}
+\label{subsec:LSODA}
+The switching method uses the LSODA subroutine that the LSODE package supplies. This method automatically switches between the BDF based stiff solver (order 1-5) and the Adams-Moulton method based non-stiff solver (order 1-12).

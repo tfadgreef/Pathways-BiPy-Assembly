@@ -17,16 +17,23 @@ function PPODE_build(infile, outfile, varargin)
 %     'VERBOSE' Sets the verbose output mode. 1 to enable, 0 to disable.
 %      'SOLVER' Specifies the solver to be used for the problem. 
 %               Available solvers are:
-%                'STIFF' or'BDF': (default)
+%                'STIFF' (or 'BDF'): (default)
 %                  LSODE: Backward Differential Formulas [1-5] (Stiff)
-%                'ADAMS', 'NON-STIFF' or 'NONSTIFF':
+%                'STIFF2' (or 'VODE'): (default)
+%                  VODE: Backward Differential Formulas [1-5] (Stiff)
+%                'NON-STIFF' (or 'ADAMS-MOULTON'):
 %                  LSODE: Adams Moulton Method [1-12] (Non-Stiff)
-%                'SWITCHING' or 'LSODA'
+%                'NON-STIFF2' (or 'VODEAM'):
+%                  VODE: Adams Moulton Method [1-12] (Non-Stiff)
+%                'SWITCHING' (or 'LSODA'):
 %                  LSODA: Adaptive method, switching between:
 %                  (a) Backward Differential Formulas [1-5] (Stiff) and 
 %                  (b) Adams Moulton Method [1-12] (Non-Stiff)
-%                'MEBDFSO' or 'BDFSPARSE':
-%                  MEBDFSO: Modified Backward Differential Formulas
+%                'MEBDFSO' (or 'MEBDFSparse'):
+%                  MEBDFSO: Modified Extended Backward Differential
+%                  Formulas using a Sparse Jacobian Matrix [1-5] (Stiff)
+%                'LSODES' (or 'BDFSparse'):
+%                  LSODES: Backward Differential Formulas
 %                  using a Sparse Jacobian Matrix [1-5] (Stiff)
 %                'RK23':
 %                  RKSUITE: Runge-Kutta Methods [2-3] (Non-Stiff)
@@ -113,7 +120,7 @@ end
 
 %% Maxorder
 maxorder = values('MAXORDER');
-if solver.maxorder == -1
+if sum(solver.maxorder == -1) && (sum(maxorder) ~= 0)
     error(['The specified solver does not allow the '...
             'specification of a maximum order.']);
 end

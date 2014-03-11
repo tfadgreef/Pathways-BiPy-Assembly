@@ -4,7 +4,6 @@ The \PPODESUITE package depends on:
   \item[\MATLAB] Tested on \MATLAB version R2013b (8.2) 64-bit.
   \item[gfortran (GCC)] Tested on version 4.8.1 64-bit.
 \end{description}
-In order to fulfill these requirements under \MSDOS, the ... package is needed.
 
 \section[\nix]{Linux and other Unix variants}
 \begin{enumerate}
@@ -13,12 +12,9 @@ In order to fulfill these requirements under \MSDOS, the ... package is needed.
 \end{enumerate}
 
 \section[Windows]{\MSDOS}
+\textbf{Currently, running the \PPODESUITE on \MSDOS is not supported nor tested.}
 \begin{enumerate}
- \item Do windows stuff
- \begin{enumerate}
-  \item Nested item 1
-  \item Nested item 2
- \end{enumerate}
+ \item Running the \PPODESUITE on \MSDOS would require installing a combination of GCC/Cygwin and gnumex (\hyperlink{http://gnumex.sourceforge.net/}) or the Intel Visual Fortran Composer. To check which versions are supported by \MATLAB, check \hyperlink{http://www.mathworks.nl/support/compilers/R2013b/} substituting R2013b with the right version number.
 \end{enumerate}
 
 \section{General}
@@ -30,4 +26,5 @@ In order to fulfill these requirements under \MSDOS, the ... package is needed.
  \matlabcmd{PPODE\_init}
  The options 'Debug' can be used to build the libraries with debugging symbols.
  \matlabcmd{PPODE\_init('Debug', 1)}
+ For more information, type \matlabcmdinline{help PPODE\_init} in the \MATLAB command window.
 \end{enumerate}

@@ -24,7 +24,7 @@ c-----------------------------------------------------------------------
 
 c-----------------------------------------------------------------------
 c
-c RKSUITEW - RKSUITE Wrapper
+c VODEW - VODE Wrapper
 c
 c DEVELOPED BY:
 c
@@ -55,7 +55,7 @@ c
 c-----------------------------------------------------------------------
 #include "defs.h"
 
-      subroutine rksuitew(neq, atol, rtol, nout, times, npar, par, y0,
+      subroutine vodew(neq, atol, rtol, nout, times, npar, par, y0,
      + tret, yret, oret)
 
 c-----------------------------------------------------------------------
@@ -65,7 +65,7 @@ c
 c-----------------------------------------------------------------------
 
 c Declare externals.
-      external rkfunc, func, dummy
+      external func, vodefunc, dummy
 c Declare input arguments.
       integer, intent(in) :: neq, npar, nout
 
@@ -78,17 +78,14 @@ c Declare output arguments.
       double precision, intent(out) :: oret(nout)
 #endif
 c Declare local variables.
+      integer :: iwork(30 + neq)
       integer i, iopar, iopt, iout, istate, itask, itol, leniw, lenrw,
-     1 jt, ml, mu, nerr, nfe, nfea, nje, nqu, nst, lrw, liw, np, j,
-     2 method, outch, err, neqrk
+     1 jt, ml, mu, nerr, nfe, nfea, nje, nqu, nst, lrw, liw, np, j
 
       double precision, pointer :: p(:)
-      double precision :: dtout, er, erm, ero, hu, tout, t, tend,
-     1 hstart, mcheps, dwarf, maxint
-      double precision :: y(neq), rwork(32*neq),
-     1 yp(neq), ymax(neq), atols(neq)
-
-      logical errass, message, caterr
+      double precision :: dtout, er, erm, ero, hu, tout, t, rtols,
+     1 tolsf, atols, maxint
+      double precision :: y(neq), rwork(22 +  9*neq + 2*neq**2)
 #ifdef MAXTIME
       real maxt0, maxt1
 #endif
@@ -96,7 +93,7 @@ c Declare local variables.
       real bench0, bench1
 #endif
 c Delcare variables used for printing tret in MEX.
-      character*300 line
+      character*200 line
       integer*4 k
       integer*4 mexPrintf
 c The following code can be used to print variable values.
@@ -104,16 +101,14 @@ c#      write(line,*) 'neq = ',neq
 c#      k = mexPrintf(line//achar(13))
 c Common variables used for passing parameters to
 c ODE function.
-      common  /funcpar/ np, p
-      common  /rkcom/ neqrk
+      COMMON  /funcpar/ np, p
 
 #ifdef MAXTIME
 c Initialize time tracking.
       call cpu_time(maxt0)
 #endif
 
-
-c Redirect all output of the LSODE solver to a file.
+c Redirect all output of the VODE solver to a file.
       open(unit=6, file="lsode.log", form="formatted")
 
 c-----------------------------------------------------------------------
@@ -124,50 +119,80 @@ c-----------------------------------------------------------------------
 
       maxint = dble(huge(iwork(6)))
 
-      neqrk = neq
-
 c Calculate the correct size of the iwork and rwork
-c variables, based on the description of the RKSUITE
+c variables, based on the description of the VODE
 c function.
-      lrw = 32*neq
+      lrw = 22 +  9*neq + 2*neq**2
+      liw = 30 + neq
 c The first time to output is the first value in the times
 c vector.
       tout = times(1)
-
 c Make the pointer p point to the vector of parameters. the
 c pointer can be accessed in the ODE function via the 
 c /funcpar/ common block.
       np = npar
       p => par
+c Initialize the error counter.
+      nerr = 0
+c Specify tolerance as a scalar (2 for vector/array).
+      itol = 1
+c      itol = 2
+c Define the Jacobian type (full).
+      jt = 2
 
+c Start with the given tolerances.
+      atols = atol
+      rtols = rtol
+
+#ifdef OPTIONALINPUTS
+c Optional inputs.
+      iopt = 1
+c Set all optional inputs to default.
       do 70 i=5, 10
         rwork(i) = 0.0d0
+        iwork(i) = 0
   70  continue
+#ifdef MAXSTEPS
+      iwork(6) = MAXSTEPS
+#else
+      iwork(6) = 1000
+#endif
+
+#ifdef SWITCHINGSOLVER
+#ifdef MAXORDER1
+      iwork(9) = MAXORDER1
+#endif
+#ifdef MAXORDER2
+      iwork(8) = MAXORDER2
+#endif
+#else
+#ifdef MAXORDER1
+      iwork(5) = MAXORDER1
+#endif
+#endif
+
+#ifdef DEBUG
+#ifdef SWITCHINGSOLVER
+      iwork(5) = 1
+#endif
+#endif
+
+#else
+c No optional inputs.
+      iopt = 0
+#endif
+
 c Always start at t=0.
       t = 0.0d0
 c Initial value for the ODE problem.
       y = y0
+c Intial value of itask should be 1.
+      itask = 1
 c Intial value of istate should be 1.
 c (istate = 2 for subsequent calls)
       istate = 1
 c Keep track of the maximum error.
       ero = 0.0d0
-
-      errass = .false.
-      message = .false.
-      caterr = .false.
-
-#if defined(RK23SOLVER)
-      method = 1
-#elif defined(RK45SOLVER)
-      method = 2
-#elif defined(RK78SOLVER)
-      method = 3
-#endif
-
-      tend = times(nout)
-      hstart = 0.0d0
-
 c Set the output variables to zeros.
       do 110 i=1, nout
         tret(i) = 0.0d0
@@ -176,44 +201,6 @@ c Set the output variables to zeros.
   100   continue
   110 continue
 
-
-      do 60 i=1, neq
-        atols(i) = atol
-  60  continue
-
-#ifdef DEBUG
-      call softfl(.false., .true.)
-
-      call envirn(outch,mcheps,dwarf)
-      
-      call chkfl(.true., err)
-
-      flush(6)
-      write(6,*) 'error=',err
-
-      write(6,*) 'outch=',outch,'; mcheps=',mcheps,'; dwarf=',dwarf 
-      flush(6)
-
-      write(6,*) 'neq=',neq,'; t=',t,'; y0(1)=',y0(1),'; rtol=',rtol 
-      flush(6)
-      write(6,*) 'atols(1)=',atols(1),'; method=',method
-      flush(6)
-      write(6,*) 'errass=',errass,'; message=',message
-      flush(6)
-      write(6,*) 'hstart=',hstart,'; lrw=',lrw
-      flush(6)
-
-      call softfl(.false., .true.)
-#endif
-      call setup(neq,t,y0,tend,rtol,atols,method,'Usual Task',
-     + errass,hstart,rwork,lrw,message)
-#ifdef DEBUG
-      call chkfl(.true., err)
-
-      flush(6)
-      write(6,*) 'error=',err
-#endif
-
 c-----------------------------------------------------------------------
 c
 c Loop through al desired output points.
@@ -221,15 +208,29 @@ c
 c-----------------------------------------------------------------------
 
       do 175 iout = 1,nout
+
+#ifdef IMAXSTEPS
+        if ((IMAXSTEPS*times(iout)) .gt. maxint) then
+          iwork(6) = maxint
+        else
+          iwork(6) = (IMAXSTEPS*times(iout))
+        endif
+#endif
+
 #ifdef TIMING
 c Benchmarking
         call cpu_time(bench0)
 #endif
-        call softfl(.false., .true.)
+
 c Call the solver
-        if (tout .gt. t) then
-          call ut(rkfunc,tout,t,y,yp,ymax,rwork,istate)
-        endif
+#if defined(VODESTIFFSOLVER)
+        call dvode(vodefunc, neq, y, t, tout, itol, rtols, atols,
+     1   itask, istate, iopt, rwork, lrw, iwork, liw, dummy, 22)
+#elif defined(VODENONSTIFFSOLVER)
+        call dvode(vodefunc, neq, y, t, tout, itol, rtols, atols,
+     1   itask, istate, iopt, rwork, lrw, iwork, liw, dummy, 10)
+#endif
+
 c Copy the value of y(:) to the output vector.
         yret(iout, :) = y
 c Copy this time point to the output vector of times.
@@ -237,29 +238,42 @@ c Copy this time point to the output vector of times.
 
 #ifdef TIMING
 c Benchmarking
-        call cpu_time(bench1)
-        oret(iout) = (bench1-bench0)
+          call cpu_time(bench1)
+          oret(iout) = (bench1-bench0)
 #endif
 
-        call chkfl(.true., caterr)
 c Check whether the solver was successful.
-        if ((istate .gt. 4) .or. caterr) then
+        if (istate .lt. 0) then
           select case (istate)
-            case(5)
+            case(-1)
+              write(line,8001) istate
+            case(-2)
+              write(line,8002) istate
+            case(-3)
+              write(line,8003) istate
+            case(-4)
+              write(line,8004) istate
+            case(-5)
               write(line,8005) istate
-            case(6)
+            case(-6)
               write(line,8006) istate
-            case(911)
-              write(line,8911) istate
             case default
               write(line,8000) istate
-              if (caterr) then
-                write(line,8911) istate
-              endif
           end select
           k = mexPrintf(line//achar(13))
           go to 400
         endif
+#ifdef DEBUG
+        iopar = iout - 2*(iout/2)
+        if (iopar .ne. 0) go to 170
+        er = abs(y(1))/atol
+        ero = max(ero,er)
+        if (er .gt. 1000.0d0) then
+c          write(line,*) 'Warning: error exceeds 1000 * tolerance.'
+c          k = mexPrintf(line//achar(13))
+          nerr = nerr + 1
+        endif
+#endif
 
 #ifdef MAXTIME
 c Check whether the passed time is below the maximum time.
@@ -267,7 +281,7 @@ c Check whether the passed time is below the maximum time.
         if ((maxt1-maxt0) .ge. MAXTIME) then
           write(line,9001) 1, (maxt1-maxt0)
           k = mexPrintf(line//achar(13))
-          go to 400
+          go to 180
         endif
 #endif
 
@@ -277,7 +291,7 @@ c Get the new time point.
  175  continue
 
 c Check for errors one more time
-c      if (istate .lt. 0) nerr = nerr + 1
+ 180  if (istate .lt. 0) nerr = nerr + 1
 
 c-----------------------------------------------------------------------
 c
@@ -285,7 +299,30 @@ c Calculate some stats of the solver/solution.
 c
 c-----------------------------------------------------------------------
 
-c Print the LSODE output.
+#ifdef DEBUG
+c Number of steps
+      nst = iwork(11)
+c Number of function evaluations
+      nfe = iwork(12)
+c Number of jacobian evaluations
+      nje = iwork(13)
+c RWork size (real)
+      lenrw = iwork(17)
+c IWork size (int)
+      leniw = iwork(18)
+
+c Print summary
+      write(line,*) 'number of steps = ', nst
+      k = mexPrintf(line//achar(13))
+      write(line,*) 'number of f-s = ', nfe
+      k = mexPrintf(line//achar(13))
+      write(line,*) 'number of J-s = ', nje
+      k = mexPrintf(line//achar(13))
+      write(line,*) 'error overrun = ', ero
+      k = mexPrintf(line//achar(13))
+#endif
+
+c Print the VODE output.
   400 rewind 6
       do
         read(6,'(a)',end=500) line
@@ -298,35 +335,42 @@ c
 c Error messages
 c
 
- 8000 format('ERROR[',i2,']: Unknown error.')
- 8005 format('ERROR[',i2,']: You are asking for too much accuracy.'
-     +       'You cannot continue integrating this problem.')
- 8006 format('ERROR[',i2,']: The global error assessment may not be '
-     +       'reliable beyond the current point in the integration.'
-     +       'You cannot continue integrating this problem.')
- 8911 format('ERROR[',i2,']: The nature of the catastrophe is reported '
-     +       'on the standard output channel. Unless special '
-     +       'provision was made in advance (see rksuite.doc), '
-     +       'the computation then comes to a STOP.')
+ 8000 format('ERROR(VODE)[',i2,']: Unknown error.')
+ 8001 format('ERROR(VODE)[',i2,']: Excess work done. Maybe a '
+     +       'different solver is able to solve this problem.')
+ 8002 format('ERROR(VODE)[',i2,']: Excess accuracy requested. The '
+     +       'tolerances are set too small.')
+ 8003 format('ERROR(VODE)[',i2,']: Illegal input detected.')
+ 8004 format('ERROR(VODE)[',i2,']: Repeated error test failures.')
+ 8005 format('ERROR(VODE)[',i2,']: Repeated convergence failures. Try '
+     +       'other choices of solver or tolerances.')
+ 8006 format('ERROR(VODE)[',i2,']: Error weight became zero during '
+     +       'problem.')
 
 c
 c Warning messages
 c
 
- 9001 format('WARNING[',i2,']: Maximum time exceeded. After ', d10.2
-     +       ' seconds the last time point was not reached.')
-
+ 9001 format('WARNING(VODE)[',i2,']: Maximum time exceeded. After ',
+     +       d10.2, ' seconds the last time point was not reached.')
 
       end
 
-
-      subroutine rkfunc (t, y, ydot)
-      integer neqrk
-      double precision t, y(*), ydot(*)
-      common  /rkcom/ neqrk
-
-      call func(neqrk, t, y, ydot)
-
+c-----------------------------------------------------------------------
+c
+c Dummy routine that is passed since we are not using a analytical
+c Jacobian function.
+c
+c-----------------------------------------------------------------------
+      subroutine dummy (neq, t, y, ml, mu, pd, nrpd, rpar, ipar)
       return
       end
 
+      subroutine vodefunc (neq,t,y,ydot,rpar,ipar)
+      integer neq, ipar
+      double precision t, y(neq), ydot(neq), rpar
+      
+      call func(neq, t, y, ydot)
+
+      return
+      end     

@@ -6,8 +6,10 @@
 \usepackage{enumitem}
 \usepackage{xcolor}
 \usepackage{environ}
+\usepackage{pdfpages}
+\usepackage{amsmath}
 
-\newcommand{\PPODESUITE}{\emph{PPODESUITE}~}
+\newcommand{\PPODESUITE}{\textsc{PPODE SUITE}~}
 \newcommand{\PPODE}{\emph{PPODE}~}
 \newcommand{\MATLAB}{MATLAB~}
 \newcommand{\MSDOS}{Windows~}
@@ -17,28 +19,21 @@
 \newcommand{\Fortran}{Fortran}
 
 \newcommand{\shellcmd}[1]{\\\indent\indent\texttt{\footnotesize \$ #1}\\}
-\newcommand{\matlabcmd}[1]{\\\indent\indent\texttt{\footnotesize >> #1}\\}
+\newcommand{\matlabcmd}[1]{\\\indent\texttt{\footnotesize >> #1}\\}
+\newcommand{\matlabcmdinline}[1]{\textacutedbl\texttt{\footnotesize#1}\textgravedbl}
 \newcommand{\sourceword}[1]{\texttt{\footnotesize#1}}
-\newcommand{\ph}[1]{\textlangle #1\textrangle}
+\newcommand{\ph}[1]{\textcolor{gray}{\textlangle #1\textrangle}}
 \newcommand{\filepath}[1]{{\footnotesize\textacutedbl #1\textacutedbl}}
+\newcommand{\hyperlink}[1]{\emph{\footnotesize#1}}
 
 \lstdefinestyle{fortrancode}{
   basicstyle=\fontsize{7pt}{1em}\ttfamily,
-  language=Fortran,
-  keywordstyle=\color{blue},
-  morekeywords={precision\,}
-  texcl=true,
-  frame=single,
+  frame=tb,
   backgroundcolor=\color[rgb]{0.99,0.99,0.99},
-  escapechar=\%,
-  alsoletter={.,+,-,*,=},
-  emph={[1], .eq., .gt.,},
-  emphstyle={[1]\color[rgb]{0.0,0.5,0.0}},
-  emph={[2],+,-,*,=},
-  emphstyle={[2]\color[rgb]{0.6,0.0,0.3}}
+  escapechar=\%
 }
 
-\title{\PPODESUITE Manual}
+\title{\PPODESUITE\\Manual}
 \author{Pascal A. Pieters}
 \date{March 2014}
 
@@ -52,5 +47,7 @@
 \include{Installation}
 
 \include{Usage}
+
+\include{Solvers}
 
 \end{document}

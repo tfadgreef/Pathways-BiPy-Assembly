@@ -4,17 +4,9 @@ function s = PPODE_interpreter(filename)
 fortranext = '.F';
 matlabext = '.m';
 
-fid = fopen([filename matlabext], 'r');
-if fid < 0
-    error('Invalid filename.');
-end
+[basedir, ~, ~] = fileparts(mfilename('fullpath'));
+builddir = fullfile(basedir, 'build');
 
-line = fgetl(fid)
-while ischar(line)
-    fprintf('%s\n', line);
-    line = fgetl(fid);    
-end
-
-fclose(fid);
+system(sprintf('cat ''%s'' | ''%s'' > ''%s''', [filename matlabext], fullfile(builddir, 'PPODE_matlab2fortran'), [filename fortranext]));
 
 end

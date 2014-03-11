@@ -78,14 +78,15 @@ c Declare output arguments.
       double precision, intent(out) :: oret(nout)
 #endif
 c Declare local variables.
-      integer :: iwork(22 + neq)
+      integer, allocatable :: iwork(:)
       integer i, iopar, iopt, iout, istate, itask, itol, leniw, lenrw,
-     1 jt, ml, mu, nerr, nfe, nfea, nje, nqu, nst, lrw, liw, np, j
+     1 jt, ml, mu, nerr, nfe, nfea, nje, nqu, nst, lrw, liw, np, j, nnz
 
       double precision, pointer :: p(:)
       double precision :: dtout, er, erm, ero, hu, tout, t, rtols,
      1 tolsf, atols, maxint
-      double precision :: y(neq), rwork(22 + neq * max(16, neq + 9))
+      double precision :: y(neq)
+      double precision, allocatable :: rwork(:)
 #ifdef MAXTIME
       real maxt0, maxt1
 #endif
@@ -122,8 +123,23 @@ c-----------------------------------------------------------------------
 c Calculate the correct size of the iwork and rwork
 c variables, based on the description of the LSODA
 c function.
-      lrw = 22 + neq * max(16, neq + 9)
+#if defined(STIFFSOLVER)
+      lrw = 22 +  9*neq + neq**2
       liw = 22 + neq
+#elif defined(NONSTIFFSOLVER)
+      lrw = 20 + 16 * neq
+      liw = 20
+#elif defined(SWITCHINGSOLVER)
+      lrw = 22 + neq * max(16, neq + 9)
+      liw = 20 + neq
+#elif defined(BDFSPARSESOLVER)
+      call nonzero(neq, npar, par, nnz)
+      lrw = 20 + 3*nnz + 20*neq
+      liw = 30
+#endif
+
+      allocate(rwork(lrw))
+      allocate(iwork(liw))
 c The first time to output is the first value in the times
 c vector.
       tout = times(1)
@@ -228,6 +244,9 @@ c Call the solver
 #elif defined(NONSTIFFSOLVER)
         call dlsode(func, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, 10)
+#elif defined(BDFSPARSESOLVER)
+        call dlsodes(func, neq, y, t, tout, itol, rtols, atols, itask,
+     1   istate, iopt, rwork, lrw, iwork, liw, dummy, 222)
 #elif defined(SWITCHINGSOLVER)
         call dlsoda(func, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, jt)

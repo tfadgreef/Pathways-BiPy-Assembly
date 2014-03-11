@@ -212,7 +212,15 @@ c Call the LSODA wrapper, which will call the LSODA solver.
 #else
       call mebdfsow(neq, atol, rtol, nout, times, npar, par, y0, t, y)
 #endif
+#elif defined(VODE)
+#ifdef TIMING
+      call vodew(neq, atol, rtol, nout, times, npar, par, y0, t, y,
+     + opt)
+#else
+      call vodew(neq, atol, rtol, nout, times, npar, par, y0, t, y)
 #endif
+#endif
+
 
 c Copy the result.
       nel = nout

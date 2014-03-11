@@ -21,8 +21,8 @@ function PPODE_init(varargin)
 PPODE_addPaths
 
 % Define all libraries, files, etcetera.
-libnames = {'ODEPACK', 'RKSUITE', 'MEBDFSO'};
-libdeps = {{'opkdmain', 'opkda1', 'opkda2'}, {'rksuite'}, {'yale', 'helpers', 'mebdfso'}};
+libnames = {'ODEPACK', 'RKSUITE', 'MEBDFSO', 'VODE'};
+libdeps = {{'opkdmain', 'opkda1', 'opkda2'}, {'rksuite'}, {'yale', 'helpers', 'mebdfso'}, {'vode', 'helpers'}};
 
 [basedir, ~, ~] = fileparts(mfilename('fullpath'));
 builddir = fullfile(basedir, 'build');
@@ -102,5 +102,8 @@ for curlibi=1:length(libnames)
     eval(sprintf('mex %s -c %s -outdir ''%s'' FFLAGS=''$FFLAGS %s''', mexflags, sourcefiles, builddir, mexfflags));
     system(sprintf('ar -rcs ''%s'' %s', fullfile(libdir, [libname libext]), buildfiles));
 end
+
+%% Build the parser
+system(sprintf('gcc ''%s'' ''%s'' ''%s'' -o ''%s''', fullfile(basedir, 'src', 'parser', 'lex.yy.c'), fullfile(basedir, 'src', 'parser', 'y.tab.c'), fullfile(basedir, 'src', 'parser', 'tree.c'), fullfile(builddir, 'PPODE_matlab2fortran')));
 
 end

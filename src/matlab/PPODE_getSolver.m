@@ -30,7 +30,7 @@ switch upper(name)
         solver.interface = {'lsodawrapper', 'ppodemex'};
         solver.defs = {'STIFFSOLVER', 'ODEPACK'};
         solver.maxorder = 5;
-    case {'NONSTIFF', 'ADAMS', 'NON-STIFF'}
+    case {'ADAMS-MOULTON', 'NON-STIFF'}
         solver.name = 'LSODE: Adams Moulton Method [1-12] (Non-Stiff)';
         solver.libs = {'ODEPACK'};
         solver.interface = {'lsodawrapper', 'ppodemex'};
@@ -63,13 +63,34 @@ switch upper(name)
         solver.interface = {'rksuitewrapper', 'ppodemex'};
         solver.defs = {'RK78SOLVER', 'RKSUITE'};
         solver.maxorder = -1;
-    case {'MEBDFSO', 'BDFSPARSE'}
-        solver.name = ['MEBDFSO: Modified Backward Differential '...
-                      'Formulas using a Sparse Jacobian Matrix'...
-                      '[1-5] (Stiff)'];
+    case {'MEBDFSO', 'MEBDFSPARSE'}
+        solver.name = ['MEBDFSO: Modified Extended Backward '...
+                      'Differential Formulas using a Sparse Jacobian '...
+                      'Matrix [1-5] (Stiff)'];
         solver.libs = {'MEBDFSO'};
         solver.interface = {'mebdfsowrapper', 'ppodemex'};
         solver.defs = {'MEBDFSOSOLVER', 'MEBDFSO'};
+        solver.maxorder = 5;
+    case {'VODE', 'STIFF2'}
+        solver.name = ['VODE: Backward Differential Formulas [1-5] '...
+                      '(Stiff)'];
+        solver.libs = {'VODE'};
+        solver.interface = {'vodewrapper', 'ppodemex'};
+        solver.defs = {'VODESTIFFSOLVER', 'VODE'};
+        solver.maxorder = 5;
+    case {'VODEAM', 'NON-STIFF2'}
+        solver.name = ['VODE: Adams Moulton Method [1-12] (Non-Stiff)'];
+        solver.libs = {'VODE'};
+        solver.interface = {'vodewrapper', 'ppodemex'};
+        solver.defs = {'VODENONSTIFFSOLVER', 'VODE'};
+        solver.maxorder = 12;
+    case {'BDFSPARSE', 'LSODES'}
+        solver.name = ['LSODES: Backward Differential '...
+                      'Formulas using a Sparse Jacobian Matrix'...
+                      '[1-5] (Stiff)'];
+        solver.libs = {'ODEPACK'};
+        solver.interface = {'lsodawrapper', 'ppodemex'};
+        solver.defs = {'BDFSPARSESOLVER', 'ODEPACK'};
         solver.maxorder = 5;
     otherwise
         solver.error = true;
