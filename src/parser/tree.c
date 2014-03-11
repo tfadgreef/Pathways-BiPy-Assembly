@@ -109,17 +109,7 @@ void registerVariable(char *s, enum VariableType tp) {
 
 char *processIdentifier(char *nm, enum VariableType tp) {
   char *s;
-  if (strcmp(nm, func->t) == 0) {
-    asprintf(&s, "t");
-  } else if (strcmp(nm, func->x) == 0) {
-    asprintf(&s, "y");
-  } else if (strcmp(nm, func->p) == 0) {
-    asprintf(&s, "p");
-  } else if (strcmp(nm, func->dx) == 0) {
-    asprintf(&s, "ydot");
-  } else {
-    asprintf(&s, "%s", nm);
-  }
+  asprintf(&s, "%s", nm);
   registerVariable(nm, tp);
   return s;
 }

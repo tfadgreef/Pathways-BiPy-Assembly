@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,6 +9,8 @@
 
 void functionToFortran(struct Node *f, struct Node *t) {
   func = emalloc(sizeof(*func));
+  func->neq = "neq";
+  func->np = "np";
   
   if (f->children->next->children != NULL) {
     func->t = f->children->next->children->iname;
@@ -39,13 +42,22 @@ void functionToFortran(struct Node *f, struct Node *t) {
     nd = nd->next;
   }
   
-  fprintf(out, "%s", line(0, "subroutine func (neq, t, y, ydot)"));
-  fprintf(out, "%s", line(0, "integer neq, np"));
-  fprintf(out, "%s", line(0, "double precision t, y, ydot"));
-  fprintf(out, "%s", line(0, "double precision, pointer :: p(:)"));
+  char *l;
+  
+  asprintf(&l, "subroutine func (%s, %s, %s, %s, %s, %s)", func->neq, func->t, func->x, func->np, func->p, func->dx);
+  fprintf(out, "%s", line(0, l));
+  free(l);
+  
+  asprintf(&l, "integer %s, %s", func->neq, func->np);
+  fprintf(out, "%s", line(0, l));
+  free(l);
+  
+  asprintf(&l, "double precision %s, %s, %s, %s", func->t, func->x, func->dx, func->p);
+  fprintf(out, "%s", line(0, l));
+  free(l);
   
   struct Variable *tmp = vars;
-  char *l = "double precision";
+  l = "double precision";
   int first = 1;
   while (tmp != NULL) {
     if (tmp->type == TDOUBLE) {
@@ -77,8 +89,10 @@ void functionToFortran(struct Node *f, struct Node *t) {
   fprintf(out, "%s", line(0, l));
   free(l);
   
-  fprintf(out, "%s", line(0, "dimension y(neq), ydot(neq)"));
-  fprintf(out, "%s", line(0, "common  /funcpar/ np, p"));
+  asprintf(&l, "dimension %s(%s), %s(%s), %s(%s)", func->x, func->neq, func->dx, func->neq, func->p, func->np);
+  fprintf(out, "%s", line(0, l));
+  free(l);
+
   fprintf(out, "\n");
   
   fprintf(out, "%s", cont);
@@ -95,7 +109,7 @@ char *toFortran(struct Node *t) {
   }
   if (nd->tag == TNUM) {
     char *s;
-    asprintf(&s, "%0.*g", nd->signif-1, nd->ival);
+    asprintf(&s, "%g", nd->ival); //nd->signif-1, 
     int i;
     for (i = 0; i < strlen(s); i++) {
       if (s[i] == 'e') {

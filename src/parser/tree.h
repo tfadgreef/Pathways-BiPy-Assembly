@@ -27,6 +27,9 @@ struct Func {
   char *x;
   char *p;
   char *dx;
+  
+  char *neq;
+  char *np;
 };
 
 struct Func *func;

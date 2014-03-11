@@ -25,23 +25,13 @@ struct Node {
   int ignore;
 };
 
-// NEW
-
 struct Node *createOperation(enum NodeTag op);
 void appendChild(struct Node *parent, struct Node *child);
 void setIdentifier(struct Node *node, char *identifier);
 struct Node *last(struct Node *t);
 
-// ENDNEW
-
-struct Node *addConstant(struct NumSpec *num);
-struct Node *addVariable(char *varname);
-struct Node *addStub();
-
-struct Node *addOperation(enum NodeTag op, struct Node *l, struct Node *r);
-struct Node *addOperation3(enum NodeTag op, struct Node *l, struct Node *m, struct Node *r);
-struct Node *addOperation4(enum NodeTag op, struct Node *l, struct Node *lm, struct Node *rm, struct Node *r);
-struct Node *addOperationWithIdentifier(enum NodeTag op, struct Node *l, struct Node *r, char *identifier);
-struct Node *addStatement(struct Node *prevnodes, struct Node *newnode);
+struct Node *createConstant(struct NumSpec *num);
+struct Node *createVariable(char *varname);
+struct Node *appendStatement(struct Node *prevnodes, struct Node *newnode);
 
 #endif // NODE_H

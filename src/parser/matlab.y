@@ -39,9 +39,9 @@
 
 primary_expression
         : IDENTIFIER
-        { $$ = addVariable($1); }
+        { $$ = createVariable($1); }
         | CONSTANT
-        { $$ = addConstant($1); }
+        { $$ = createConstant($1); }
         | STRING_LITERAL
         { $$ = NULL; fatalError("Strings not supported.\n"); }
         | '(' expression ')'
@@ -65,7 +65,7 @@ postfix_expression
 
 index_expression
         : ':'
-        { $$ = addVariable(":"); $$->ignore = 1; }
+        { $$ = createVariable(":"); $$->ignore = 1; }
         | expression
         { $$ = $1; }
         ;
@@ -82,7 +82,6 @@ array_expression
           $$ = createOperation(TARRAYINDEX);
           appendChild($$, $3);
           setIdentifier($$, $1);
-          /*$$ = addOperationWithIdentifier(TARRAYINDEX, $3, NULL, $1);*/
         }
         ;
 
@@ -107,14 +106,12 @@ multiplicative_expression
           $$ = createOperation(TMUL);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TMUL, $1, $3);*/
         }
         | multiplicative_expression '/' unary_expression
         { 
           $$ = createOperation(TDIV);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TDIV, $1, $3);*/
         }
         | multiplicative_expression '\\' unary_expression
         | multiplicative_expression '^' unary_expression
@@ -135,14 +132,12 @@ additive_expression
           $$ = createOperation(TPLUS);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TPLUS, $1, $3);*/
         }
         | additive_expression '-' multiplicative_expression
         { 
           $$ = createOperation(TMINUS);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TMINUS, $1, $3);*/
         }
         ;
 
@@ -154,28 +149,24 @@ relational_expression
           $$ = createOperation(TLT_OP);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TLT_OP, $1, $3);*/
         }
         | relational_expression '>' additive_expression
         { 
           $$ = createOperation(TGT_OP);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TGT_OP, $1, $3);*/
         }
         | relational_expression LE_OP additive_expression
         { 
           $$ = createOperation(TLE_OP);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TLE_OP, $1, $3);*/
         }
         | relational_expression GE_OP additive_expression
         { 
           $$ = createOperation(TGE_OP);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TGE_OP, $1, $3);*/
         }
         ;
 
@@ -187,14 +178,12 @@ equality_expression
           $$ = createOperation(TEQ_OP);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TEQ_OP, $1, $3);*/
         }
         | equality_expression NE_OP relational_expression
         { 
           $$ = createOperation(TNE_OP);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TNE_OP, $1, $3);*/
         }
         ;
 
@@ -206,7 +195,6 @@ and_expression
           $$ = createOperation(TAND);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TAND, $1, $3);*/
         }
         ;
 
@@ -218,7 +206,6 @@ or_expression
           $$ = createOperation(TOR);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TOR, $1, $3);*/
         }
         ;
 
@@ -230,7 +217,6 @@ expression
           $$ = createOperation(TRANGE);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TRANGE, $1, $3);*/
         }
         ;
 
@@ -240,7 +226,6 @@ assignment_expression
           $$ = createOperation(TASSIGN);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TASSIGN, $1, $3);*/
         }
         ;
 
@@ -272,7 +257,7 @@ statement_list
         : statement
         { $$ = $1; }
         | statement_list statement
-        { $$ = addStatement($1, $2); }
+        { $$ = appendStatement($1, $2); }
         ;
 	
 identifier_list
@@ -291,7 +276,7 @@ clear_statement
 
 expression_statement
         : eostmt
-        { $$ = NULL; /*$$ = addStub();*/ }
+        { $$ = NULL; }
         | expression eostmt
         { $$ = $1; }
         ;
@@ -317,7 +302,6 @@ selection_statement
           $$ = createOperation(TIF);
           appendChild($$, $2);
           appendChild($$, $3);
-          /*$$ = addOperation(TIF, $2, $3);*/
         }
         | IF expression statement_list ELSE statement_list END eostmt
         { 
@@ -325,7 +309,6 @@ selection_statement
           appendChild($$, $2);
           appendChild($$, $3);
           appendChild($$, $5);
-          /*$$ = addOperation3(TIFELSE, $2, $3, $5);*/
         }
         | IF expression statement_list elseif_clause END eostmt
         { 
@@ -333,7 +316,6 @@ selection_statement
           appendChild($$, $2);
           appendChild($$, $3);
           appendChild($$, $4);
-          /*$$ = addOperation3(TIFELSEIF, $2, $3, $4);*/
         }
         | IF expression statement_list elseif_clause
           ELSE statement_list END eostmt
@@ -343,7 +325,6 @@ selection_statement
           appendChild($$, $3);
           appendChild($$, $4);
           appendChild($$, $6);
-          /*$$ = addOperation4(TIFELSEIFELSE, $2, $3, $4, $6);*/
         }
         ;
 
@@ -353,15 +334,14 @@ elseif_clause
           $$ = createOperation(TELSEIF);
           appendChild($$, $2);
           appendChild($$, $3);
-          /*$$ = addOperation(TELSEIF, $2, $3);*/
         }
         | elseif_clause ELSEIF expression statement_list
         {
           struct Node *n = createOperation(TELSEIF);
           appendChild($$, $3);
           appendChild($$, $4);
-          $$ = addStatement($1, n);
-          /*$$ = addStatement($1, addOperation(TELSEIF, $3, $4));*/ }
+          $$ = appendStatement($1, n);
+        }
         ;
 
 iteration_statement
@@ -370,7 +350,6 @@ iteration_statement
           $$ = createOperation(TWHILE);
           appendChild($$, $2);
           appendChild($$, $3);
-          /*$$ = addOperation(TWHILE, $2, $3);*/
         }
         | FOR IDENTIFIER '=' expression statement_list END eostmt
         {
@@ -378,7 +357,6 @@ iteration_statement
           appendChild($$, $4);
           appendChild($$, $5);
           setIdentifier($$, $2);
-          /*$$ = addOperationWithIdentifier(TFOR, $4, $5, $2);*/
         }
         | FOR '(' IDENTIFIER '=' expression ')' statement_list END eostmt 
         {
@@ -386,7 +364,6 @@ iteration_statement
           appendChild($$, $5);
           appendChild($$, $7);
           setIdentifier($$, $3);
-          /*$$ = addOperationWithIdentifier(TFOR, $5, $7, $3);*/
         }
         ;
 
@@ -406,14 +383,12 @@ func_ident_list
         : IDENTIFIER
         { 
           $$ = createOperation(TLIST);
-          appendChild($$, addVariable($1));
-          /*$$ = addOperation(TLIST, addVariable($1), NULL);*/
+          appendChild($$, createVariable($1));
         }
         | func_ident_list ',' IDENTIFIER
         {
           $$ = $1;
-          appendChild($1, addVariable($3));
-          /*$$ = $1; addStatement($1->children, addVariable($3));*/
+          appendChild($1, createVariable($3));
         }
         ;
 
@@ -421,8 +396,7 @@ func_return_list
         : IDENTIFIER
         {
           $$ = createOperation(TLIST);
-          appendChild($$, addVariable($1));
-          /*$$ = addOperation(TLIST, addVariable($1), NULL);*/
+          appendChild($$, createVariable($1));
         }
         | '[' func_ident_list ']'
         { $$ = $2; }
@@ -444,7 +418,6 @@ function_declare
           $$ = createOperation(TFUNCDEC);
           appendChild($$, $1);
           appendChild($$, $3);
-          /*$$ = addOperation(TFUNCDEC, $1, $3);*/
         }
         ;
       
@@ -452,27 +425,29 @@ function_declare
 
 int yydebug=1;
 
-//extern char yytext[];
-//extern int column;
+extern char yytext[];
+extern int column;
+
+//void yyerror(char *s)
+//{
+//    fprintf(stderr,"ERROR: %s\n",s);
+//    return;
+//}
 
 void yyerror(char *s)
 {
-    fprintf(stderr,"ERROR: %s\n",s);
-    return;
+  fflush(stderr);
+  fprintf(stderr, "\n%*s\n%*s\n", column, "^", column, s);
 }
 
-//yyerror(s)
-//char *s;
-//{
-//        fflush(stdout);
-//        printf("\n%*s\n%*s\n", column, "^", column, s);
-//}
 int main(void) {
-    warn = stderr;
-    out = stdout;
-    labelcount = 10;
-    func = emalloc(sizeof(*func));
-    vars = NULL;
-    yyparse();
-    return 0;
+  warn = stderr;
+  out = stdout;
+  labelcount = 10;
+  func = emalloc(sizeof(*func));
+  func->neq = "neq";
+  func->np = "np";
+  vars = NULL;
+  yyparse();
+  return 0;
 }
