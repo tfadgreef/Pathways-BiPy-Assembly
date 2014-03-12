@@ -49,12 +49,11 @@ void setIdentifier(struct Node *node, char *identifier) {
   node->iname = identifier;
 }
 
-struct Node *createConstant(struct NumSpec *num) {
+struct Node *createConstant(double num) {
     struct Node *t = emalloc(sizeof(*t));
     
     t->tag = TNUM;
-    t->ival = num->value;
-    t->signif = num->signif;
+    t->ival = num;
     t->previous = NULL;
     t->next = NULL;
     t->parent = NULL;

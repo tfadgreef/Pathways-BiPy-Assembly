@@ -413,10 +413,13 @@ c
 
 
       subroutine mebdfsofunc (neq,t,y,ydot,ipar,rpar,ierr)
-      integer neq, ipar(*), ierr
+      external func
+      integer neq, ipar(*), ierr, np
       double precision t(*), y(*), ydot(*), rpar(*)
-      
-      call func(neq, t, y, ydot)
+      double precision, pointer :: p(:)
+      COMMON  /funcpar/ np, p
+
+      call func(neq, t, y, np, p, ydot)
       ierr = 0
 
       return

@@ -104,6 +104,6 @@ for curlibi=1:length(libnames)
 end
 
 %% Build the parser
-system(sprintf('gcc ''%s'' ''%s'' ''%s'' -o ''%s''', fullfile(basedir, 'src', 'parser', 'lex.yy.c'), fullfile(basedir, 'src', 'parser', 'y.tab.c'), fullfile(basedir, 'src', 'parser', 'tree.c'), fullfile(builddir, 'PPODE_matlab2fortran')));
+system(sprintf('gcc ''%s'' ''%s'' ''%s'' ''%s'' ''%s'' -o ''%s''', fullfile(basedir, 'src', 'parser', 'lex.yy.c'), fullfile(basedir, 'src', 'parser', 'y.tab.c'), fullfile(basedir, 'src', 'parser', 'fortran.c'), fullfile(basedir, 'src', 'parser', 'tree.c'), fullfile(basedir, 'src', 'parser', 'node.c'), fullfile(builddir, 'PPODE_matlab2fortran')));
 
 end

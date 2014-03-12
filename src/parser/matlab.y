@@ -9,7 +9,7 @@
     void yyerror(char *);
 
 %}
-%union{ struct NumSpec *num; struct Node *node; char *iden; }
+%union{ double num; struct Node *node; char *iden; }
 
 %token CONSTANT IDENTIFIER STRING_LITERAL
 %token ARRAYMUL ARRAYPOW ARRAYDIV ARRAYRDIV 
@@ -440,7 +440,7 @@ void yyerror(char *s)
   fprintf(stderr, "\n%*s\n%*s\n", column, "^", column, s);
 }
 
-int main(void) {
+int main(unsigned int argc, unsigned char *argv[]) {
   warn = stderr;
   out = stdout;
   labelcount = 10;

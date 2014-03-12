@@ -38,9 +38,9 @@ void count();
 
 {L}({L}|{D})*           { count(); BEGIN TR; yylval.iden = emalloc(sizeof(char) * strlen(yytext)); strcpy(yylval.iden, yytext); return(check_type()); }
 
-{D}+({E})?              { count(); BEGIN TR; struct NumSpec *num = emalloc(sizeof(*num)); num->value = atof(yytext); num->signif = strlen(yytext); yylval.num = num; return(CONSTANT); }
-{D}*"."{D}+({E})?       { count(); BEGIN TR; struct NumSpec *num = emalloc(sizeof(*num)); num->value = atof(yytext); num->signif = strlen(yytext); yylval.num = num; return(CONSTANT); }
-{D}+"."{D}*({E})?       { count(); BEGIN TR; struct NumSpec *num = emalloc(sizeof(*num)); num->value = atof(yytext); num->signif = strlen(yytext); yylval.num = num; return(CONSTANT); }
+{D}+({E})?              { count(); BEGIN TR; yylval.num = atof(yytext); return(CONSTANT); }
+{D}*"."{D}+({E})?       { count(); BEGIN TR; yylval.num = atof(yytext); return(CONSTANT); }
+{D}+"."{D}*({E})?       { count(); BEGIN TR; yylval.num = atof(yytext); return(CONSTANT); }
 
 <ST>'[^'\n]*'/'         { BEGIN ST; yymore(); }
 <ST>'[^'\n]*'           { count(); BEGIN 0;  return(STRING_LITERAL); }

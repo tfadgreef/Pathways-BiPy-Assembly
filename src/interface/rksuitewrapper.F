@@ -321,11 +321,14 @@ c
 
 
       subroutine rkfunc (t, y, ydot)
-      integer neqrk
+      external func
+      integer neqrk, np
       double precision t, y(*), ydot(*)
+      double precision, pointer :: p(:)
       common  /rkcom/ neqrk
+      common  /funcpar/ np, p
 
-      call func(neqrk, t, y, ydot)
+      call func(neqrk, t, y , np, p, ydot)
 
       return
       end

@@ -367,10 +367,15 @@ c-----------------------------------------------------------------------
       end
 
       subroutine vodefunc (neq,t,y,ydot,rpar,ipar)
-      integer neq, ipar
-      double precision t, y(neq), ydot(neq), rpar
-      
-      call func(neq, t, y, ydot)
+      external func
+      integer neq, np
+      double precision t, y(neq), ydot(neq)
+      double precision, pointer :: p(:)
+      COMMON  /funcpar/ np, p
+
+      call func(neq, t, y, np, p, ydot)
 
       return
-      end     
+      end
+
+

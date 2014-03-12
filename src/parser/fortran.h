@@ -2,7 +2,6 @@
 #define FORTRAN_H
 
 struct Node;
-struct NumSpec;
 
 char *toFortran(struct Node *t);
 void functionToFortran(struct Node *f, struct Node *t);

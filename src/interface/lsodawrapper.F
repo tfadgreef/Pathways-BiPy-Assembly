@@ -65,7 +65,7 @@ c
 c-----------------------------------------------------------------------
 
 c Declare externals.
-      external func, dummy
+      external lsfunc, dummy
 c Declare input arguments.
       integer, intent(in) :: neq, npar, nout
 
@@ -239,16 +239,16 @@ c Benchmarking
 #endif
 c Call the solver
 #if defined(STIFFSOLVER)
-        call dlsode(func, neq, y, t, tout, itol, rtols, atols, itask,
+        call dlsode(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, 22)
 #elif defined(NONSTIFFSOLVER)
-        call dlsode(func, neq, y, t, tout, itol, rtols, atols, itask,
+        call dlsode(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, 10)
 #elif defined(BDFSPARSESOLVER)
-        call dlsodes(func, neq, y, t, tout, itol, rtols, atols, itask,
+        call dlsodes(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, 222)
 #elif defined(SWITCHINGSOLVER)
-        call dlsoda(func, neq, y, t, tout, itol, rtols, atols, itask,
+        call dlsoda(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, jt)
 #endif
 c Copy the value of y(:) to the output vector.
@@ -375,6 +375,19 @@ c
      +       d10.2, ' seconds the last time point was not reached.')
 
       end
+
+      subroutine lsfunc (neq,t,y,ydot)
+      external func
+      integer neq, np
+      double precision t(*), y(*), ydot(*)
+      double precision, pointer :: p(:)
+      COMMON  /funcpar/ np, p
+
+      call func(neq, t, y, np, p, ydot)
+
+      return
+      end     
+
 
 c-----------------------------------------------------------------------
 c

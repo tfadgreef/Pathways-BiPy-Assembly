@@ -8,11 +8,6 @@ enum NodeTag {
   TFUNCDEC
 };
 
-struct NumSpec {
-  double value;
-  int signif;
-};
-
 struct Node {
   enum NodeTag tag;
   struct Node *next;
@@ -21,7 +16,6 @@ struct Node {
   struct Node *parent;
   double ival;
   char *iname;
-  int signif;
   int ignore;
 };
 
@@ -30,7 +24,7 @@ void appendChild(struct Node *parent, struct Node *child);
 void setIdentifier(struct Node *node, char *identifier);
 struct Node *last(struct Node *t);
 
-struct Node *createConstant(struct NumSpec *num);
+struct Node *createConstant(double num);
 struct Node *createVariable(char *varname);
 struct Node *appendStatement(struct Node *prevnodes, struct Node *newnode);
 

@@ -107,7 +107,7 @@ typedef union YYSTYPE
 {
 /* Line 2053 of yacc.c  */
 #line 12 "matlab.y"
- struct NumSpec *num; struct Node *node; char *iden; 
+ double num; struct Node *node; char *iden; 
 
 /* Line 2053 of yacc.c  */
 #line 114 "y.tab.h"

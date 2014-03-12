@@ -18,6 +18,12 @@ void functionToFortran(struct Node *f, struct Node *t) {
       func->x = f->children->next->children->next->iname;
       if (f->children->next->children->next->next != NULL) {
         func->p = f->children->next->children->next->next->iname;
+        if (f->children->next->children->next->next->next != NULL) {
+          func->neq = f->children->next->children->next->next->next->iname;
+          if (f->children->next->children->next->next->next->next != NULL) {
+            func->np = f->children->next->children->next->next->next->next->iname;
+          }
+        }
       } else {
         fatalError("No parameter input argument.");
       }
@@ -109,7 +115,7 @@ char *toFortran(struct Node *t) {
   }
   if (nd->tag == TNUM) {
     char *s;
-    asprintf(&s, "%g", nd->ival); //nd->signif-1, 
+    asprintf(&s, "%g", nd->ival);
     int i;
     for (i = 0; i < strlen(s); i++) {
       if (s[i] == 'e') {
@@ -378,7 +384,8 @@ char *F_arrayindex(char *s1, char *s2) {
 char *F_zeros(char *s1) {
   char *s, *l1, *l2, *l3;
   asprintf(&l1, "do %d i = 1, neq", labelcount);
-  asprintf(&l2, "ydot(i) = 0.0d0");
+  registerVariable("i", TINT);
+  asprintf(&l2, "%s(i) = 0.0d0", func->dx);
   asprintf(&l3, "continue");
   asprintf(&s, "%s%s%s", line(0, l1), line(0, l2), line(labelcount, l3));
   labelcount += 10;

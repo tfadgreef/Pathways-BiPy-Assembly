@@ -173,7 +173,7 @@ typedef union YYSTYPE
 {
 /* Line 387 of yacc.c  */
 #line 12 "matlab.y"
- struct NumSpec *num; struct Node *node; char *iden; 
+ double num; struct Node *node; char *iden; 
 
 /* Line 387 of yacc.c  */
 #line 180 "y.tab.c"
@@ -2431,7 +2431,7 @@ void yyerror(char *s)
   fprintf(stderr, "\n%*s\n%*s\n", column, "^", column, s);
 }
 
-int main(void) {
+int main(unsigned int argc, unsigned char *argv[]) {
   warn = stderr;
   out = stdout;
   labelcount = 10;

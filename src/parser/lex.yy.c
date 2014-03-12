@@ -940,17 +940,17 @@ YY_RULE_SETUP
 case 18:
 YY_RULE_SETUP
 #line 41 "matlab.l"
-{ count(); BEGIN TR; struct NumSpec *num = emalloc(sizeof(*num)); num->value = atof(yytext); num->signif = strlen(yytext); yylval.num = num; return(CONSTANT); }
+{ count(); BEGIN TR; yylval.num = atof(yytext); return(CONSTANT); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 42 "matlab.l"
-{ count(); BEGIN TR; struct NumSpec *num = emalloc(sizeof(*num)); num->value = atof(yytext); num->signif = strlen(yytext); yylval.num = num; return(CONSTANT); }
+{ count(); BEGIN TR; yylval.num = atof(yytext); return(CONSTANT); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 43 "matlab.l"
-{ count(); BEGIN TR; struct NumSpec *num = emalloc(sizeof(*num)); num->value = atof(yytext); num->signif = strlen(yytext); yylval.num = num; return(CONSTANT); }
+{ count(); BEGIN TR; yylval.num = atof(yytext); return(CONSTANT); }
 	YY_BREAK
 case 21:
 *yy_cp = (yy_hold_char); /* undo effects of setting up yytext */
