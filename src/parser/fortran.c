@@ -4,61 +4,44 @@
 #include <string.h>
 
 #include "fortran.h"
+#include "jacobian.h"
 #include "tree.h"
 #include "node.h"
 
-void functionToFortran(struct Node *f, struct Node *t) {
-  func = emalloc(sizeof(*func));
-  func->neq = "neq";
-  func->np = "np";
-  
-  if (f->children->next->children != NULL) {
-    func->t = f->children->next->children->iname;
-    if (f->children->next->children->next != NULL) {
-      func->x = f->children->next->children->next->iname;
-      if (f->children->next->children->next->next != NULL) {
-        func->p = f->children->next->children->next->next->iname;
-        if (f->children->next->children->next->next->next != NULL) {
-          func->neq = f->children->next->children->next->next->next->iname;
-          if (f->children->next->children->next->next->next->next != NULL) {
-            func->np = f->children->next->children->next->next->next->next->iname;
-          }
-        }
-      } else {
-        fatalError("No parameter input argument.");
-      }
-    } else {
-      fatalError("No state input argument.");
-    }
-  } else {
-    fatalError("No time input argument.");
-  }
-  if (f->children->next->children->next->next->next != NULL) {
-    fatalError("Too many input arguments.");
-  }
-  
-  if (f->children->children != NULL) {
-    func->dx = f->children->children->iname;
-  }
-  
+void functionToFortran(struct Node *t) {
+  printFortranFunction(t, 0);
+}
+
+void printFortranFunction(struct Node *t, int jac) {
   char *cont = "";
   struct Node *nd = t;
   while (nd != NULL) {
     asprintf(&cont, "%s%s", cont, toFortran(nd));
     nd = nd->next;
   }
-  
   char *l;
   
-  asprintf(&l, "subroutine func (%s, %s, %s, %s, %s, %s)", func->neq, func->t, func->x, func->np, func->p, func->dx);
+  if (jac == 0) {
+    asprintf(&l, "subroutine func (%s, %s, %s, %s, %s, %s)", func->neq, func->t, func->x, func->np, func->p, func->dx);
+  } else {
+    asprintf(&l, "subroutine jac (%s, %s, %s, %s, %s, %s, %s)", func->neq, func->t, func->x, func->np, func->p, func->j, D(func->dx));
+  }
   fprintf(out, "%s", line(0, l));
   free(l);
   
-  asprintf(&l, "integer %s, %s", func->neq, func->np);
+  if (jac == 0) {
+    asprintf(&l, "integer %s, %s", func->neq, func->np);
+  } else {
+    asprintf(&l, "integer %s, %s, %s", func->neq, func->np, func->j);
+  }
   fprintf(out, "%s", line(0, l));
   free(l);
   
-  asprintf(&l, "double precision %s, %s, %s, %s", func->t, func->x, func->dx, func->p);
+  if (jac == 0) {
+    asprintf(&l, "double precision %s, %s, %s, %s", func->t, func->x, func->dx, func->p);
+  } else {
+    asprintf(&l, "double precision %s, %s, %s, %s, %s", func->t, func->x, func->dx, func->p, D(func->dx));
+  }
   fprintf(out, "%s", line(0, l));
   free(l);
   
@@ -76,7 +59,9 @@ void functionToFortran(struct Node *f, struct Node *t) {
     }
     tmp = tmp->next;
   }
-  fprintf(out, "%s", line(0, l));
+  if (first != 1) {
+    fprintf(out, "%s", line(0, l));
+  }
   
   l = "integer";
   tmp = vars;
@@ -92,10 +77,33 @@ void functionToFortran(struct Node *f, struct Node *t) {
     }
     tmp = tmp->next;
   }
-  fprintf(out, "%s", line(0, l));
-  free(l);
+  if (first != 1) {
+    fprintf(out, "%s", line(0, l));
+  }
   
-  asprintf(&l, "dimension %s(%s), %s(%s), %s(%s)", func->x, func->neq, func->dx, func->neq, func->p, func->np);
+  l = "double precision, allocatable ::";
+  tmp = vars;
+  first = 1;
+  while (tmp != NULL) {
+    if (tmp->type == TDOUBLEARRAY) {
+      if (first == 1) {
+        asprintf(&l, "%s %s(:)", l, tmp->iname);
+        first = 0;
+      } else {
+        asprintf(&l, "%s, %s(:)", l, tmp->iname);
+      }
+    }
+    tmp = tmp->next;
+  }
+  if (first != 1) {
+    fprintf(out, "%s", line(0, l));
+  }
+  
+  if (jac == 0) {
+    asprintf(&l, "dimension %s(%s), %s(%s), %s(%s)", func->x, func->neq, func->dx, func->neq, func->p, func->np);
+  } else {
+    asprintf(&l, "dimension %s(%s), %s(%s), %s(%s), %s(%s)", func->x, func->neq, func->dx, func->neq, func->p, func->np, D(func->dx), func->neq);
+  }
   fprintf(out, "%s", line(0, l));
   free(l);
 
@@ -105,8 +113,9 @@ void functionToFortran(struct Node *f, struct Node *t) {
   
   fprintf(out, "%s", line(0, "return"));
   fprintf(out, "%s", line(0, "end"));
+  
+  fprintf(out, "\n\n");
 }
-
 
 char *toFortran(struct Node *t) {
   struct Node *nd = t;
@@ -135,9 +144,15 @@ char *toFortran(struct Node *t) {
         s1 = toFortran(nd->children);
         s2 = toFortran(nd->children->next);
         return  F_plus(s1, s2);
-      case TMINUS : return F_minus(toFortran(nd->children), toFortran(nd->children->next));
+      case TMINUS :
+        s1 = toFortran(nd->children);
+        s2 = toFortran(nd->children->next);
+        return  F_minus(s1, s2);
       case TMUL : return F_mul(toFortran(nd->children), toFortran(nd->children->next));
       case TDIV : return F_div(toFortran(nd->children), toFortran(nd->children->next));
+      case TPOW : return F_pow(toFortran(nd->children), toFortran(nd->children->next));
+      case TNOT : return F_not(toFortran(nd->children));
+      case TNEGATIVE : return F_negative(toFortran(nd->children));
       case TFOR :
         s1 = "";
         tmp = nd->children->next;
@@ -157,21 +172,43 @@ char *toFortran(struct Node *t) {
       case TASSIGN :
         if (nd->children->next->tag == TARRAYINDEX) {
           if (strcmp(nd->children->next->iname, "zeros") == 0) {
-            return F_zeros(nd->children->iname);
+            registerVariable(nd->children->iname, TDOUBLEARRAY);
+            if (strcmp(nd->children->iname, func->dx) == 0 || strcmp(nd->children->iname, D(func->dx)) == 0) {
+              fprintf(warn, "Automatically set the size of '%s' to '%s'.\n", nd->children->iname, func->neq);
+              return F_zeros(nd->children->iname, func->neq, 0);
+            } else {
+              return F_zeros(nd->children->iname, toFortran(nd->children->next->children), 1);
+            }
+          }
+        }
+        if (nd->children->next->tag == TARRAYINDEX) {
+          if (strcmp(nd->children->next->iname, func->x) == 0) {
+            struct Node *rel;
+            if (nd->children->next->children->tag == TRANGE) {
+              rel = nd->children->next->children->children;
+            } else {
+              rel = nd->children->next->children;
+            }
+            registerVariable(nd->children->iname, TDOUBLE);
+            processDependentVectorIdentifier(nd->children->iname, rel);
           }
         }
         return  F_assign(toFortran(nd->children), toFortran(nd->children->next));
       case TRANGE :
-        if (nd->children->tag == TRANGE) {
-          asprintf(&s1, "%s", toFortran(nd->children->children));
-          asprintf(&s2, "%s", toFortran(nd->children->next));
-          asprintf(&s3, "%s", toFortran(nd->children->children->next));
+        if (nd->parent->tag == TFOR) {
+          if (nd->children->tag == TRANGE) {
+            asprintf(&s1, "%s", toFortran(nd->children->children));
+            asprintf(&s2, "%s", toFortran(nd->children->next));
+            asprintf(&s3, "%s", toFortran(nd->children->children->next));
+          } else {
+            asprintf(&s1, "%s", toFortran(nd->children));
+            asprintf(&s2, "%s", toFortran(nd->children->next));
+            s3 = "";
+          }
+          return F_range(s1, s2, s3);
         } else {
-          asprintf(&s1, "%s", toFortran(nd->children));
-          asprintf(&s2, "%s", toFortran(nd->children->next));
-          s3 = "";
+          return F_indexrange(toFortran(nd->children), toFortran(nd->children->next));
         }
-        return F_range(s1, s2, s3);
       case TOR : return F_or(toFortran(nd->children), toFortran(nd->children->next));
       case TAND : return F_or(toFortran(nd->children), toFortran(nd->children->next));
       case TEQ_OP : return F_eq_op(toFortran(nd->children), toFortran(nd->children->next));
@@ -200,6 +237,14 @@ char *toFortran(struct Node *t) {
         }
         return  F_ifelseifelse(toFortran(nd->children), toFortran(nd->children->next), s1, toFortran(tmp));
       case TARRAYINDEX : return  F_arrayindex(processIdentifier(nd->iname, TINT), toFortran(nd->children));
+      case TCOMBINE :
+        s1 = "";
+        tmp = nd->children;
+        while (tmp != NULL) {
+          s1 = F_combine(s1, toFortran(tmp));
+          tmp = tmp->next;
+        }
+        return s1;
       default: fprintf(warn, "Warning: Ignoring unknown expression.\n"); return  "";
     }
     free(s1);
@@ -221,6 +266,12 @@ char *F_minus(char *s1, char *s2) {
   return s;
 }
 
+char *F_negative(char *s1) {
+  char *s;
+  asprintf(&s, "(-%s)", s1);
+  return s;
+}
+
 char *F_mul(char *s1, char *s2) {
   char *s;
   asprintf(&s, "(%s * %s)", s1, s2);
@@ -230,6 +281,18 @@ char *F_mul(char *s1, char *s2) {
 char *F_div(char *s1, char *s2) {
   char *s;
   asprintf(&s, "(%s / %s)", s1, s2);
+  return s;
+}
+
+char *F_pow(char *s1, char *s2) {
+  char *s;
+  asprintf(&s, "(%s ** %s)", s1, s2);
+  return s;
+}
+
+char *F_not(char *s1) {
+  char *s;
+  asprintf(&s, "(!%s)", s1);
   return s;
 }
 
@@ -381,15 +444,33 @@ char *F_arrayindex(char *s1, char *s2) {
   return s;
 }
 
-char *F_zeros(char *s1) {
-  char *s, *l1, *l2, *l3;
-  asprintf(&l1, "do %d i = 1, neq", labelcount);
-  registerVariable("i", TINT);
-  asprintf(&l2, "%s(i) = 0.0d0", func->dx);
-  asprintf(&l3, "continue");
-  asprintf(&s, "%s%s%s", line(0, l1), line(0, l2), line(labelcount, l3));
+char *F_indexrange(char *s1, char *s2) {
+  char *s;
+  asprintf(&s, "%s:%s", s1, s2);
+  return s;
+}
+
+char *F_zeros(char *s1, char *s2, int allocate) {
+  char *s, *l1, *l2, *l3, *l4;
+  s = "";
+  if (allocate == 1) {
+    asprintf(&l1, "allocate(%s(%s))", s1, s2);
+    asprintf(&s, "%s", line(0, l1));
+    free(l1);
+  }
+  asprintf(&l2, "do %d ppodei = 1, %s", labelcount, s2);
+  registerVariable("ppodei", TINT);
+  asprintf(&l3, "%s(ppodei) = 0.0d0", s1);
+  asprintf(&l4, "continue");
+  asprintf(&s, "%s%s%s%s", s, line(0, l2), line(0, l3), line(labelcount, l4));
   labelcount += 10;
-  free(l1); free(l2); free(l3);
+  free(l2); free(l3); free(l4);
+  return s;
+}
+
+char *F_combine(char *s1, char *s2) {
+  char *s;
+  asprintf(&s, "%s%s", s1, s2);
   return s;
 }
 

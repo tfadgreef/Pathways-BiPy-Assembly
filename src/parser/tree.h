@@ -12,7 +12,7 @@ int labelcount;
 struct Node;
 
 enum VariableType {
-  TDOUBLE, TINT
+  TDOUBLE, TINT, TDOUBLEARRAY
 };
 
 struct Variable {
@@ -20,6 +20,8 @@ struct Variable {
   struct Variable *next;
   struct Variable *previous;
   char *iname;
+  struct Node *rel;
+  int zero;
 };
 
 struct Func {
@@ -30,6 +32,8 @@ struct Func {
   
   char *neq;
   char *np;
+  
+  char *j;
 };
 
 struct Func *func;
@@ -41,5 +45,11 @@ void fatalError(char *message);
 void print_tree(int d, struct Node *t);
 
 struct Variable *vars;
-void registerVariable(char *s, enum VariableType tp);
+struct Variable *registerVariable(char *s, enum VariableType tp);
 char *processIdentifier(char *nm, enum VariableType tp);
+
+void processDependentVectorIdentifier(char *s, struct Node *rel);
+
+void processFunctionHeader(struct Node* f);
+struct Node *getRelativeToY(char *s);
+

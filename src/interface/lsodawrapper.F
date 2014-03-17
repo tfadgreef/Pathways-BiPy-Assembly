@@ -65,7 +65,7 @@ c
 c-----------------------------------------------------------------------
 
 c Declare externals.
-      external lsfunc, dummy
+      external lsfunc, dummy, lsodesjac, lsodesnonzero, lsjac
 c Declare input arguments.
       integer, intent(in) :: neq, npar, nout
 
@@ -133,7 +133,16 @@ c function.
       lrw = 22 + neq * max(16, neq + 9)
       liw = 20 + neq
 #elif defined(BDFSPARSESOLVER)
-      call nonzero(neq, npar, par, nnz)
+c      call nonzero(neq, npar, par, nnz)
+c      write(line,*) 'Supplied NNZ = ', nnz
+c      k = mexPrintf(line//achar(13))
+      call lsodesnonzero(neq, y0, npar, par, nnz)
+
+#if defined(DEBUG)
+      write(line,*) 'Calculated NNZ = ', nnz
+      k = mexPrintf(line//achar(13))
+#endif
+
       lrw = 20 + 3*nnz + 20*neq
       liw = 30
 #endif
@@ -239,14 +248,24 @@ c Benchmarking
 #endif
 c Call the solver
 #if defined(STIFFSOLVER)
+#if defined(USERSUPPLIEDJAC)
+        call dlsode(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
+     1   istate, iopt, rwork, lrw, iwork, liw, lsjac, 21)
+#else
         call dlsode(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, 22)
+#endif
 #elif defined(NONSTIFFSOLVER)
         call dlsode(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, 10)
 #elif defined(BDFSPARSESOLVER)
+#if defined(USERSUPPLIEDJAC)
+        call dlsodes(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
+     1   istate, iopt, rwork, lrw, iwork, liw, lsodesjac, 221)
+#else
         call dlsodes(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, 222)
+#endif
 #elif defined(SWITCHINGSOLVER)
         call dlsoda(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, jt)
@@ -398,4 +417,76 @@ c-----------------------------------------------------------------------
       subroutine dummy (neq, t, y, ml, mu, pd, nrowpd)
       return
       end
+
+#ifdef USERSUPPLIEDJAC
+#ifdef BDFSPARSESOLVER
+c--
+c--
+      subroutine lsodesjac (neq, t, y, j, ia, ja, pdj)
+      external jac
+      double precision t(*), y(*), pdj(*), ia(*), ja(*)
+      integer neq, np
+      double precision, pointer :: p(:)
+      common  /funcpar/ np, p
+
+      call jac(neq, t, y, np, p, j, pdj)
+
+      return
+      end
+#else
+      subroutine lsjac (neq, t, y, ml, mu, pd, nrowpd)
+      external jac
+      double precision t, y(*), pd(nrowpd, *), pdj(neq)
+      integer neq, np, ml, mu, nrowpd, j, i
+      double precision, pointer :: p(:)
+      common  /funcpar/ np, p
+
+      do 550 j = 1, neq
+       do 540 i = 1, neq
+         pdj(i) = 0
+  540  continue
+
+       call jac(neq, t, y, np, p, j, pdj)
+
+       pd(:, j) = pdj
+  550 continue
+
+      return
+      end
+#endif
+#endif
+
+c--
+c--
+      subroutine lsodesnonzero (neq, y, np, p, nnz)
+      external jac
+      double precision y(neq), pdj1(neq), pdj2(neq), p(np), y0(neq)
+      integer neq, np, j, i, nnz
+
+      nnz = 0
+
+      do 600 i = 1, neq
+       y0(i) = y(i) + 100.0d0 * rand()
+  600 continue      
+
+      do 700 j = 1, neq
+       do 610 i = 1, neq
+        pdj1(i) = 0.0d0
+        pdj2(i) = 0.0d0
+  610  continue
+
+       call jac(neq, 0.0d0, y, np, p, j, pdj1)
+       call jac(neq, 0.0d0, y0, np, p, j, pdj2)
+
+       do 630 i = 1, neq
+        if ((pdj1(i) .ne. 0.0d0) .or. (pdj2(i) .ne. 0.0d0)) then
+         nnz = nnz + 1
+        end if
+  630  continue
+       
+  700 continue
+
+      return
+      end
+
 

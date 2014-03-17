@@ -22,6 +22,8 @@ struct Node *createOperation(enum NodeTag op) {
   t->ignore = 0;
   t->children = NULL;
   t->parent = NULL;
+  t->iname = NULL;
+  t->ival = 0;
 
   return t;
 }
@@ -54,6 +56,7 @@ struct Node *createConstant(double num) {
     
     t->tag = TNUM;
     t->ival = num;
+    t->iname = NULL;
     t->previous = NULL;
     t->next = NULL;
     t->parent = NULL;
@@ -90,4 +93,118 @@ struct Node *appendStatement(struct Node *prevnodes, struct Node *newnode) {
         return newnode;
     }
     return prevnodes;
+}
+
+struct Node *copyNode(struct Node *n) {
+  struct Node *r = emalloc(sizeof(*r));
+  r->tag = n->tag;
+  r->ival = n->ival;
+  if (n->iname == NULL) {
+    r->iname = NULL;
+  }else {
+    r->iname = emalloc(sizeof(char) * strlen(n->iname));
+    strcpy(r->iname, n->iname);
+  }
+  r->ignore = n->ignore;
+  
+  r->next = NULL;
+  r->previous = NULL;
+  r->children = NULL;
+  r->parent = NULL;
+  
+  struct Node *tmp = n->children;
+  while (tmp != NULL) {
+    appendChild(r, copyNode(tmp));
+    tmp = tmp->next;
+  }
+  
+  return r;
+}
+
+struct Node *findVariable(struct Node *n) {
+  struct Node *occ = NULL;
+  struct Node *tmp = n->children;
+  
+  while (tmp != NULL) {
+    if (tmp->tag == TARRAYINDEX || tmp->tag == TVAR) {
+      if (strcmp(tmp->iname, func->x) == 0) {
+        struct Node *pntr = createOperation(TMISC);
+        pntr->children = tmp;
+        occ = appendStatement(occ, pntr);
+      } else {
+        struct Variable *tmpvar = vars;
+        while (tmpvar != NULL) {
+          if (tmpvar->rel != NULL) {
+            if (strcmp(tmp->iname, tmpvar->iname) == 0) {
+              struct Node *pntr = createOperation(TMISC);
+              pntr->children = tmp;
+              occ = appendStatement(occ, pntr);
+            }
+          }
+          tmpvar = tmpvar->next;
+        }
+      }
+    } else {
+      occ = appendStatement(occ, findVariable(tmp));
+    }
+    tmp = tmp->next;
+  }
+  
+  return occ;
+}
+
+int compareNodes(struct Node *n1, struct Node *n2) {
+  if (n1 != n2 && (n1 == NULL || n2 == NULL))
+      return 0;
+  
+  if (n1->tag != n2->tag)
+    return 0;
+  if (n1->tag == TNUM && n1->ival != n2->ival)
+    return 0;
+  if (n1->ignore != n2->ignore)
+    return 0;
+
+  if (n1->iname != n2->iname && (n1->iname == NULL || n2->iname == NULL))
+    return 0;
+  if (n1->iname != NULL && n2->iname != NULL) {
+    if (strcmp(n1->iname, n2->iname) != 0) {
+      return 0;
+    }
+  }
+  struct Node *tmpn1 = n1->children;
+  struct Node *tmpn2 = n2->children;
+  if (tmpn1 != tmpn2 && (tmpn1 == NULL || tmpn2 == NULL))
+      return 0;
+  
+  while (tmpn1 != NULL && tmpn2 != NULL) {
+    if (compareNodes(tmpn1, tmpn2) == 0)
+      return 0;
+    tmpn1 = tmpn1->next;
+    tmpn2 = tmpn2->next;
+    if (tmpn1 != tmpn2 && (tmpn1 == NULL || tmpn2 == NULL))
+      return 0;
+  }
+  return 1;
+}
+
+void removeNode(struct Node *n) {
+  if (n == NULL)
+    return;
+  
+  if (n->previous != NULL) {
+    n->previous->next = n->next;
+  }
+  if (n->next != NULL) {
+    n->next->previous = n->previous;
+  }
+  
+  struct Node *tmp;
+  while(n->children != NULL) {
+    tmp = n->children;
+    n->children = n->children->next;
+    removeNode(tmp);
+  }
+  
+  free(n->iname);
+  free(n);
 }

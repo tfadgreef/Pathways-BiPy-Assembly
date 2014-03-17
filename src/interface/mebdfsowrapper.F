@@ -66,7 +66,7 @@ c
 c-----------------------------------------------------------------------
 
 c Declare externals.
-      external mebdfsofunc, pderv, h0est
+      external mebdfsofunc, pderv, h0est, mebjac, mebnonzero, jac
 c Declare input arguments.
       integer, intent(in) :: neq, npar, nout
 
@@ -77,6 +77,8 @@ c Declare output arguments.
       real*8, intent(out) :: tret(nout), yret(nout, neq)
 #ifdef TIMING
       double precision, intent(out) :: oret(nout)
+#else
+      double precision, intent(out) :: oret(*)
 #endif
 c Declare local variables.
       integer :: iwork(6*neq+2*(neq*5)+15), ipar(1)
@@ -88,7 +90,8 @@ c Declare local variables.
       double precision, pointer :: p(:)
       double precision :: dtout, er, erm, ero, hu, tout, t, rtols,
      1 tolsf, atols, t0, h0, tend, maxint
-      double precision :: y(neq), rpar(1),
+      double precision :: y(neq)
+      double precision :: rpar(1),
      1 rwork((33*neq+2*(neq*5)+(8*neq+2+2*(neq*5))+3))
 #ifdef MAXTIME
       real maxt0, maxt1
@@ -123,10 +126,18 @@ c-----------------------------------------------------------------------
 
       maxint = dble(huge(iwork(6)))
 
-c Estimate nnz (assuming every state is dependent on two others
-c and itself, furthermore the first state is dependent on every
-c state)
-      call nonzero(neq, npar, par, nnz)
+c Estimate nnz
+c      call nonzero(neq, npar, par, nnz)
+#if defined(INPUTNONZERO)
+      nnz = int(oret(1))
+#else
+      call mebnonzero(neq, y0, npar, par, nnz)
+#endif
+
+#if defined(DEBUG)
+      write(line,*) 'Calculated NNZ = ', nnz
+      k = mexPrintf(line//achar(13))
+#endif
 
 c Calculate nsp based on the formula in the yale comments.
 c nsp=8*{neq}+2+2*{nnz}
@@ -217,9 +228,15 @@ c Benchmarking
         call cpu_time(bench0)
 #endif
 c Call the solver
+#if defined(USERSUPPLIEDJAC)
+        call mebdfso(neq, t, h0, y, tout, tend, 25, istate, stderr,
+     1   lrw, rwork, liw, iwork, 7, itol, rtols, atols, mebdfsofunc,
+     2   mebjac, nsp, nnz, ipar, rpar, ierr)
+#else
         call mebdfso(neq, t, h0, y, tout, tend, 26, istate, stderr,
      1   lrw, rwork, liw, iwork, 7, itol, rtols, atols, mebdfsofunc,
      2   pderv, nsp, nnz, ipar, rpar, ierr)
+#endif
 
 
 c         write(line,*) 'istate=',istate
@@ -436,4 +453,51 @@ c-----------------------------------------------------------------------
       ierr = 0
       return
       end
+
+      subroutine mebjac (neq, t, y, j, pdj, ipar, rpar, ierr)
+      external jac
+      double precision t(*), y(*), pdj(*), rpar(*)
+      integer neq, np, ipar(*)
+      double precision, pointer :: p(:)
+      common  /funcpar/ np, p
+
+      call jac(neq, t, y, np, p, j, pdj)
+      ierr = 0
+
+      return
+      end
+
+c--
+c--
+      subroutine mebnonzero (neq, y, np, p, nnz)
+      external jac
+      double precision y(neq), pdj1(neq), pdj2(neq), p(np), y0(neq)
+      integer neq, np, j, i, nnz
+
+      nnz = 0
+
+      do 600 i = 1, neq
+       y0(i) = y(i) + 100.0d0 * rand()
+  600 continue      
+
+      do 700 j = 1, neq
+       do 610 i = 1, neq
+        pdj1(i) = 0.0d0
+        pdj2(i) = 0.0d0
+  610  continue
+
+       call jac(neq, 0.0d0, y, np, p, j, pdj1)
+       call jac(neq, 0.0d0, y0, np, p, j, pdj2)
+
+       do 630 i = 1, neq
+        if ((pdj1(i) .ne. 0.0d0) .or. (pdj2(i) .ne. 0.0d0)) then
+         nnz = nnz + 1
+        end if
+  630  continue
+       
+  700 continue
+
+      return
+      end
+
 

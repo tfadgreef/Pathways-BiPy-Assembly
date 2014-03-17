@@ -65,7 +65,7 @@ c
 c-----------------------------------------------------------------------
 
 c Declare externals.
-      external func, vodefunc, dummy
+      external func, vodefunc, dummy, vodejac
 c Declare input arguments.
       integer, intent(in) :: neq, npar, nout
 
@@ -224,8 +224,13 @@ c Benchmarking
 
 c Call the solver
 #if defined(VODESTIFFSOLVER)
+#if defined(USERSUPPLIEDJAC)
+        call dvode(vodefunc, neq, y, t, tout, itol, rtols, atols,
+     1   itask, istate, iopt, rwork, lrw, iwork, liw, vodejac, 21)
+#else
         call dvode(vodefunc, neq, y, t, tout, itol, rtols, atols,
      1   itask, istate, iopt, rwork, lrw, iwork, liw, dummy, 22)
+#endif
 #elif defined(VODENONSTIFFSOLVER)
         call dvode(vodefunc, neq, y, t, tout, itol, rtols, atols,
      1   itask, istate, iopt, rwork, lrw, iwork, liw, dummy, 10)
@@ -374,6 +379,26 @@ c-----------------------------------------------------------------------
       COMMON  /funcpar/ np, p
 
       call func(neq, t, y, np, p, ydot)
+
+      return
+      end
+
+      subroutine vodejac (neq, t, y, ml, mu, pd, nrowpd, rpar, ipar)
+      external jac
+      double precision t, y(*), pd(nrowpd, *), pdj(neq), rpar(*)
+      integer neq, np, ml, mu, nrowpd, j, i, ipar(*)
+      double precision, pointer :: p(:)
+      common  /funcpar/ np, p
+
+      do 550 j = 1, neq
+       do 540 i = 1, neq
+         pdj(i) = 0
+  540  continue
+
+       call jac(neq, t, y, np, p, j, pdj)
+
+       pd(:, j) = pdj
+  550 continue
 
       return
       end

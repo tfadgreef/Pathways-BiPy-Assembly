@@ -40,7 +40,10 @@ c-----------------------------------------------------------------------
 c
 c ARGUMENTS:
 c
-c    neq :in    Number of states/equations.
+c    neq :in    Number of states/equations. If the function expects the
+c               number of nonzero elements of the Jacobian matrix to be
+c               provided at function call, neq should be a vector of
+c               which NNZ is the second element.
 c   atol :in    Absolute tolerance.
 c   rtol :in    Relative tolerance.
 c  times :in    Vector of time points to calculate the ODEs at.
@@ -52,6 +55,9 @@ c   tret :out   Vector that will hold the time point values where the
 c               ODEs of the system have been calculated.
 c   yret :out   A vector of the values of all states corresponing to the
 c               time points of tret.
+c
+c [ iopt :out ] Optional output used to return the information of the
+c               timing option.
 c
 c-----------------------------------------------------------------------
 #include <fintrf.h>
@@ -86,16 +92,14 @@ c Declare the position of each input argument.
 
 c Declare local variables.
       mwsize m, n, nel, nel2
-      real*8 neqr, noutr, atol, rtol
+      real*8 noutr, atol, rtol, neqr(2)
       integer neq, nout, npars
       real*8, allocatable :: y0(:)
       real*8, allocatable :: times(:)
       real*8, allocatable :: par(:)
       real*8, allocatable :: t(:)
       real*8, allocatable :: y(:,:)
-#ifdef TIMING
       real*8, allocatable :: opt(:)
-#endif
 c MEX printing
       character*120 line
       integer*4 k
@@ -119,14 +123,27 @@ c Check for the proper number of arguments.
       elseif (nlhs .gt. OUTARGS) then
         call mexerrmsgtxt('PPODE requires OUTARGS output arguments')
       endif
+c Get the number of equations.
+#ifdef INPUTNONZERO
+c If INPUTNONZERO is defined, the value of NNZ is the second element of
+c the vector NEQ.
+      m = mxgetm(prhs(argtimes))
+      n = mxgetn(prhs(argtimes))
+      if (max(m, n) .ne. 2) then
+        call mexerrmsgtxt('LSODAMEX requires NEQ to be a 2 x 1 vector if INPUTNONZERO is set.')
+      end if
+      nel = max(m, n)
+#else
+      nel = 1
+#endif
+      neqp = mxgetpr(prhs(argneq))
+      call mxcopyptrtoreal8(neqp, neqr, nel)
+      neq = int(neqr(1))
+
 c Get the dimensions of y0.
       m = mxgetm(prhs(argy0))
       n = mxgetn(prhs(argy0))
-c Get the number of equations.
-      nel = 1
-      neqp = mxgetpr(prhs(argneq))
-      call mxcopyptrtoreal8(neqp, neqr, nel)
-      neq = int(neqr)
+
 c Check the size of y0.
       if ((max(m,n) .ne. neq) .or. (min(m,n) .ne. 1)) then
         call mexerrmsgtxt('LSODAMEX requires that y0 is a N x 1 vector')
@@ -148,6 +165,14 @@ c Allocate arrays
       allocate(par(npars))
 #ifdef TIMING
       allocate(opt(nout))
+#else
+c Still allocate one element to pass some information on to the
+c function.
+      allocate(opt(1))
+#endif
+
+#ifdef INPUTNONZERO
+      opt(1) = neqr(2)
 #endif
 
 c Create a matrix for return arguments.
@@ -190,35 +215,19 @@ c Copy the value of the arguments to the pointers.
       nel = npars
       CALL mxcopyptrtoreal8(parp, par, nel)
 
-c Call the LSODA wrapper, which will call the LSODA solver.
+c Call the correct solver.
 #if defined(ODEPACK)
-#ifdef TIMING
       call lsodaw(neq, atol, rtol, nout, times, npar, par, y0, t, y,
      + opt)
-#else
-      call lsodaw(neq, atol, rtol, nout, times, npar, par, y0, t, y)
-#endif
 #elif defined(RKSUITE)
-#ifdef TIMING
       call rksuitew(neq, atol, rtol, nout, times, npar, par, y0, t, y,
      + opt)
-#else
-      call rksuitew(neq, atol, rtol, nout, times, npar, par, y0, t, y)
-#endif
 #elif defined(MEBDFSO)
-#ifdef TIMING
       call mebdfsow(neq, atol, rtol, nout, times, npar, par, y0, t, y,
      + opt)
-#else
-      call mebdfsow(neq, atol, rtol, nout, times, npar, par, y0, t, y)
-#endif
 #elif defined(VODE)
-#ifdef TIMING
       call vodew(neq, atol, rtol, nout, times, npar, par, y0, t, y,
      + opt)
-#else
-      call vodew(neq, atol, rtol, nout, times, npar, par, y0, t, y)
-#endif
 #endif
 
 

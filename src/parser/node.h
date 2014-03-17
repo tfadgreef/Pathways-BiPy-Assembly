@@ -2,10 +2,10 @@
 #define NODE_H
 
 enum NodeTag {
-  TPLUS, TMINUS, TMUL, TDIV, TNUM, TVAR, TFOR, TWHILE, TASSIGN, TRANGE,
-  TOR, TAND, TEQ_OP, TNE_OP, TGT_OP, TLT_OP, TGE_OP, TLE_OP, TSTUB,
+  TPLUS, TMINUS, TMUL, TDIV, TPOW, TNUM, TVAR, TFOR, TWHILE, TASSIGN, 
+  TRANGE, TOR, TAND, TEQ_OP, TNE_OP, TGT_OP, TLT_OP, TGE_OP, TLE_OP,
   TIF, TIFELSE, TIFELSEIF, TELSEIF, TIFELSEIFELSE, TARRAYINDEX, TLIST,
-  TFUNCDEC
+  TFUNCDEC, TMISC, TCOMBINE, TNOT, TNEGATIVE
 };
 
 struct Node {
@@ -27,5 +27,11 @@ struct Node *last(struct Node *t);
 struct Node *createConstant(double num);
 struct Node *createVariable(char *varname);
 struct Node *appendStatement(struct Node *prevnodes, struct Node *newnode);
+
+struct Node *copyNode(struct Node *n);
+void removeNode(struct Node *n);
+struct Node *findVariable(struct Node *n);
+
+int compareNodes(struct Node *n1, struct Node *n2);
 
 #endif // NODE_H

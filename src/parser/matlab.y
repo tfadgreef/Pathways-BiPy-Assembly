@@ -4,6 +4,7 @@
     #include <string.h>
 
     #include "fortran.h"
+    #include "simplify.h"
     #include "tree.h"
     #include "node.h"
     void yyerror(char *);
@@ -47,9 +48,9 @@ primary_expression
         | '(' expression ')'
         { $$ = $2; }
         | '[' ']'
-        { $$ = NULL; fatalError("Arrays not supported."); }
+        { $$ = createVariable("[]"); $$->ignore = 1; fprintf(warn, "Statement using '[]' ignored, please avoid using this expression."); }
         | '[' array_list ']'
-        { $$ = NULL; fatalError("Arrays not supported."); }
+        { $$ = NULL; fatalError("Concatenation of arrays not suppored, since all array sizes are static."); }
         ;
 
 postfix_expression
@@ -58,7 +59,7 @@ postfix_expression
         | array_expression
         { $$ = $1; }
         | postfix_expression TRANSPOSE
-        { $$ = NULL; fatalError("Transpose not supported."); }
+        { $$ = $1; fprintf(warn,"Transpose ignored, only one-dimensional structures are supported.\n"); }
         | postfix_expression NCTRANSPOSE
         { $$ = NULL; fatalError("Transpose not supported."); }
         ;
@@ -88,15 +89,28 @@ array_expression
 unary_expression
         : postfix_expression
         { $$ = $1; }
-        | unary_operator postfix_expression
+        | '+' postfix_expression
         { $$ = $2; }
+        | '-' postfix_expression
+        {
+          $$ = createOperation(TNEGATIVE);
+          appendChild($$, $2);
+        }
+        | '~' postfix_expression
+        {
+          $$ = createOperation(TNOT);
+          appendChild($$, $2);
+        }
+//        | unary_operator postfix_expression
+//        { $$ = $2; }
         ;
 
-unary_operator
+/*unary_operator
         : '+'
         | '-'
         | '~'
         ;
+*/
 
 multiplicative_expression
         : unary_expression
@@ -114,7 +128,13 @@ multiplicative_expression
           appendChild($$, $3);
         }
         | multiplicative_expression '\\' unary_expression
+        { $$ = NULL; fatalError("Backslash operator not supported."); }
         | multiplicative_expression '^' unary_expression
+        { 
+          $$ = createOperation(TPOW);
+          appendChild($$, $1);
+          appendChild($$, $3);
+        }
         | multiplicative_expression ARRAYMUL unary_expression
         { $$ = NULL; fatalError("Array multiplication not supported."); }
         | multiplicative_expression ARRAYDIV unary_expression
@@ -376,7 +396,7 @@ translation_unit
         : statement_list
         { fatalError("The file should provide a function, not a script."); }
         | FUNCTION function_declare eostmt statement_list
-        { functionToFortran($2, $4); /*fprintf(warn, "\n"); print_tree(0, $4); fprintf(warn, "\n");*/ }
+        { processFunctionHeader($2); functionToFortran($4); functionToJacobian($4); /*fprintf(warn, "\n"); print_tree(0, $4); fprintf(warn, "\n");*/ }
         ;
 
 func_ident_list
@@ -447,7 +467,9 @@ int main(unsigned int argc, unsigned char *argv[]) {
   func = emalloc(sizeof(*func));
   func->neq = "neq";
   func->np = "np";
+  func->j = "j";
   vars = NULL;
+  simplifyStateSize = 3;
   yyparse();
   return 0;
 }
