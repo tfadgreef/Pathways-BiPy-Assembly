@@ -52,6 +52,8 @@ c               ODEs of the system have been calculated.
 c   yret :out   A vector of the values of all states corresponing to the
 c               time points of tret.
 c
+c [ oret :out ] Output of the timing option.
+c
 c-----------------------------------------------------------------------
 #include "defs.h"
 

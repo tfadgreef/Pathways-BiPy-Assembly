@@ -25,16 +25,22 @@ c
 c-----------------------------------------------------------------------
 c
 c PPODE MEX Interface
+c   This subroutine handles the Matlab function call using a Fortran
+c   subroutine. This function will result in a Matlab functino as 
+c   described in section A. The description of the arguments of the
+c   actual Fortran subroutine can be found in section B.
 c
 c DEVELOPED BY:
 c
 c   Pascal Pieters <p.a.pieters@student.tue.nl>
 c
 c-----------------------------------------------------------------------
+c                               SECTION A
+c-----------------------------------------------------------------------
 c
 c USAGE:
 c
-c   [tret yret] = ppodemex(neq, atol, rtol, times, par, y0)
+c   [tret yret iopt] = ppodemex(neq, atol, rtol, times, par, y0)
 c
 c-----------------------------------------------------------------------
 c
@@ -59,7 +65,30 @@ c
 c [ iopt :out ] Optional output used to return the information of the
 c               timing option.
 c
+c
 c-----------------------------------------------------------------------
+c                               SECTION B
+c-----------------------------------------------------------------------
+c
+c DEFINITION:
+c
+c   mexfunction(nlhs, plhs, nrhs, prhs)
+c
+c-----------------------------------------------------------------------
+c
+c ARGUMENTS:
+c
+c   nlhs :in    The number of input (left hand side) arguments of the
+c               Matlab function.
+c   plhs :in    The pointers to the input (left hand side) arguments 
+c               of the Matlab function.
+c   nrhs :in    The number of output (right hand side) arguments of the
+c               Matlab function.
+c   prhs :in    The pointers to the output (right hand side) arguments 
+c               of the Matlab function.
+c
+c-----------------------------------------------------------------------
+
 #include <fintrf.h>
 #include "defs.h"
 #include "predefs.h"
@@ -94,12 +123,8 @@ c Declare local variables.
       mwsize m, n, nel, nel2
       real*8 noutr, atol, rtol, neqr(2)
       integer neq, nout, npars
-      real*8, allocatable :: y0(:)
-      real*8, allocatable :: times(:)
-      real*8, allocatable :: par(:)
-      real*8, allocatable :: t(:)
-      real*8, allocatable :: y(:,:)
-      real*8, allocatable :: opt(:)
+      real*8, allocatable :: y0(:), times(:), par(:), t(:), y(:,:),
+     + opt(:)
 c MEX printing
       character*120 line
       integer*4 k
@@ -172,6 +197,8 @@ c function.
 #endif
 
 #ifdef INPUTNONZERO
+c If INPUTNONZERO is defined, the value of NNZ is the second element of
+c the vector NEQ.
       opt(1) = neqr(2)
 #endif
 
@@ -201,7 +228,7 @@ c Assign the remaining argument to the right pointers.
       optp = mxgetpr(plhs(3))
 #endif
 
-c Copy the value of the arguments to the pointers.
+c Copy the value of the arguments.
       nel = 1
       call mxcopyptrtoreal8(atolp, atol, nel)
       call mxcopyptrtoreal8(rtolp, rtol, nel)
@@ -242,3 +269,81 @@ c Copy the result.
 
       return
       end
+
+c-----------------------------------------------------------------------
+c
+c NNZ from analytical Jacobian
+c   This subroutine calculates the Number of Non-Zero (NNZ) elements of
+c   the Jacobian matrix based on an analytical Jacobian subroutine. The
+c   analytical Jacobian subroutine should be defined as follows:
+c
+c     subroutine jac(neq, t, y, np, par, j, pdj)
+c
+c   Where neq is the Number of EQuations, t the time, y the values of
+c   the states, np the number of parameters, par the parameter values,
+c   j the index of the state to take the derivative to and pdj the
+c   derivatives of all equations to state j (pdj(i) = df(i)/dy(j)).
+c
+c DEVELOPED BY:
+c
+c   Pascal Pieters <p.a.pieters@student.tue.nl>
+c
+c-----------------------------------------------------------------------
+c
+c USAGE:
+c
+c   jacnonzero (neq, y, np, p, nnz)
+c
+c-----------------------------------------------------------------------
+c
+c ARGUMENTS:
+c
+c    neq :in    Number of states/equations.
+c      y :in    Current values of all states.
+c     np :in    Number of parameters.
+c      p :in    Vector of parameter values.
+c
+c    nnz :out   The number of nonzero elements in the Jacobian matrix.
+c
+c-----------------------------------------------------------------------
+
+      subroutine jacnonzero (neq, y, np, p, nnz)
+      external jac
+      double precision y(neq), pdj1(neq), pdj2(neq), p(np), y0(neq)
+      integer neq, np, j, i, nnz
+
+      nnz = 0
+
+c Create another set of values based on random numbers. This might not
+c always work, but generally it will.
+      do 600 i = 1, neq
+       y0(i) = y(i) + 100.0d0 * rand()
+  600 continue      
+
+c Iterate through all states and calculate the part of the Jacobian that
+c represents the derivative to that state.
+      do 700 j = 1, neq
+c Start with all zeros.
+       do 610 i = 1, neq
+        pdj1(i) = 0.0d0
+        pdj2(i) = 0.0d0
+  610  continue
+
+c Calculate for two series of values.
+       call jac(neq, 0.0d0, y, np, p, j, pdj1)
+       call jac(neq, 0.0d0, y0, np, p, j, pdj2)
+
+c Add one to the number of non-zero elements if one of the two values of
+c a certain position in the matrix is not zero.
+       do 630 i = 1, neq
+        if ((pdj1(i) .ne. 0.0d0) .or. (pdj2(i) .ne. 0.0d0)) then
+         nnz = nnz + 1
+        end if
+  630  continue
+       
+  700 continue
+
+      return
+      end
+
+

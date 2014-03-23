@@ -52,6 +52,8 @@ c               ODEs of the system have been calculated.
 c   yret :out   A vector of the values of all states corresponing to the
 c               time points of tret.
 c
+c [ oret :out ] Output of the timing option.
+c
 c-----------------------------------------------------------------------
 #include <fintrf.h>
 #include "defs.h"
@@ -66,7 +68,7 @@ c
 c-----------------------------------------------------------------------
 
 c Declare externals.
-      external mebdfsofunc, pderv, h0est, mebjac, mebnonzero, jac
+      external mebdfsofunc, pderv, h0est, mebjac, jacnonzero, jac
 c Declare input arguments.
       integer, intent(in) :: neq, npar, nout
 
@@ -131,7 +133,7 @@ c      call nonzero(neq, npar, par, nnz)
 #if defined(INPUTNONZERO)
       nnz = int(oret(1))
 #else
-      call mebnonzero(neq, y0, npar, par, nnz)
+      call jacnonzero(neq, y0, npar, par, nnz)
 #endif
 
 #if defined(DEBUG)
@@ -463,39 +465,6 @@ c-----------------------------------------------------------------------
 
       call jac(neq, t, y, np, p, j, pdj)
       ierr = 0
-
-      return
-      end
-
-c--
-c--
-      subroutine mebnonzero (neq, y, np, p, nnz)
-      external jac
-      double precision y(neq), pdj1(neq), pdj2(neq), p(np), y0(neq)
-      integer neq, np, j, i, nnz
-
-      nnz = 0
-
-      do 600 i = 1, neq
-       y0(i) = y(i) + 100.0d0 * rand()
-  600 continue      
-
-      do 700 j = 1, neq
-       do 610 i = 1, neq
-        pdj1(i) = 0.0d0
-        pdj2(i) = 0.0d0
-  610  continue
-
-       call jac(neq, 0.0d0, y, np, p, j, pdj1)
-       call jac(neq, 0.0d0, y0, np, p, j, pdj2)
-
-       do 630 i = 1, neq
-        if ((pdj1(i) .ne. 0.0d0) .or. (pdj2(i) .ne. 0.0d0)) then
-         nnz = nnz + 1
-        end if
-  630  continue
-       
-  700 continue
 
       return
       end

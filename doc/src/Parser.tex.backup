@@ -1,0 +1,10 @@
+\chapter{Parser}
+\section{Introduction}
+\PPODESUITE can translate a \MATLAB function to \Fortran. The function that executes this procedure is PPODE\_translate. The parser is created using a combination of lex and yacc/bison. The parser interprets the the \MATLAB code and creates a tree structure out of it. This tree structure is then used to create the \Fortran code. This provides more flexibility and better interpretation than more direct forms of translation. An additional benefit is that the structure can be used to determine the Jacobian of the function.
+
+\section{Restrictions and Pitfalls}
+The \MATLAB ODE function should have the following structure:
+\matlabcmd{da = GSDim( \ph{t}, \ph{x}, \ph{par}, \ph{neq}, \ph{np} )}
+Where \ph{t} is the independent variable, \ph{x} the dependent variable(s) and \ph{par} the parameter values. The last two arguments are optional and represent the number of equations (\ph{neq}) and number of parameters (\ph{np}).
+
+If the number of equations is not fixed, it should always depend on \ph{neq}. 

@@ -52,6 +52,8 @@ c               ODEs of the system have been calculated.
 c   yret :out   A vector of the values of all states corresponing to the
 c               time points of tret.
 c
+c [ oret :out ] Output of the timing option.
+c
 c-----------------------------------------------------------------------
 #include "defs.h"
 
@@ -65,7 +67,7 @@ c
 c-----------------------------------------------------------------------
 
 c Declare externals.
-      external lsfunc, dummy, lsodesjac, lsodesnonzero, lsjac
+      external lsfunc, dummy, lsodesjac, jacnonzero, lsjac
 c Declare input arguments.
       integer, intent(in) :: neq, npar, nout
 
@@ -76,6 +78,8 @@ c Declare output arguments.
       real*8, intent(out) :: tret(nout), yret(nout, neq)
 #ifdef TIMING
       double precision, intent(out) :: oret(nout)
+#else
+      double precision, intent(out) :: oret(*)
 #endif
 c Declare local variables.
       integer, allocatable :: iwork(:)
@@ -133,11 +137,11 @@ c function.
       lrw = 22 + neq * max(16, neq + 9)
       liw = 20 + neq
 #elif defined(BDFSPARSESOLVER)
-c      call nonzero(neq, npar, par, nnz)
-c      write(line,*) 'Supplied NNZ = ', nnz
-c      k = mexPrintf(line//achar(13))
-      call lsodesnonzero(neq, y0, npar, par, nnz)
-
+#if defined(INPUTNONZERO)
+      nnz = int(oret(1))
+#else
+      call jacnonzero(neq, y0, npar, par, nnz)
+#endif
 #if defined(DEBUG)
       write(line,*) 'Calculated NNZ = ', nnz
       k = mexPrintf(line//achar(13))
@@ -455,38 +459,4 @@ c--
       end
 #endif
 #endif
-
-c--
-c--
-      subroutine lsodesnonzero (neq, y, np, p, nnz)
-      external jac
-      double precision y(neq), pdj1(neq), pdj2(neq), p(np), y0(neq)
-      integer neq, np, j, i, nnz
-
-      nnz = 0
-
-      do 600 i = 1, neq
-       y0(i) = y(i) + 100.0d0 * rand()
-  600 continue      
-
-      do 700 j = 1, neq
-       do 610 i = 1, neq
-        pdj1(i) = 0.0d0
-        pdj2(i) = 0.0d0
-  610  continue
-
-       call jac(neq, 0.0d0, y, np, p, j, pdj1)
-       call jac(neq, 0.0d0, y0, np, p, j, pdj2)
-
-       do 630 i = 1, neq
-        if ((pdj1(i) .ne. 0.0d0) .or. (pdj2(i) .ne. 0.0d0)) then
-         nnz = nnz + 1
-        end if
-  630  continue
-       
-  700 continue
-
-      return
-      end
-
 

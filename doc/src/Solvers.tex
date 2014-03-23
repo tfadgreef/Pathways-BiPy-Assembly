@@ -5,11 +5,11 @@ The solver for the ODE problem can be specified using the 'Solver' option of the
 Valid options for \ph{solver} are:
 \begin{description}
  \item['Stiff' (or 'BDF')] The BDF based solver of the LSODE package. \emph{See \ref{subsec:LSODEBDF}}.
- \item['Stiff2' (or 'CVODE')] The BDF based solver of the CVODE package. \emph{See \ref{subsec:CVODEBDF}}.
+ \item['Stiff2' (or 'VODE')] The BDF based solver of the VODE package. \emph{See \ref{subsec:VODEBDF}}.
  \item['MEBDFSO' (or 'MEBDFSparse')] The modified extended BDF based solver using a sparse Jacobian matrix. \emph{See \ref{subsec:MEBDFSO}}.
  \item['LSODES' (or 'BDFSparse')] The BDF based solver using a sparse Jacobian matrix. \emph{See \ref{subsec:LSODES}}.
  \item['Non-Stiff' (or 'Adams-Moulton')] The Adams-Moulton based solver of the LSODE package. \emph{See \ref{subsec:LSODEAM}}.
- \item['Non-Stiff2' (or 'CVODEAM')] The Adams-Moulton based solver of the CVODE package. \emph{See \ref{subsec:CVODEAM}}.
+ \item['Non-Stiff2' (or 'VODEAM')] The Adams-Moulton based solver of the VODE package. \emph{See \ref{subsec:VODEAM}}.
  \item['RK23', 'RK45', 'RK78'] The Runge-Kutta based solvers of the RKSUITE package. \emph{See \ref{subsec:RKSUITE}}.
  \item['Switching' (or 'LSODA')] The solver that switches between the non-stiff Adams-Moulton based solver and the stiff BDF based solver of the LSODE package. \emph{See \ref{subsec:LSODA}}.
 \end{description}

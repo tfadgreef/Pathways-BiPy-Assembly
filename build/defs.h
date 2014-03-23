@@ -1,6 +1,7 @@
-#define STIFFSOLVER
+#define BDFSPARSESOLVER
 #define ODEPACK
 #define OPTIONALINPUTS
+#define DEBUG
 #define MAXSTEPS 20000
 #define MAXORDER1 5
 #define USERSUPPLIEDJAC

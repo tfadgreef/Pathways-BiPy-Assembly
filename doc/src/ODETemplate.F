@@ -14,6 +14,8 @@ c
 c    neq :in    Number of states/equations.
 c      t :in    Current time point.
 c      y :in    Vector of the current values of the states.
+c     np :in    Number of parameters.
+c      p :in    Vector of the values of the parameters.
 c   ydot :out   Vector of the numerical derivatives of the states.
 c
 c PARAMETERS:
@@ -23,17 +25,16 @@ c   p(2) :in    kp  : ...
 c
 c-----------------------------------------------------------------------
 
-      subroutine func (neq, t, y, ydot)
+      subroutine func (neq, t, y, np, p, ydot)
       integer neq, i, s, np
-      double precision t, y, ydot, kp
-      double precision , pointer :: p(:)
-      dimension y(neq), ydot(neq)
-      common  /funcpar/ np, p
+      double precision t, y, ydot, kp, par
+      dimension y(neq), ydot(neq), par(np)
 
       s = int(p(1))
       kp = p(2)
       ...
       ydot(i) = ...
       ...
+
       return
       end
