@@ -1,29 +1,29 @@
-\contentsline {chapter}{\numberline {1}Installation}{1}
-\contentsline {section}{\numberline {1.1}\textborn nix\nobreakspace {}}{1}
-\contentsline {section}{\numberline {1.2}Windows}{1}
-\contentsline {section}{\numberline {1.3}General}{1}
-\contentsline {chapter}{\numberline {2}Usage}{3}
-\contentsline {section}{\numberline {2.1}ODE Function}{3}
-\contentsline {subsection}{\numberline {2.1.1}Introduction}{3}
-\contentsline {subsection}{\numberline {2.1.2}Template}{4}
-\contentsline {section}{\numberline {2.2}Building}{5}
-\contentsline {subsection}{\numberline {2.2.1}Sparse Jacobian Matrix}{5}
-\contentsline {section}{\numberline {2.3}Execution}{6}
-\contentsline {chapter}{\numberline {3}Solvers}{7}
-\contentsline {section}{\numberline {3.1}Introduction}{7}
-\contentsline {section}{\numberline {3.2}Stiff}{7}
-\contentsline {subsection}{\numberline {3.2.1}BDF}{7}
-\contentsline {subsubsection}{Credits}{8}
-\contentsline {subsection}{\numberline {3.2.2}Modified Extended BDF using Sparse Jacobian}{8}
-\contentsline {subsubsection}{Credits}{8}
-\contentsline {section}{\numberline {3.3}Non-Stiff}{9}
-\contentsline {subsection}{\numberline {3.3.1}Adams-Moulton Methods}{9}
-\contentsline {subsubsection}{Credits}{9}
-\contentsline {subsection}{\numberline {3.3.2}Runge-Kutta Methods}{9}
-\contentsline {subsubsection}{Credits}{9}
-\contentsline {section}{\numberline {3.4}Mixed}{10}
-\contentsline {subsection}{\numberline {3.4.1}Switching between BDF and Adams-Moulton Methods}{10}
-\contentsline {subsubsection}{Credits}{10}
-\contentsline {chapter}{\numberline {4}Parser}{11}
-\contentsline {section}{\numberline {4.1}Introduction}{11}
-\contentsline {section}{\numberline {4.2}Restrictions and Pitfalls}{11}
+\contentsline {chapter}{\numberline {1}Introduction}{1}
+\contentsline {chapter}{\numberline {2}Installation}{5}
+\contentsline {section}{\numberline {2.1}\textborn nix\nobreakspace {}}{5}
+\contentsline {section}{\numberline {2.2}Windows}{5}
+\contentsline {section}{\numberline {2.3}General}{5}
+\contentsline {chapter}{\numberline {3}Usage}{7}
+\contentsline {section}{\numberline {3.1}Manual ODE Function}{7}
+\contentsline {subsection}{\numberline {3.1.1}Introduction}{7}
+\contentsline {subsection}{\numberline {3.1.2}Template}{8}
+\contentsline {section}{\numberline {3.2}Parser}{9}
+\contentsline {subsection}{\numberline {3.2.1}Restrictions and Pitfalls}{9}
+\contentsline {section}{\numberline {3.3}Building}{10}
+\contentsline {subsection}{\numberline {3.3.1}Sparse Jacobian Matrix}{10}
+\contentsline {section}{\numberline {3.4}Execution}{11}
+\contentsline {chapter}{\numberline {4}Solvers}{13}
+\contentsline {section}{\numberline {4.1}Introduction}{13}
+\contentsline {section}{\numberline {4.2}Stiff}{13}
+\contentsline {subsection}{\numberline {4.2.1}BDF}{13}
+\contentsline {subsubsection}{Credits}{14}
+\contentsline {subsection}{\numberline {4.2.2}Modified Extended BDF using Sparse Jacobian}{14}
+\contentsline {subsubsection}{Credits}{14}
+\contentsline {section}{\numberline {4.3}Non-Stiff}{15}
+\contentsline {subsection}{\numberline {4.3.1}Adams-Moulton Methods}{15}
+\contentsline {subsubsection}{Credits}{15}
+\contentsline {subsection}{\numberline {4.3.2}Runge-Kutta Methods}{15}
+\contentsline {subsubsection}{Credits}{15}
+\contentsline {section}{\numberline {4.4}Mixed}{16}
+\contentsline {subsection}{\numberline {4.4.1}Switching between BDF and Adams-Moulton Methods}{16}
+\contentsline {subsubsection}{Credits}{16}

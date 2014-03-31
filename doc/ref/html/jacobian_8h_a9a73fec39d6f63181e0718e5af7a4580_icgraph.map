@@ -1,0 +1,13 @@
+<map id="D_zeros" name="D_zeros">
+<area shape="rect" id="node3" href="$jacobian_8h.html#a679e6863209bf428a60f209b8ac64b2f" title="derivative" alt="" coords="127,272,204,301"/>
+<area shape="rect" id="node5" href="$jacobian_8h.html#a63b2497734bd2aea0c2648ee592913ae" title="functionToJacobian" alt="" coords="255,5,388,35"/>
+<area shape="rect" id="node7" href="$jacobian_8h.html#a7709640e1a5d9fdbe4b02d07e1389848" title="D_plus" alt="" coords="291,59,352,88"/>
+<area shape="rect" id="node10" href="$jacobian_8h.html#a18e1538e30dfe1e4d675c9ae7e090912" title="D_minus" alt="" coords="284,112,359,141"/>
+<area shape="rect" id="node13" href="$jacobian_8h.html#aabf319e76dcbd7f0f8135daea08130fb" title="D_negative" alt="" coords="277,165,365,195"/>
+<area shape="rect" id="node16" href="$jacobian_8h.html#a563b2d2ddf25802728e25a796247e051" title="D_mul" alt="" coords="292,219,351,248"/>
+<area shape="rect" id="node19" href="$jacobian_8h.html#a7a5c37c4ee6200ad5b2ed80f44594f7d" title="D_div" alt="" coords="293,272,349,301"/>
+<area shape="rect" id="node22" href="$jacobian_8h.html#af7f82a4a6c2a7751ae8b1ddfeda4c7e7" title="D_assign" alt="" coords="283,325,360,355"/>
+<area shape="rect" id="node25" href="$jacobian_8h.html#a39e38e4c1369d762f09f15c5e4e727a1" title="D_if" alt="" coords="299,379,344,408"/>
+<area shape="rect" id="node28" href="$jacobian_8h.html#a66841a427a1ef221a92813ab9980933c" title="D_ifelse" alt="" coords="287,432,356,461"/>
+<area shape="rect" id="node31" href="$jacobian_8h.html#aa5e579b47c173b8044d76eaefe0f0ecf" title="D_for" alt="" coords="295,485,348,515"/>
+</map>

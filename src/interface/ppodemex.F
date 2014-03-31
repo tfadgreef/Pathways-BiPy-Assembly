@@ -155,7 +155,7 @@ c the vector NEQ.
       m = mxgetm(prhs(argtimes))
       n = mxgetn(prhs(argtimes))
       if (max(m, n) .ne. 2) then
-        call mexerrmsgtxt('LSODAMEX requires NEQ to be a 2 x 1 vector if INPUTNONZERO is set.')
+        call mexerrmsgtxt('PPODE requires NEQ to be a 2 x 1 vector if INPUTNONZERO is set.')
       end if
       nel = max(m, n)
 #else
@@ -171,7 +171,7 @@ c Get the dimensions of y0.
 
 c Check the size of y0.
       if ((max(m,n) .ne. neq) .or. (min(m,n) .ne. 1)) then
-        call mexerrmsgtxt('LSODAMEX requires that y0 is a N x 1 vector')
+        call mexerrmsgtxt('PPODE requires that y0 is a N x 1 vector')
       endif
 c Get the number of output time points.
       m = mxgetm(prhs(argtimes))
@@ -244,7 +244,7 @@ c Copy the value of the arguments.
 
 c Call the correct solver.
 #if defined(ODEPACK)
-      call lsodaw(neq, atol, rtol, nout, times, npar, par, y0, t, y,
+      call lsodew(neq, atol, rtol, nout, times, npar, par, y0, t, y,
      + opt)
 #elif defined(RKSUITE)
       call rksuitew(neq, atol, rtol, nout, times, npar, par, y0, t, y,
@@ -270,6 +270,7 @@ c Copy the result.
       return
       end
 
+#if ( defined(MEBDFSO) || defined(BDFSPARSESOLVER) )
 c-----------------------------------------------------------------------
 c
 c NNZ from analytical Jacobian
@@ -346,4 +347,4 @@ c a certain position in the matrix is not zero.
       return
       end
 
-
+#endif

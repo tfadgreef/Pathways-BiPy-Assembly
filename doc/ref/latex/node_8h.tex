@@ -1,0 +1,366 @@
+\hypertarget{node_8h}{\section{node.\-h File Reference}
+\label{node_8h}\index{node.\-h@{node.\-h}}
+}
+This graph shows which files directly or indirectly include this file\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{node_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structNode}{Node}
+\begin{DoxyCompactList}\small\item\em A two dimensional node/tree data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919}{Node\-Tag} \{ \\*
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ab61d4391af9740a542e317b9ce6a3d2e}{T\-P\-L\-U\-S}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a229e1fa5893725d4ab9141de9a5221c3}{T\-M\-I\-N\-U\-S}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a2f6da8014bbb780265737f3edb98f928}{T\-M\-U\-L}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ac3e4cf6bb26322af5dcabd9a3e536863}{T\-D\-I\-V}, 
+\\*
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ac9f2843a55469a6152dd35687d275193}{T\-P\-O\-W}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a71fff872f388505135681e9fad482e72}{T\-N\-U\-M}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919afe64957b6fe1c660804c3d310000b5f0}{T\-V\-A\-R}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aae1cac6fabc93853164889cdc0d77b1a}{T\-F\-O\-R}, 
+\\*
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aaf9a72d2b433486eb715922b4c98b19b}{T\-W\-H\-I\-L\-E}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a8583540b6f599086fc9753a345cedba8}{T\-A\-S\-S\-I\-G\-N}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a1ba33d59e4de7364510db374755b7d7e}{T\-R\-A\-N\-G\-E}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ada27aaee300d100894b7052b2063d6dd}{T\-O\-R}, 
+\\*
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ac83acf67a25689b50ade68bb2c59391f}{T\-A\-N\-D}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a2628d0015da0ba3baca55ea90b6bdeba}{T\-E\-Q\-\_\-\-O\-P}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ada7148d13131a5296980f6158b94f9b6}{T\-N\-E\-\_\-\-O\-P}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a275466a9a49ca2f6b9aac4c714420bd0}{T\-G\-T\-\_\-\-O\-P}, 
+\\*
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a69747867f677928f5b44b50be82e355a}{T\-L\-T\-\_\-\-O\-P}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aa7765aa3b3c0d91d3bb14099258f72f3}{T\-G\-E\-\_\-\-O\-P}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a06cb01dea3f4bfae79d87b0534c0a221}{T\-L\-E\-\_\-\-O\-P}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919af6049a2c76faf4a885590098b3c6f5d7}{T\-I\-F}, 
+\\*
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a2f21ceca5171b4c27f561a3abdac8cd9}{T\-I\-F\-E\-L\-S\-E}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a00caba3d6b9ef9fa9adeed58f0fab5ae}{T\-I\-F\-E\-L\-S\-E\-I\-F}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a2c176bcae51056202bb3b10ca15bec6c}{T\-E\-L\-S\-E\-I\-F}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a47618f8f65141735078edfa809d0e93c}{T\-I\-F\-E\-L\-S\-E\-I\-F\-E\-L\-S\-E}, 
+\\*
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a5b179cf7f0b8747fa3f686c8d7cdc2aa}{T\-A\-R\-R\-A\-Y\-I\-N\-D\-E\-X}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aeeb11e0d29bd5515538fc54998e73698}{T\-L\-I\-S\-T}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a3b314fffc527699e89b8904804e41bfe}{T\-F\-U\-N\-C\-D\-E\-C}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ac66d28545a7441c95c8ef80bb8c72ce2}{T\-M\-I\-S\-C}, 
+\\*
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a8d8ec3ec1fab79e3ecb560657481efc9}{T\-C\-O\-M\-B\-I\-N\-E}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aecc032ac8d73ded1632db71be06e61a9}{T\-N\-O\-T}, 
+\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919adca0a7f9ec50a9d85eb8b1852387be0d}{T\-N\-E\-G\-A\-T\-I\-V\-E}
+ \}
+\begin{DoxyCompactList}\small\item\em Tags the \hyperlink{structNode}{Node} struct uses to specify its type or purpose. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8h_a990974952aa48d789ee7dabf10070194}{create\-Operation} (enum \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919}{Node\-Tag} op)
+\begin{DoxyCompactList}\small\item\em Create a \hyperlink{structNode}{Node} of the specified operation type. \end{DoxyCompactList}\item 
+void \hyperlink{node_8h_ac59e12e2146890bd3656810716854c5f}{append\-Child} (struct \hyperlink{structNode}{Node} $\ast$parent, struct \hyperlink{structNode}{Node} $\ast$child)
+\begin{DoxyCompactList}\small\item\em Append a child \hyperlink{structNode}{Node} to a parent \hyperlink{structNode}{Node}. \end{DoxyCompactList}\item 
+void \hyperlink{node_8h_ad1f8d800997fdede9718ede6b9b2d741}{set\-Identifier} (struct \hyperlink{structNode}{Node} $\ast$node, char $\ast$identifier)
+\begin{DoxyCompactList}\small\item\em Set the identifier of a \hyperlink{structNode}{Node}. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8h_a8021c7e05df0eb5a301433b6a83a5751}{last} (struct \hyperlink{structNode}{Node} $\ast$t)
+\begin{DoxyCompactList}\small\item\em Find the last \hyperlink{structNode}{Node} on the same level as the specified \hyperlink{structNode}{Node}. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8h_aa603e9647cbbe4208a6de5546df7b9f7}{create\-Constant} (double num)
+\begin{DoxyCompactList}\small\item\em Create a \hyperlink{structNode}{Node} representing a constant number. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8h_a25b6be3754d0bfe7f721c65986872f75}{create\-Variable} (char $\ast$varname)
+\begin{DoxyCompactList}\small\item\em Create a \hyperlink{structNode}{Node} representing a variable. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8h_a36f4e62840cea8119a80005c7093c1a2}{append\-Statement} (struct \hyperlink{structNode}{Node} $\ast$prevnodes, struct \hyperlink{structNode}{Node} $\ast$newnode)
+\begin{DoxyCompactList}\small\item\em Append a statement to a list of statements. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8h_a630e9a32f8dad634171441534eedd274}{copy\-Node} (struct \hyperlink{structNode}{Node} $\ast$n)
+\begin{DoxyCompactList}\small\item\em Copies the data of a \hyperlink{structNode}{Node} to a new \hyperlink{structNode}{Node} instance. \end{DoxyCompactList}\item 
+void \hyperlink{node_8h_a9404ea17c515d0d18c37bde7c31b5979}{remove\-Node} (struct \hyperlink{structNode}{Node} $\ast$n)
+\begin{DoxyCompactList}\small\item\em Remove an \hyperlink{structNode}{Node} instance and free the memory it used. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8h_ab62128f06e9ecf1ba999035e44e20125}{find\-Variable} (struct \hyperlink{structNode}{Node} $\ast$n)
+\item 
+int \hyperlink{node_8h_af424017909286f07f58ff8bcc1cb16ca}{compare\-Nodes} (struct \hyperlink{structNode}{Node} $\ast$n1, struct \hyperlink{structNode}{Node} $\ast$n2)
+\begin{DoxyCompactList}\small\item\em Compare two Nodes and their children to check whether they are equivalent. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919}{\index{node.\-h@{node.\-h}!Node\-Tag@{Node\-Tag}}
+\index{Node\-Tag@{Node\-Tag}!node.h@{node.\-h}}
+\subsubsection[{Node\-Tag}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Node\-Tag}}}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919}
+
+
+Tags the \hyperlink{structNode}{Node} struct uses to specify its type or purpose. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\-P\-L\-U\-S@{T\-P\-L\-U\-S}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-P\-L\-U\-S@{T\-P\-L\-U\-S}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919ab61d4391af9740a542e317b9ce6a3d2e}{T\-P\-L\-U\-S}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919ab61d4391af9740a542e317b9ce6a3d2e}
+}]Plus operation (a+b), two children. \index{T\-M\-I\-N\-U\-S@{T\-M\-I\-N\-U\-S}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-M\-I\-N\-U\-S@{T\-M\-I\-N\-U\-S}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a229e1fa5893725d4ab9141de9a5221c3}{T\-M\-I\-N\-U\-S}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a229e1fa5893725d4ab9141de9a5221c3}
+}]Minus operation (a-\/b), two children. \index{T\-M\-U\-L@{T\-M\-U\-L}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-M\-U\-L@{T\-M\-U\-L}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a2f6da8014bbb780265737f3edb98f928}{T\-M\-U\-L}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a2f6da8014bbb780265737f3edb98f928}
+}]Multiplication operation (a$\ast$b), two children. \index{T\-D\-I\-V@{T\-D\-I\-V}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-D\-I\-V@{T\-D\-I\-V}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919ac3e4cf6bb26322af5dcabd9a3e536863}{T\-D\-I\-V}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919ac3e4cf6bb26322af5dcabd9a3e536863}
+}]Division operation (a/b), two children. \index{T\-P\-O\-W@{T\-P\-O\-W}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-P\-O\-W@{T\-P\-O\-W}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919ac9f2843a55469a6152dd35687d275193}{T\-P\-O\-W}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919ac9f2843a55469a6152dd35687d275193}
+}]Power operation (a$^\wedge$b; a$\ast$$\ast$b), two children. \index{T\-N\-U\-M@{T\-N\-U\-M}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-N\-U\-M@{T\-N\-U\-M}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a71fff872f388505135681e9fad482e72}{T\-N\-U\-M}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a71fff872f388505135681e9fad482e72}
+}]Number, no children. \hyperlink{structNode_ad7f9455e819b623c0e4a9480476eacfe}{Node\-::ival} should be specified. \index{T\-V\-A\-R@{T\-V\-A\-R}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-V\-A\-R@{T\-V\-A\-R}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919afe64957b6fe1c660804c3d310000b5f0}{T\-V\-A\-R}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919afe64957b6fe1c660804c3d310000b5f0}
+}]\hyperlink{structVariable}{Variable}, no children. \hyperlink{structNode_a76c70ae7ac3d58ebe41da968fedb8093}{Node\-::iname} should be specified. \index{T\-F\-O\-R@{T\-F\-O\-R}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-F\-O\-R@{T\-F\-O\-R}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919aae1cac6fabc93853164889cdc0d77b1a}{T\-F\-O\-R}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919aae1cac6fabc93853164889cdc0d77b1a}
+}]For statement, at least 2 children. \hyperlink{structNode_a76c70ae7ac3d58ebe41da968fedb8093}{Node\-::iname} should be specified. The first child specifies a range, the subsequent statements are sub-\/statements of the for loop. \index{T\-W\-H\-I\-L\-E@{T\-W\-H\-I\-L\-E}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-W\-H\-I\-L\-E@{T\-W\-H\-I\-L\-E}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919aaf9a72d2b433486eb715922b4c98b19b}{T\-W\-H\-I\-L\-E}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919aaf9a72d2b433486eb715922b4c98b19b}
+}]While statement, at least 2 children. The first child has to specify the condition of the loop. The subsequent statements are sub-\/statements of the while loop. \index{T\-A\-S\-S\-I\-G\-N@{T\-A\-S\-S\-I\-G\-N}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-A\-S\-S\-I\-G\-N@{T\-A\-S\-S\-I\-G\-N}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a8583540b6f599086fc9753a345cedba8}{T\-A\-S\-S\-I\-G\-N}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a8583540b6f599086fc9753a345cedba8}
+}]Assign statement (a = b), 2 children. \index{T\-R\-A\-N\-G\-E@{T\-R\-A\-N\-G\-E}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-R\-A\-N\-G\-E@{T\-R\-A\-N\-G\-E}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a1ba33d59e4de7364510db374755b7d7e}{T\-R\-A\-N\-G\-E}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a1ba33d59e4de7364510db374755b7d7e}
+}]Range operation (a\-:b), 2 children. \index{T\-O\-R@{T\-O\-R}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-O\-R@{T\-O\-R}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919ada27aaee300d100894b7052b2063d6dd}{T\-O\-R}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919ada27aaee300d100894b7052b2063d6dd}
+}]O\-R operation (a $|$$|$ b; a O\-R b), 2 children. \index{T\-A\-N\-D@{T\-A\-N\-D}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-A\-N\-D@{T\-A\-N\-D}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919ac83acf67a25689b50ade68bb2c59391f}{T\-A\-N\-D}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919ac83acf67a25689b50ade68bb2c59391f}
+}]A\-N\-D operation (a \&\& b; a A\-N\-D b), 2 children. \index{T\-E\-Q\-\_\-\-O\-P@{T\-E\-Q\-\_\-\-O\-P}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-E\-Q\-\_\-\-O\-P@{T\-E\-Q\-\_\-\-O\-P}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a2628d0015da0ba3baca55ea90b6bdeba}{T\-E\-Q\-\_\-\-O\-P}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a2628d0015da0ba3baca55ea90b6bdeba}
+}]E\-Q\-U\-A\-L operation (a == b), 2 children. \index{T\-N\-E\-\_\-\-O\-P@{T\-N\-E\-\_\-\-O\-P}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-N\-E\-\_\-\-O\-P@{T\-N\-E\-\_\-\-O\-P}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919ada7148d13131a5296980f6158b94f9b6}{T\-N\-E\-\_\-\-O\-P}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919ada7148d13131a5296980f6158b94f9b6}
+}]N\-O\-T E\-Q\-U\-A\-L operation (a $\sim$= b; a != b), 2 children. \index{T\-G\-T\-\_\-\-O\-P@{T\-G\-T\-\_\-\-O\-P}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-G\-T\-\_\-\-O\-P@{T\-G\-T\-\_\-\-O\-P}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a275466a9a49ca2f6b9aac4c714420bd0}{T\-G\-T\-\_\-\-O\-P}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a275466a9a49ca2f6b9aac4c714420bd0}
+}]G\-R\-E\-A\-T\-E\-R T\-H\-A\-N operation (a $>$ b), 2 children. \index{T\-L\-T\-\_\-\-O\-P@{T\-L\-T\-\_\-\-O\-P}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-L\-T\-\_\-\-O\-P@{T\-L\-T\-\_\-\-O\-P}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a69747867f677928f5b44b50be82e355a}{T\-L\-T\-\_\-\-O\-P}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a69747867f677928f5b44b50be82e355a}
+}]L\-E\-S\-S\-E\-R T\-H\-A\-N operation (a $<$ b), 2 children. \index{T\-G\-E\-\_\-\-O\-P@{T\-G\-E\-\_\-\-O\-P}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-G\-E\-\_\-\-O\-P@{T\-G\-E\-\_\-\-O\-P}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919aa7765aa3b3c0d91d3bb14099258f72f3}{T\-G\-E\-\_\-\-O\-P}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919aa7765aa3b3c0d91d3bb14099258f72f3}
+}]G\-R\-E\-A\-T\-E\-R O\-R E\-Q\-U\-A\-L operation (a $>$= b), 2 children. \index{T\-L\-E\-\_\-\-O\-P@{T\-L\-E\-\_\-\-O\-P}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-L\-E\-\_\-\-O\-P@{T\-L\-E\-\_\-\-O\-P}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a06cb01dea3f4bfae79d87b0534c0a221}{T\-L\-E\-\_\-\-O\-P}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a06cb01dea3f4bfae79d87b0534c0a221}
+}]L\-E\-S\-S\-E\-R O\-R E\-Q\-U\-A\-L operation (a $<$= b), 2 children. \index{T\-I\-F@{T\-I\-F}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-I\-F@{T\-I\-F}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919af6049a2c76faf4a885590098b3c6f5d7}{T\-I\-F}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919af6049a2c76faf4a885590098b3c6f5d7}
+}]If statement. \index{T\-I\-F\-E\-L\-S\-E@{T\-I\-F\-E\-L\-S\-E}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-I\-F\-E\-L\-S\-E@{T\-I\-F\-E\-L\-S\-E}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a2f21ceca5171b4c27f561a3abdac8cd9}{T\-I\-F\-E\-L\-S\-E}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a2f21ceca5171b4c27f561a3abdac8cd9}
+}]If-\/else statement. \index{T\-I\-F\-E\-L\-S\-E\-I\-F@{T\-I\-F\-E\-L\-S\-E\-I\-F}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-I\-F\-E\-L\-S\-E\-I\-F@{T\-I\-F\-E\-L\-S\-E\-I\-F}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a00caba3d6b9ef9fa9adeed58f0fab5ae}{T\-I\-F\-E\-L\-S\-E\-I\-F}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a00caba3d6b9ef9fa9adeed58f0fab5ae}
+}]If-\/elseif statement. \index{T\-E\-L\-S\-E\-I\-F@{T\-E\-L\-S\-E\-I\-F}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-E\-L\-S\-E\-I\-F@{T\-E\-L\-S\-E\-I\-F}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a2c176bcae51056202bb3b10ca15bec6c}{T\-E\-L\-S\-E\-I\-F}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a2c176bcae51056202bb3b10ca15bec6c}
+}]Elseif statement. \index{T\-I\-F\-E\-L\-S\-E\-I\-F\-E\-L\-S\-E@{T\-I\-F\-E\-L\-S\-E\-I\-F\-E\-L\-S\-E}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-I\-F\-E\-L\-S\-E\-I\-F\-E\-L\-S\-E@{T\-I\-F\-E\-L\-S\-E\-I\-F\-E\-L\-S\-E}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a47618f8f65141735078edfa809d0e93c}{T\-I\-F\-E\-L\-S\-E\-I\-F\-E\-L\-S\-E}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a47618f8f65141735078edfa809d0e93c}
+}]If-\/elseif-\/else statement. \index{T\-A\-R\-R\-A\-Y\-I\-N\-D\-E\-X@{T\-A\-R\-R\-A\-Y\-I\-N\-D\-E\-X}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-A\-R\-R\-A\-Y\-I\-N\-D\-E\-X@{T\-A\-R\-R\-A\-Y\-I\-N\-D\-E\-X}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a5b179cf7f0b8747fa3f686c8d7cdc2aa}{T\-A\-R\-R\-A\-Y\-I\-N\-D\-E\-X}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a5b179cf7f0b8747fa3f686c8d7cdc2aa}
+}]Array index operation, (k\mbox{[}a\mbox{]}), one child. \hyperlink{structNode_a76c70ae7ac3d58ebe41da968fedb8093}{Node\-::iname} should be specified. \index{T\-L\-I\-S\-T@{T\-L\-I\-S\-T}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-L\-I\-S\-T@{T\-L\-I\-S\-T}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919aeeb11e0d29bd5515538fc54998e73698}{T\-L\-I\-S\-T}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919aeeb11e0d29bd5515538fc54998e73698}
+}]List/tuple operation (a,b). \index{T\-F\-U\-N\-C\-D\-E\-C@{T\-F\-U\-N\-C\-D\-E\-C}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-F\-U\-N\-C\-D\-E\-C@{T\-F\-U\-N\-C\-D\-E\-C}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a3b314fffc527699e89b8904804e41bfe}{T\-F\-U\-N\-C\-D\-E\-C}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a3b314fffc527699e89b8904804e41bfe}
+}]\hyperlink{structFunction}{Function} declaration. \index{T\-M\-I\-S\-C@{T\-M\-I\-S\-C}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-M\-I\-S\-C@{T\-M\-I\-S\-C}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919ac66d28545a7441c95c8ef80bb8c72ce2}{T\-M\-I\-S\-C}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919ac66d28545a7441c95c8ef80bb8c72ce2}
+}]Miscelaneous, internal usage. \index{T\-C\-O\-M\-B\-I\-N\-E@{T\-C\-O\-M\-B\-I\-N\-E}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-C\-O\-M\-B\-I\-N\-E@{T\-C\-O\-M\-B\-I\-N\-E}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919a8d8ec3ec1fab79e3ecb560657481efc9}{T\-C\-O\-M\-B\-I\-N\-E}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919a8d8ec3ec1fab79e3ecb560657481efc9}
+}]Groups various statements. That is, a child of T\-C\-O\-M\-B\-I\-N\-E actually belongs one level higher in the tree. \index{T\-N\-O\-T@{T\-N\-O\-T}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-N\-O\-T@{T\-N\-O\-T}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919aecc032ac8d73ded1632db71be06e61a9}{T\-N\-O\-T}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919aecc032ac8d73ded1632db71be06e61a9}
+}]N\-O\-T operation (!a, $\sim$a, N\-O\-T a), one child. \index{T\-N\-E\-G\-A\-T\-I\-V\-E@{T\-N\-E\-G\-A\-T\-I\-V\-E}!node.\-h@{node.\-h}}\index{node.\-h@{node.\-h}!T\-N\-E\-G\-A\-T\-I\-V\-E@{T\-N\-E\-G\-A\-T\-I\-V\-E}}\item[{\em 
+\hypertarget{node_8h_a83ba1e84fa23f6619c3d29036b160919adca0a7f9ec50a9d85eb8b1852387be0d}{T\-N\-E\-G\-A\-T\-I\-V\-E}\label{node_8h_a83ba1e84fa23f6619c3d29036b160919adca0a7f9ec50a9d85eb8b1852387be0d}
+}]Negative sign operation (-\/a), one child. \end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{node_8h_ac59e12e2146890bd3656810716854c5f}{\index{node.\-h@{node.\-h}!append\-Child@{append\-Child}}
+\index{append\-Child@{append\-Child}!node.h@{node.\-h}}
+\subsubsection[{append\-Child}]{\setlength{\rightskip}{0pt plus 5cm}void append\-Child (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{parent, }
+\item[{struct {\bf Node} $\ast$}]{child}
+\end{DoxyParamCaption}
+)}}\label{node_8h_ac59e12e2146890bd3656810716854c5f}
+
+
+Append a child \hyperlink{structNode}{Node} to a parent \hyperlink{structNode}{Node}. 
+
+Append the \hyperlink{structNode}{Node} {\itshape child} to the list of children of \hyperlink{structNode}{Node} {\itshape parent} and sets {\itshape parent} as the parent \hyperlink{structNode}{Node} of {\itshape child}. 
+\begin{DoxyParams}{Parameters}
+{\em parent} & \hyperlink{structNode}{Node} where the {\itshape child} \hyperlink{structNode}{Node} is to be appended to. \\
+\hline
+{\em child} & \hyperlink{structNode}{Node} to be appended to the children of {\itshape parent}. \\
+\hline
+\end{DoxyParams}
+\hypertarget{node_8h_a36f4e62840cea8119a80005c7093c1a2}{\index{node.\-h@{node.\-h}!append\-Statement@{append\-Statement}}
+\index{append\-Statement@{append\-Statement}!node.h@{node.\-h}}
+\subsubsection[{append\-Statement}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ append\-Statement (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{prevnodes, }
+\item[{struct {\bf Node} $\ast$}]{newnode}
+\end{DoxyParamCaption}
+)}}\label{node_8h_a36f4e62840cea8119a80005c7093c1a2}
+
+
+Append a statement to a list of statements. 
+
+Appends the statement {\itshape newnode} to the list of statements {\itshape prevnodes}. {\itshape prevnodes} does not have to point at the last \hyperlink{structNode}{Node} of that level. This function will find the last \hyperlink{structNode}{Node} of the same level and append the {\itshape newnode} there. 
+\begin{DoxyParams}{Parameters}
+{\em prevnodes} & Pointer to a \hyperlink{structNode}{Node} on which level the \hyperlink{structNode}{Node} {\itshape newnode} should be added. \\
+\hline
+{\em newnode} & \hyperlink{structNode}{Node} to add to the linked list. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to a \hyperlink{structNode}{Node} of the level where {\itshape newnode} was added. 
+\end{DoxyReturn}
+\hypertarget{node_8h_af424017909286f07f58ff8bcc1cb16ca}{\index{node.\-h@{node.\-h}!compare\-Nodes@{compare\-Nodes}}
+\index{compare\-Nodes@{compare\-Nodes}!node.h@{node.\-h}}
+\subsubsection[{compare\-Nodes}]{\setlength{\rightskip}{0pt plus 5cm}int compare\-Nodes (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n1, }
+\item[{struct {\bf Node} $\ast$}]{n2}
+\end{DoxyParamCaption}
+)}}\label{node_8h_af424017909286f07f58ff8bcc1cb16ca}
+
+
+Compare two Nodes and their children to check whether they are equivalent. 
+
+Compare the Nodes {\itshape n1} and {\itshape n2} and their children to check whether they are equivalent. All properties of the \hyperlink{structNode}{Node} struct are compared, just like the complete structure the Nodes represent. 
+\begin{DoxyParams}{Parameters}
+{\em n1} & First \hyperlink{structNode}{Node}. \\
+\hline
+{\em n2} & Second \hyperlink{structNode}{Node}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 when the first and second \hyperlink{structNode}{Node} are equivalent, 0 otherwise. 
+\end{DoxyReturn}
+\hypertarget{node_8h_a630e9a32f8dad634171441534eedd274}{\index{node.\-h@{node.\-h}!copy\-Node@{copy\-Node}}
+\index{copy\-Node@{copy\-Node}!node.h@{node.\-h}}
+\subsubsection[{copy\-Node}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ copy\-Node (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n}
+\end{DoxyParamCaption}
+)}}\label{node_8h_a630e9a32f8dad634171441534eedd274}
+
+
+Copies the data of a \hyperlink{structNode}{Node} to a new \hyperlink{structNode}{Node} instance. 
+
+Copy the contents of \hyperlink{structNode}{Node} {\itshape n} to a new \hyperlink{structNode}{Node} and recursively does the same to all children. The neighbours of \hyperlink{structNode}{Node} {\itshape n} will not be copied. 
+\begin{DoxyParams}{Parameters}
+{\em n} & \hyperlink{structNode}{Node} to copy. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the new \hyperlink{structNode}{Node} with the same data as {\itshape n}. 
+\end{DoxyReturn}
+\hypertarget{node_8h_aa603e9647cbbe4208a6de5546df7b9f7}{\index{node.\-h@{node.\-h}!create\-Constant@{create\-Constant}}
+\index{create\-Constant@{create\-Constant}!node.h@{node.\-h}}
+\subsubsection[{create\-Constant}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ create\-Constant (
+\begin{DoxyParamCaption}
+\item[{double}]{num}
+\end{DoxyParamCaption}
+)}}\label{node_8h_aa603e9647cbbe4208a6de5546df7b9f7}
+
+
+Create a \hyperlink{structNode}{Node} representing a constant number. 
+
+Create a \hyperlink{structNode}{Node} representing the number {\itshape num}. 
+\begin{DoxyParams}{Parameters}
+{\em num} & The value of the constant. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the created \hyperlink{structNode}{Node} instance. 
+\end{DoxyReturn}
+\hypertarget{node_8h_a990974952aa48d789ee7dabf10070194}{\index{node.\-h@{node.\-h}!create\-Operation@{create\-Operation}}
+\index{create\-Operation@{create\-Operation}!node.h@{node.\-h}}
+\subsubsection[{create\-Operation}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ create\-Operation (
+\begin{DoxyParamCaption}
+\item[{enum {\bf Node\-Tag}}]{op}
+\end{DoxyParamCaption}
+)}}\label{node_8h_a990974952aa48d789ee7dabf10070194}
+
+
+Create a \hyperlink{structNode}{Node} of the specified operation type. 
+
+Create a \hyperlink{structNode}{Node} of the specified operation, whilst setting all other properties to zero or N\-U\-L\-L. 
+\begin{DoxyParams}{Parameters}
+{\em op} & Operation type of the \hyperlink{structNode}{Node} to be created. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The created \hyperlink{structNode}{Node} instance. 
+\end{DoxyReturn}
+\hypertarget{node_8h_a25b6be3754d0bfe7f721c65986872f75}{\index{node.\-h@{node.\-h}!create\-Variable@{create\-Variable}}
+\index{create\-Variable@{create\-Variable}!node.h@{node.\-h}}
+\subsubsection[{create\-Variable}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ create\-Variable (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{varname}
+\end{DoxyParamCaption}
+)}}\label{node_8h_a25b6be3754d0bfe7f721c65986872f75}
+
+
+Create a \hyperlink{structNode}{Node} representing a variable. 
+
+Create a \hyperlink{structNode}{Node} representing a variable with the name {\itshape varname}. 
+\begin{DoxyParams}{Parameters}
+{\em varname} & The name of the variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the created \hyperlink{structNode}{Node} instance. 
+\end{DoxyReturn}
+\hypertarget{node_8h_ab62128f06e9ecf1ba999035e44e20125}{\index{node.\-h@{node.\-h}!find\-Variable@{find\-Variable}}
+\index{find\-Variable@{find\-Variable}!node.h@{node.\-h}}
+\subsubsection[{find\-Variable}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ find\-Variable (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n}
+\end{DoxyParamCaption}
+)}}\label{node_8h_ab62128f06e9ecf1ba999035e44e20125}
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000001}{Todo}]Describe this function \end{DoxyRefDesc}
+\hypertarget{node_8h_a8021c7e05df0eb5a301433b6a83a5751}{\index{node.\-h@{node.\-h}!last@{last}}
+\index{last@{last}!node.h@{node.\-h}}
+\subsubsection[{last}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ last (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{t}
+\end{DoxyParamCaption}
+)}}\label{node_8h_a8021c7e05df0eb5a301433b6a83a5751}
+
+
+Find the last \hyperlink{structNode}{Node} on the same level as the specified \hyperlink{structNode}{Node}. 
+
+Search the last \hyperlink{structNode}{Node} on the same level as \hyperlink{structNode}{Node} {\itshape t}. 
+\begin{DoxyParams}{Parameters}
+{\em t} & \hyperlink{structNode}{Node} of which to find the last neighbour/peer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The last \hyperlink{structNode}{Node} on the same level as \hyperlink{structNode}{Node} {\itshape t}. 
+\end{DoxyReturn}
+\hypertarget{node_8h_a9404ea17c515d0d18c37bde7c31b5979}{\index{node.\-h@{node.\-h}!remove\-Node@{remove\-Node}}
+\index{remove\-Node@{remove\-Node}!node.h@{node.\-h}}
+\subsubsection[{remove\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void remove\-Node (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n}
+\end{DoxyParamCaption}
+)}}\label{node_8h_a9404ea17c515d0d18c37bde7c31b5979}
+
+
+Remove an \hyperlink{structNode}{Node} instance and free the memory it used. 
+
+Removes \hyperlink{structNode}{Node} {\itshape n} and all its children. 
+\begin{DoxyParams}{Parameters}
+{\em n} & \hyperlink{structNode}{Node} to remove. \\
+\hline
+\end{DoxyParams}
+\hypertarget{node_8h_ad1f8d800997fdede9718ede6b9b2d741}{\index{node.\-h@{node.\-h}!set\-Identifier@{set\-Identifier}}
+\index{set\-Identifier@{set\-Identifier}!node.h@{node.\-h}}
+\subsubsection[{set\-Identifier}]{\setlength{\rightskip}{0pt plus 5cm}void set\-Identifier (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{node, }
+\item[{char $\ast$}]{identifier}
+\end{DoxyParamCaption}
+)}}\label{node_8h_ad1f8d800997fdede9718ede6b9b2d741}
+
+
+Set the identifier of a \hyperlink{structNode}{Node}. 
+
+Set the identifier (\hyperlink{structNode_a76c70ae7ac3d58ebe41da968fedb8093}{Node\-::iname}) of \hyperlink{structNode}{Node} {\itshape node} to {\itshape identifier}. 
+\begin{DoxyParams}{Parameters}
+{\em node} & \hyperlink{structNode}{Node} to set the identifier of. \\
+\hline
+{\em identifier} & Name of the identifier. \\
+\hline
+\end{DoxyParams}

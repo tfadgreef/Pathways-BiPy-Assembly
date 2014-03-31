@@ -1,0 +1,91 @@
+\hypertarget{structVariable}{\section{Variable Struct Reference}
+\label{structVariable}\index{Variable@{Variable}}
+}
+
+
+Datatype of a variable.  
+
+
+
+
+{\ttfamily \#include $<$tree.\-h$>$}
+
+
+
+Collaboration diagram for Variable\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{structVariable__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309ab}{Variable\-Type} \hyperlink{structVariable_a6d3af05ac5e896c45aeb8834fcbf84f4}{type}
+\begin{DoxyCompactList}\small\item\em Type of the variable. \end{DoxyCompactList}\item 
+struct \hyperlink{structVariable}{Variable} $\ast$ \hyperlink{structVariable_ac6387180163bef05cf8ea37a4fbd0682}{next}
+\begin{DoxyCompactList}\small\item\em Pointer to the next variable in the linked list. \end{DoxyCompactList}\item 
+struct \hyperlink{structVariable}{Variable} $\ast$ \hyperlink{structVariable_ad27df2f2e773678c5804cc233343aed1}{previous}
+\begin{DoxyCompactList}\small\item\em Pointer to the previous variable in the linked list. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{structVariable_a76c70ae7ac3d58ebe41da968fedb8093}{iname}
+\begin{DoxyCompactList}\small\item\em Name/identifier of the variable. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{structVariable_adf9b74cb9b4f3a80e8af89e50bd11975}{rel}
+\begin{DoxyCompactList}\small\item\em The relation of the variable to the independent variable of the O\-D\-E system. \end{DoxyCompactList}\item 
+int \hyperlink{structVariable_a627f44b64b5d8d3ae8cb6a675f164405}{zero}
+\begin{DoxyCompactList}\small\item\em 1 when this variable is always zero, 0 otherwise. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Datatype of a variable. 
+
+This datatype can hold information about the type and name of the variable. It is also a linked list. 
+
+\subsection{Field Documentation}
+\hypertarget{structVariable_a76c70ae7ac3d58ebe41da968fedb8093}{\index{Variable@{Variable}!iname@{iname}}
+\index{iname@{iname}!Variable@{Variable}}
+\subsubsection[{iname}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ iname}}\label{structVariable_a76c70ae7ac3d58ebe41da968fedb8093}
+
+
+Name/identifier of the variable. 
+
+\hypertarget{structVariable_ac6387180163bef05cf8ea37a4fbd0682}{\index{Variable@{Variable}!next@{next}}
+\index{next@{next}!Variable@{Variable}}
+\subsubsection[{next}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Variable}$\ast$ next}}\label{structVariable_ac6387180163bef05cf8ea37a4fbd0682}
+
+
+Pointer to the next variable in the linked list. 
+
+\hypertarget{structVariable_ad27df2f2e773678c5804cc233343aed1}{\index{Variable@{Variable}!previous@{previous}}
+\index{previous@{previous}!Variable@{Variable}}
+\subsubsection[{previous}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Variable}$\ast$ previous}}\label{structVariable_ad27df2f2e773678c5804cc233343aed1}
+
+
+Pointer to the previous variable in the linked list. 
+
+\hypertarget{structVariable_adf9b74cb9b4f3a80e8af89e50bd11975}{\index{Variable@{Variable}!rel@{rel}}
+\index{rel@{rel}!Variable@{Variable}}
+\subsubsection[{rel}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ rel}}\label{structVariable_adf9b74cb9b4f3a80e8af89e50bd11975}
+
+
+The relation of the variable to the independent variable of the O\-D\-E system. 
+
+\hypertarget{structVariable_a6d3af05ac5e896c45aeb8834fcbf84f4}{\index{Variable@{Variable}!type@{type}}
+\index{type@{type}!Variable@{Variable}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Variable\-Type} type}}\label{structVariable_a6d3af05ac5e896c45aeb8834fcbf84f4}
+
+
+Type of the variable. 
+
+\hypertarget{structVariable_a627f44b64b5d8d3ae8cb6a675f164405}{\index{Variable@{Variable}!zero@{zero}}
+\index{zero@{zero}!Variable@{Variable}}
+\subsubsection[{zero}]{\setlength{\rightskip}{0pt plus 5cm}int zero}}\label{structVariable_a627f44b64b5d8d3ae8cb6a675f164405}
+
+
+1 when this variable is always zero, 0 otherwise. 
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{tree_8h}{tree.\-h}\end{DoxyCompactItemize}

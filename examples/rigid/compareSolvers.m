@@ -1,6 +1,9 @@
 %function compareSolvers()
 clear all;
 
+% Translate the MATLAB ODE file to Fortran
+PPODE_translate('rigid', 'AnaJac', 1);
+
 y0 = [0 1 1];
 par = [-0.51];
 t = 0:0.01:20;
@@ -51,7 +54,18 @@ tic;
                        t,par,y0);
 evaltime = [evaltime toc];
 plot(t1, y1(:,1)-yr(:,1), 'm-');
-leg = [leg 'BDF'];
+leg = [leg 'LSODE'];
+
+% The Stiff BDF solver
+tic;
+PPODE_build('rigid.F', 'rigid_BDFANAJAC', 'Solver', 'Stiff', 'AnaJac', 1);
+comptime = [comptime toc];
+tic;
+[t1, y1] = rigid_BDFANAJAC(length(y0),options.AbsTol,options.RelTol, ...
+                       t,par,y0);
+evaltime = [evaltime toc];
+plot(t1, y1(:,1)-yr(:,1), 'm-');
+leg = [leg 'LSODE+ANAJAC'];
 
 % The VODE solver
 tic;

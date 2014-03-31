@@ -31,6 +31,11 @@ fortranext = '.F';
 buildext = '.o';
 libext = '.a';
 
+% General files
+genlibname = 'general';
+gendep = {'extramath'};
+genlibsourcedir = fullfile(basedir, 'src', genlibname);
+
 % The default flags for mex and the fortran compiler.
 mexfflags = '-fPIC';
 mexflags = '';
@@ -94,6 +99,21 @@ for curlibi=1:length(libnames)
         f = fullfile(builddir, [libdep{i} buildext]);
         buildfiles = [buildfiles '''' f ''' '];
     end
+
+    for i=1:length(gendep)
+        % Source files.
+        f = fullfile(genlibsourcedir, [gendep{i} fortranext]);
+        sourcefiles = [sourcefiles '''' f ''' '];
+
+        if ~exist(f, 'file')
+            error(['Missing ''' genlibname ''' dependencies.']);
+        end
+
+        % Build files.
+        f = fullfile(builddir, [gendep{i} buildext]);
+        buildfiles = [buildfiles '''' f ''' '];
+    end
+
     % Remove last whitespaces.
     sourcefiles = sourcefiles(1:end-1); 
     buildfiles = buildfiles(1:end-1);

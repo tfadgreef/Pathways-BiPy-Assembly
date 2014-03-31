@@ -1,0 +1,136 @@
+\hypertarget{tree_8c}{\section{tree.\-c File Reference}
+\label{tree_8c}\index{tree.\-c@{tree.\-c}}
+}
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}tree.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}fortran.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}jacobian.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}node.\-h\char`\"{}}\\*
+Include dependency graph for tree.\-c\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tree_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{tree_8c_a369266c24eacffb87046522897a570d5}{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void $\ast$ \hyperlink{tree_8c_a2e8df70b0cd23ae836717e0219526e39}{emalloc} (size\-\_\-t nbytes)
+\begin{DoxyCompactList}\small\item\em Nicer memory allocation function. \end{DoxyCompactList}\item 
+void \hyperlink{tree_8c_a2c26e64b412545798ff08f0069cf2069}{fatal\-Error} (char $\ast$message)
+\begin{DoxyCompactList}\small\item\em Fatal error function. \end{DoxyCompactList}\item 
+void \hyperlink{tree_8c_ac1f744cdaf334ecc37399a3c066b8b36}{depth} (int d)
+\item 
+void \hyperlink{tree_8c_a4035da3929ae669ab801f4eff738bb6e}{print\-\_\-tree} (int d, struct \hyperlink{structNode}{Node} $\ast$t)
+\begin{DoxyCompactList}\small\item\em Print a tree view of a \hyperlink{structNode}{Node}. \end{DoxyCompactList}\item 
+struct \hyperlink{structVariable}{Variable} $\ast$ \hyperlink{tree_8c_a512919504f1e49ef80bd2309e300e0ab}{register\-Variable} (char $\ast$s, enum \hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309ab}{Variable\-Type} tp)
+\item 
+char $\ast$ \hyperlink{tree_8c_a3020412eb1f21838ad4e159d6aa9d1c2}{process\-Identifier} (char $\ast$nm, enum \hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309ab}{Variable\-Type} tp)
+\item 
+void \hyperlink{tree_8c_a8bf735ac7bae4295a443e9a0857559eb}{process\-Function\-Header} (struct \hyperlink{structNode}{Node} $\ast$f)
+\item 
+void \hyperlink{tree_8c_aa2d5d17ce59f6cf43cb57ce62d879e29}{process\-Dependent\-Vector\-Identifier} (char $\ast$s, struct \hyperlink{structNode}{Node} $\ast$rel)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{tree_8c_a055e537e39403e6e3eab2415dd2428f9}{get\-Relative\-To\-Y} (char $\ast$s)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{tree_8c_a369266c24eacffb87046522897a570d5}{\index{tree.\-c@{tree.\-c}!\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E@{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}}
+\index{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E@{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}!tree.c@{tree.\-c}}
+\subsubsection[{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define \-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}}\label{tree_8c_a369266c24eacffb87046522897a570d5}
+
+
+\subsection{Function Documentation}
+\hypertarget{tree_8c_ac1f744cdaf334ecc37399a3c066b8b36}{\index{tree.\-c@{tree.\-c}!depth@{depth}}
+\index{depth@{depth}!tree.c@{tree.\-c}}
+\subsubsection[{depth}]{\setlength{\rightskip}{0pt plus 5cm}void depth (
+\begin{DoxyParamCaption}
+\item[{int}]{d}
+\end{DoxyParamCaption}
+)}}\label{tree_8c_ac1f744cdaf334ecc37399a3c066b8b36}
+\hypertarget{tree_8c_a2e8df70b0cd23ae836717e0219526e39}{\index{tree.\-c@{tree.\-c}!emalloc@{emalloc}}
+\index{emalloc@{emalloc}!tree.c@{tree.\-c}}
+\subsubsection[{emalloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ emalloc (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{nbytes}
+\end{DoxyParamCaption}
+)}}\label{tree_8c_a2e8df70b0cd23ae836717e0219526e39}
+
+
+Nicer memory allocation function. 
+
+\hypertarget{tree_8c_a2c26e64b412545798ff08f0069cf2069}{\index{tree.\-c@{tree.\-c}!fatal\-Error@{fatal\-Error}}
+\index{fatal\-Error@{fatal\-Error}!tree.c@{tree.\-c}}
+\subsubsection[{fatal\-Error}]{\setlength{\rightskip}{0pt plus 5cm}void fatal\-Error (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{message}
+\end{DoxyParamCaption}
+)}}\label{tree_8c_a2c26e64b412545798ff08f0069cf2069}
+
+
+Fatal error function. 
+
+Displays error {\itshape message} and then exits the application. 
+\begin{DoxyParams}{Parameters}
+{\em message} & Error message to display. \\
+\hline
+\end{DoxyParams}
+\hypertarget{tree_8c_a055e537e39403e6e3eab2415dd2428f9}{\index{tree.\-c@{tree.\-c}!get\-Relative\-To\-Y@{get\-Relative\-To\-Y}}
+\index{get\-Relative\-To\-Y@{get\-Relative\-To\-Y}!tree.c@{tree.\-c}}
+\subsubsection[{get\-Relative\-To\-Y}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ get\-Relative\-To\-Y (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{tree_8c_a055e537e39403e6e3eab2415dd2428f9}
+\hypertarget{tree_8c_a4035da3929ae669ab801f4eff738bb6e}{\index{tree.\-c@{tree.\-c}!print\-\_\-tree@{print\-\_\-tree}}
+\index{print\-\_\-tree@{print\-\_\-tree}!tree.c@{tree.\-c}}
+\subsubsection[{print\-\_\-tree}]{\setlength{\rightskip}{0pt plus 5cm}void print\-\_\-tree (
+\begin{DoxyParamCaption}
+\item[{int}]{d, }
+\item[{struct {\bf Node} $\ast$}]{t}
+\end{DoxyParamCaption}
+)}}\label{tree_8c_a4035da3929ae669ab801f4eff738bb6e}
+
+
+Print a tree view of a \hyperlink{structNode}{Node}. 
+
+\hypertarget{tree_8c_aa2d5d17ce59f6cf43cb57ce62d879e29}{\index{tree.\-c@{tree.\-c}!process\-Dependent\-Vector\-Identifier@{process\-Dependent\-Vector\-Identifier}}
+\index{process\-Dependent\-Vector\-Identifier@{process\-Dependent\-Vector\-Identifier}!tree.c@{tree.\-c}}
+\subsubsection[{process\-Dependent\-Vector\-Identifier}]{\setlength{\rightskip}{0pt plus 5cm}void process\-Dependent\-Vector\-Identifier (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s, }
+\item[{struct {\bf Node} $\ast$}]{rel}
+\end{DoxyParamCaption}
+)}}\label{tree_8c_aa2d5d17ce59f6cf43cb57ce62d879e29}
+\hypertarget{tree_8c_a8bf735ac7bae4295a443e9a0857559eb}{\index{tree.\-c@{tree.\-c}!process\-Function\-Header@{process\-Function\-Header}}
+\index{process\-Function\-Header@{process\-Function\-Header}!tree.c@{tree.\-c}}
+\subsubsection[{process\-Function\-Header}]{\setlength{\rightskip}{0pt plus 5cm}void process\-Function\-Header (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{tree_8c_a8bf735ac7bae4295a443e9a0857559eb}
+\hypertarget{tree_8c_a3020412eb1f21838ad4e159d6aa9d1c2}{\index{tree.\-c@{tree.\-c}!process\-Identifier@{process\-Identifier}}
+\index{process\-Identifier@{process\-Identifier}!tree.c@{tree.\-c}}
+\subsubsection[{process\-Identifier}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ process\-Identifier (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{nm, }
+\item[{enum {\bf Variable\-Type}}]{tp}
+\end{DoxyParamCaption}
+)}}\label{tree_8c_a3020412eb1f21838ad4e159d6aa9d1c2}
+\hypertarget{tree_8c_a512919504f1e49ef80bd2309e300e0ab}{\index{tree.\-c@{tree.\-c}!register\-Variable@{register\-Variable}}
+\index{register\-Variable@{register\-Variable}!tree.c@{tree.\-c}}
+\subsubsection[{register\-Variable}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Variable}$\ast$ register\-Variable (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s, }
+\item[{enum {\bf Variable\-Type}}]{tp}
+\end{DoxyParamCaption}
+)}}\label{tree_8c_a512919504f1e49ef80bd2309e300e0ab}

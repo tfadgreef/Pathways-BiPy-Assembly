@@ -1,0 +1,201 @@
+\hypertarget{jacobian_8c}{\section{jacobian.\-c File Reference}
+\label{jacobian_8c}\index{jacobian.\-c@{jacobian.\-c}}
+}
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}jacobian.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}simplify.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}fortran.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}tree.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}node.\-h\char`\"{}}\\*
+Include dependency graph for jacobian.\-c\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{jacobian_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{jacobian_8c_a369266c24eacffb87046522897a570d5}{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{jacobian_8c_a21d0cae9ba0f71cac6989332790340a4}{D} (char $\ast$name)
+\item 
+void \hyperlink{jacobian_8c_a63b2497734bd2aea0c2648ee592913ae}{function\-To\-Jacobian} (struct \hyperlink{structNode}{Node} $\ast$t)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_a679e6863209bf428a60f209b8ac64b2f}{derivative} (struct \hyperlink{structNode}{Node} $\ast$n, struct \hyperlink{structNode}{Node} $\ast$j)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_a9a73fec39d6f63181e0718e5af7a4580}{D\-\_\-zeros} (char $\ast$iden, struct \hyperlink{structNode}{Node} $\ast$n)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_a7709640e1a5d9fdbe4b02d07e1389848}{D\-\_\-plus} (struct \hyperlink{structNode}{Node} $\ast$n1, struct \hyperlink{structNode}{Node} $\ast$n2, struct \hyperlink{structNode}{Node} $\ast$j)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_a18e1538e30dfe1e4d675c9ae7e090912}{D\-\_\-minus} (struct \hyperlink{structNode}{Node} $\ast$n1, struct \hyperlink{structNode}{Node} $\ast$n2, struct \hyperlink{structNode}{Node} $\ast$j)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_aabf319e76dcbd7f0f8135daea08130fb}{D\-\_\-negative} (struct \hyperlink{structNode}{Node} $\ast$n1, struct \hyperlink{structNode}{Node} $\ast$j)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_a563b2d2ddf25802728e25a796247e051}{D\-\_\-mul} (struct \hyperlink{structNode}{Node} $\ast$n1, struct \hyperlink{structNode}{Node} $\ast$n2, struct \hyperlink{structNode}{Node} $\ast$j)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_a7a5c37c4ee6200ad5b2ed80f44594f7d}{D\-\_\-div} (struct \hyperlink{structNode}{Node} $\ast$n1, struct \hyperlink{structNode}{Node} $\ast$n2, struct \hyperlink{structNode}{Node} $\ast$j)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_ac69adbac2f1488631e322c8541d15c74}{D\-\_\-pow} (struct \hyperlink{structNode}{Node} $\ast$n1, struct \hyperlink{structNode}{Node} $\ast$n2, struct \hyperlink{structNode}{Node} $\ast$j)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_adcb98e7d3dc6a9f4a69b2444a02ffc51}{D\-\_\-var} (struct \hyperlink{structNode}{Node} $\ast$n)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_af7f82a4a6c2a7751ae8b1ddfeda4c7e7}{D\-\_\-assign} (struct \hyperlink{structNode}{Node} $\ast$n1, struct \hyperlink{structNode}{Node} $\ast$n2)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_a39e38e4c1369d762f09f15c5e4e727a1}{D\-\_\-if} (struct \hyperlink{structNode}{Node} $\ast$n1, struct \hyperlink{structNode}{Node} $\ast$n2, struct \hyperlink{structNode}{Node} $\ast$j)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_a66841a427a1ef221a92813ab9980933c}{D\-\_\-ifelse} (struct \hyperlink{structNode}{Node} $\ast$n1, struct \hyperlink{structNode}{Node} $\ast$n2, struct \hyperlink{structNode}{Node} $\ast$n3, struct \hyperlink{structNode}{Node} $\ast$j)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_a5d2292d7cc66b8ab6bf756608e0e2b7a}{D\-\_\-arrayindex} (char $\ast$iden, struct \hyperlink{structNode}{Node} $\ast$n)
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{jacobian_8c_aa5e579b47c173b8044d76eaefe0f0ecf}{D\-\_\-for} (char $\ast$iden, struct \hyperlink{structNode}{Node} $\ast$n1, struct \hyperlink{structNode}{Node} $\ast$n2)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{jacobian_8c_a369266c24eacffb87046522897a570d5}{\index{jacobian.\-c@{jacobian.\-c}!\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E@{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}}
+\index{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E@{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define \-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}}\label{jacobian_8c_a369266c24eacffb87046522897a570d5}
+
+
+\subsection{Function Documentation}
+\hypertarget{jacobian_8c_a21d0cae9ba0f71cac6989332790340a4}{\index{jacobian.\-c@{jacobian.\-c}!D@{D}}
+\index{D@{D}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ D (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_a21d0cae9ba0f71cac6989332790340a4}
+\hypertarget{jacobian_8c_a5d2292d7cc66b8ab6bf756608e0e2b7a}{\index{jacobian.\-c@{jacobian.\-c}!D\-\_\-arrayindex@{D\-\_\-arrayindex}}
+\index{D\-\_\-arrayindex@{D\-\_\-arrayindex}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D\-\_\-arrayindex}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ D\-\_\-arrayindex (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{iden, }
+\item[{struct {\bf Node} $\ast$}]{n}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_a5d2292d7cc66b8ab6bf756608e0e2b7a}
+\hypertarget{jacobian_8c_af7f82a4a6c2a7751ae8b1ddfeda4c7e7}{\index{jacobian.\-c@{jacobian.\-c}!D\-\_\-assign@{D\-\_\-assign}}
+\index{D\-\_\-assign@{D\-\_\-assign}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D\-\_\-assign}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ D\-\_\-assign (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n1, }
+\item[{struct {\bf Node} $\ast$}]{n2}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_af7f82a4a6c2a7751ae8b1ddfeda4c7e7}
+\hypertarget{jacobian_8c_a7a5c37c4ee6200ad5b2ed80f44594f7d}{\index{jacobian.\-c@{jacobian.\-c}!D\-\_\-div@{D\-\_\-div}}
+\index{D\-\_\-div@{D\-\_\-div}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D\-\_\-div}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ D\-\_\-div (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n1, }
+\item[{struct {\bf Node} $\ast$}]{n2, }
+\item[{struct {\bf Node} $\ast$}]{j}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_a7a5c37c4ee6200ad5b2ed80f44594f7d}
+\hypertarget{jacobian_8c_aa5e579b47c173b8044d76eaefe0f0ecf}{\index{jacobian.\-c@{jacobian.\-c}!D\-\_\-for@{D\-\_\-for}}
+\index{D\-\_\-for@{D\-\_\-for}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D\-\_\-for}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ D\-\_\-for (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{iden, }
+\item[{struct {\bf Node} $\ast$}]{n1, }
+\item[{struct {\bf Node} $\ast$}]{n2}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_aa5e579b47c173b8044d76eaefe0f0ecf}
+\hypertarget{jacobian_8c_a39e38e4c1369d762f09f15c5e4e727a1}{\index{jacobian.\-c@{jacobian.\-c}!D\-\_\-if@{D\-\_\-if}}
+\index{D\-\_\-if@{D\-\_\-if}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D\-\_\-if}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ D\-\_\-if (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n1, }
+\item[{struct {\bf Node} $\ast$}]{n2, }
+\item[{struct {\bf Node} $\ast$}]{j}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_a39e38e4c1369d762f09f15c5e4e727a1}
+\hypertarget{jacobian_8c_a66841a427a1ef221a92813ab9980933c}{\index{jacobian.\-c@{jacobian.\-c}!D\-\_\-ifelse@{D\-\_\-ifelse}}
+\index{D\-\_\-ifelse@{D\-\_\-ifelse}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D\-\_\-ifelse}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ D\-\_\-ifelse (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n1, }
+\item[{struct {\bf Node} $\ast$}]{n2, }
+\item[{struct {\bf Node} $\ast$}]{n3, }
+\item[{struct {\bf Node} $\ast$}]{j}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_a66841a427a1ef221a92813ab9980933c}
+\hypertarget{jacobian_8c_a18e1538e30dfe1e4d675c9ae7e090912}{\index{jacobian.\-c@{jacobian.\-c}!D\-\_\-minus@{D\-\_\-minus}}
+\index{D\-\_\-minus@{D\-\_\-minus}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D\-\_\-minus}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ D\-\_\-minus (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n1, }
+\item[{struct {\bf Node} $\ast$}]{n2, }
+\item[{struct {\bf Node} $\ast$}]{j}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_a18e1538e30dfe1e4d675c9ae7e090912}
+\hypertarget{jacobian_8c_a563b2d2ddf25802728e25a796247e051}{\index{jacobian.\-c@{jacobian.\-c}!D\-\_\-mul@{D\-\_\-mul}}
+\index{D\-\_\-mul@{D\-\_\-mul}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D\-\_\-mul}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ D\-\_\-mul (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n1, }
+\item[{struct {\bf Node} $\ast$}]{n2, }
+\item[{struct {\bf Node} $\ast$}]{j}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_a563b2d2ddf25802728e25a796247e051}
+\hypertarget{jacobian_8c_aabf319e76dcbd7f0f8135daea08130fb}{\index{jacobian.\-c@{jacobian.\-c}!D\-\_\-negative@{D\-\_\-negative}}
+\index{D\-\_\-negative@{D\-\_\-negative}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D\-\_\-negative}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ D\-\_\-negative (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n1, }
+\item[{struct {\bf Node} $\ast$}]{j}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_aabf319e76dcbd7f0f8135daea08130fb}
+\hypertarget{jacobian_8c_a7709640e1a5d9fdbe4b02d07e1389848}{\index{jacobian.\-c@{jacobian.\-c}!D\-\_\-plus@{D\-\_\-plus}}
+\index{D\-\_\-plus@{D\-\_\-plus}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D\-\_\-plus}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ D\-\_\-plus (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n1, }
+\item[{struct {\bf Node} $\ast$}]{n2, }
+\item[{struct {\bf Node} $\ast$}]{j}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_a7709640e1a5d9fdbe4b02d07e1389848}
+\hypertarget{jacobian_8c_ac69adbac2f1488631e322c8541d15c74}{\index{jacobian.\-c@{jacobian.\-c}!D\-\_\-pow@{D\-\_\-pow}}
+\index{D\-\_\-pow@{D\-\_\-pow}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D\-\_\-pow}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ D\-\_\-pow (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n1, }
+\item[{struct {\bf Node} $\ast$}]{n2, }
+\item[{struct {\bf Node} $\ast$}]{j}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_ac69adbac2f1488631e322c8541d15c74}
+\hypertarget{jacobian_8c_adcb98e7d3dc6a9f4a69b2444a02ffc51}{\index{jacobian.\-c@{jacobian.\-c}!D\-\_\-var@{D\-\_\-var}}
+\index{D\-\_\-var@{D\-\_\-var}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D\-\_\-var}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ D\-\_\-var (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_adcb98e7d3dc6a9f4a69b2444a02ffc51}
+\hypertarget{jacobian_8c_a9a73fec39d6f63181e0718e5af7a4580}{\index{jacobian.\-c@{jacobian.\-c}!D\-\_\-zeros@{D\-\_\-zeros}}
+\index{D\-\_\-zeros@{D\-\_\-zeros}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{D\-\_\-zeros}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ D\-\_\-zeros (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{iden, }
+\item[{struct {\bf Node} $\ast$}]{n}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_a9a73fec39d6f63181e0718e5af7a4580}
+\hypertarget{jacobian_8c_a679e6863209bf428a60f209b8ac64b2f}{\index{jacobian.\-c@{jacobian.\-c}!derivative@{derivative}}
+\index{derivative@{derivative}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{derivative}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ derivative (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n, }
+\item[{struct {\bf Node} $\ast$}]{j}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_a679e6863209bf428a60f209b8ac64b2f}
+\hypertarget{jacobian_8c_a63b2497734bd2aea0c2648ee592913ae}{\index{jacobian.\-c@{jacobian.\-c}!function\-To\-Jacobian@{function\-To\-Jacobian}}
+\index{function\-To\-Jacobian@{function\-To\-Jacobian}!jacobian.c@{jacobian.\-c}}
+\subsubsection[{function\-To\-Jacobian}]{\setlength{\rightskip}{0pt plus 5cm}void function\-To\-Jacobian (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{t}
+\end{DoxyParamCaption}
+)}}\label{jacobian_8c_a63b2497734bd2aea0c2648ee592913ae}

@@ -1,0 +1,12 @@
+<map id="simplifyStructure" name="simplifyStructure">
+<area shape="rect" id="node3" href="$simplify_8c.html#a03b5a4ee6f0130a2c38f54cea3016761" title="S_zeroAssignments" alt="" coords="196,47,335,76"/>
+<area shape="rect" id="node17" href="$simplify_8c.html#a62e326df000e3ab3090552236e1aefe4" title="S_replaceZeroAssignments" alt="" coords="175,124,356,153"/>
+<area shape="rect" id="node26" href="$simplify_8c.html#a85016bba267f2b9d0914f4080c31ea7d" title="S_removePlusZero" alt="" coords="199,201,332,231"/>
+<area shape="rect" id="node5" href="$tree_8c.html#a512919504f1e49ef80bd2309e300e0ab" title="registerVariable" alt="" coords="407,59,519,88"/>
+<area shape="rect" id="node11" href="$simplify_8c.html#a6e2b9cdf29bedf48aba62a5034203f27" title="registerZeroVar" alt="" coords="408,5,517,35"/>
+<area shape="rect" id="node7" href="$jacobian_8c.html#a21d0cae9ba0f71cac6989332790340a4" title="D" alt="" coords="587,112,624,141"/>
+<area shape="rect" id="node9" href="$tree_8c.html#a2e8df70b0cd23ae836717e0219526e39" title="Nicer memory allocation function. " alt="" coords="572,59,639,88"/>
+<area shape="rect" id="node14" href="$tree_8c.html#a2c26e64b412545798ff08f0069cf2069" title="Fatal error function. " alt="" coords="568,5,643,35"/>
+<area shape="rect" id="node19" href="$simplify_8c.html#a007c9cd2860c46f21184449737a510ad" title="getVariableZero" alt="" coords="407,112,519,141"/>
+<area shape="rect" id="node22" href="$node_8c.html#a9404ea17c515d0d18c37bde7c31b5979" title="Remove an Node instance and free the memory it used. " alt="" coords="415,189,511,219"/>
+</map>

@@ -245,6 +245,7 @@ char *toFortran(struct Node *t) {
           tmp = tmp->next;
         }
         return s1;
+      case TFUNCTION : return F_function(nd->iname, toFortran(nd->children));
       default: fprintf(warn, "Warning: Ignoring unknown expression.\n"); return  "";
     }
     free(s1);
@@ -471,6 +472,12 @@ char *F_zeros(char *s1, char *s2, int allocate) {
 char *F_combine(char *s1, char *s2) {
   char *s;
   asprintf(&s, "%s%s", s1, s2);
+  return s;
+}
+
+char *F_function(char *s1, char *s2) {
+  char *s;
+  asprintf(&s, "%s(%s)", s1, s2);
   return s;
 }
 

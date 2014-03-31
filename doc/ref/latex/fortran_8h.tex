@@ -1,0 +1,693 @@
+\hypertarget{fortran_8h}{\section{fortran.\-h File Reference}
+\label{fortran_8h}\index{fortran.\-h@{fortran.\-h}}
+}
+This graph shows which files directly or indirectly include this file\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=344pt]{fortran_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{fortran_8h_a712ba008f0345618c5b1b87358a0206e}{to\-Fortran} (struct \hyperlink{structNode}{Node} $\ast$t)
+\begin{DoxyCompactList}\small\item\em Recursively translate a Nodes to Fortran. \end{DoxyCompactList}\item 
+void \hyperlink{fortran_8h_a2222da9d792b8540ffba7e25fbf4e4a4}{function\-To\-Fortran} (struct \hyperlink{structNode}{Node} $\ast$t)
+\begin{DoxyCompactList}\small\item\em Translate a O\-D\-E function to Fortran. \end{DoxyCompactList}\item 
+void \hyperlink{fortran_8h_a6d57af6f238f091e9c62b9ed81f194a3}{print\-Fortran\-Function} (struct \hyperlink{structNode}{Node} $\ast$t, int jac)
+\begin{DoxyCompactList}\small\item\em Translate a O\-D\-E or Jacobian function to Fortran. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_a9a1c3a7f211f7d42c6dedcdaed68067e}{line} (int label, char $\ast$content)
+\begin{DoxyCompactList}\small\item\em Fit a string into the Fortran fixed format. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_a02a98fd967252e6d807915856d09c77f}{F\-\_\-plus} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a plus (+) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_adc9b028cf89661eeb91182ab007da632}{F\-\_\-minus} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a minus (-\/) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_a0ca25a9453e2eeb469f1120368dd481f}{F\-\_\-negative} (char $\ast$s1)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a negative sign (-\/) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_a1d67a9cba2734d4accc1f041aeab29dc}{F\-\_\-mul} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a multiplication ($\ast$) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_a0a05ea2fc6b0ca74871f60f1580fade0}{F\-\_\-div} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a division (/) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_ab1deef2cd69a27b35060de99428d6002}{F\-\_\-pow} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a power ($^\wedge$) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_ad039b3cb32f255dbab046b141de3b710}{F\-\_\-not} (char $\ast$s1)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a N\-O\-T ($\sim$, !) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_a46ec6c338eb4bc765f191f1c4c3a4b53}{F\-\_\-eq\-\_\-op} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a E\-Q\-U\-A\-L (==) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_afaf4bf6f26417c1e1abb46f4a67b3d90}{F\-\_\-ne\-\_\-op} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a N\-O\-T E\-Q\-U\-A\-L ($\sim$=, !=) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_a97a8bc56d7ed7fee3bff400d1fd58ea3}{F\-\_\-gt\-\_\-op} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a G\-R\-E\-A\-T\-E\-R T\-H\-A\-N ($>$) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_ae69df0da134bdabf8e931d0f18f9a9de}{F\-\_\-ge\-\_\-op} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a G\-R\-E\-A\-T\-E\-R O\-R E\-Q\-U\-A\-L ($>$=) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_a168e6ceafab728511a2832d50e48942a}{F\-\_\-lt\-\_\-op} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a L\-E\-S\-S\-E\-R T\-H\-A\-N ($<$) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_a9b9a6759bf60f4ee7f53eb2af65acf05}{F\-\_\-le\-\_\-op} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a L\-E\-S\-S\-E\-R O\-R E\-Q\-U\-A\-L ($<$=) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_a3a9a87b9a8262532d796ae4904caac49}{F\-\_\-assign} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing an assign (=) statement. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_abafedd063906b6369ffadd0d9ec36f9e}{F\-\_\-for} (char $\ast$s1, char $\ast$s2, char $\ast$s3)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a for statement. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_aa6f504e52bf6b28f12fcb6f052642d04}{F\-\_\-range} (char $\ast$s1, char $\ast$s2, char $\ast$s3)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a range (\-:) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_a6fc4168f0113431f451b2fbc8a23cd39}{F\-\_\-while} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a while statement. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_a0cd8a485e5575fe231bd15bb724c904f}{F\-\_\-and} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing an A\-N\-D (\&\&) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_a87a3641482ea51fff74931c9248ce245}{F\-\_\-or} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing an O\-R ($|$$|$) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_ad35c68cadde4047a250fc7f3722cd4ba}{F\-\_\-if} (char $\ast$s1, char $\ast$s2)
+\item 
+char $\ast$ \hyperlink{fortran_8h_a9d12d2fadabc5cb43dcfd3da0a379a27}{F\-\_\-ifelse} (char $\ast$s1, char $\ast$s2, char $\ast$s3)
+\item 
+char $\ast$ \hyperlink{fortran_8h_aa40f8274e7e8d72e7bf45b8ba657b487}{F\-\_\-ifelseif} (char $\ast$s1, char $\ast$s2, char $\ast$s3)
+\item 
+char $\ast$ \hyperlink{fortran_8h_ae4f68d273f9c36127d05c8ce3036599e}{F\-\_\-elseif} (char $\ast$s1, char $\ast$s2)
+\item 
+char $\ast$ \hyperlink{fortran_8h_a3c18e2e40028988c33e5513716e00395}{F\-\_\-ifelseifelse} (char $\ast$s1, char $\ast$s2, char $\ast$s3, char $\ast$s4)
+\item 
+char $\ast$ \hyperlink{fortran_8h_abcfc636d10b338ba9603adc5080f8268}{F\-\_\-arrayindex} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing an array indexing (a\mbox{[}b\mbox{]}) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_ae7130ea548b657055bbd08670caa7361}{F\-\_\-indexrange} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing a range (\-:) operation. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{fortran_8h_ab230e89691dc4f8dff8d85472c20fd8a}{F\-\_\-zeros} (char $\ast$s1, char $\ast$s2, int allocate)
+\item 
+char $\ast$ \hyperlink{fortran_8h_a4193d629b89c1551beb365d1c0a4bc13}{F\-\_\-combine} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em Generate Fortran code representing the subsequent execution of two statements. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{fortran_8h_a0cd8a485e5575fe231bd15bb724c904f}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-and@{F\-\_\-and}}
+\index{F\-\_\-and@{F\-\_\-and}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-and}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-and (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a0cd8a485e5575fe231bd15bb724c904f}
+
+
+Generate Fortran code representing an A\-N\-D (\&\&) operation. 
+
+Generate Fortran code that applies an A\-N\-D (\&\&) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1 \&\& s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_abcfc636d10b338ba9603adc5080f8268}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-arrayindex@{F\-\_\-arrayindex}}
+\index{F\-\_\-arrayindex@{F\-\_\-arrayindex}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-arrayindex}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-arrayindex (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_abcfc636d10b338ba9603adc5080f8268}
+
+
+Generate Fortran code representing an array indexing (a\mbox{[}b\mbox{]}) operation. 
+
+Generate Fortran code that applies an array indexing (a\mbox{[}b\mbox{]}) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1\mbox{[}s2\mbox{]}). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_a3a9a87b9a8262532d796ae4904caac49}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-assign@{F\-\_\-assign}}
+\index{F\-\_\-assign@{F\-\_\-assign}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-assign}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-assign (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a3a9a87b9a8262532d796ae4904caac49}
+
+
+Generate Fortran code representing an assign (=) statement. 
+
+Generate Fortran code that applies an assign (=) statement on the code segments represented by {\itshape s1} and {\itshape s2} (s1 = s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_a4193d629b89c1551beb365d1c0a4bc13}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-combine@{F\-\_\-combine}}
+\index{F\-\_\-combine@{F\-\_\-combine}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-combine}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-combine (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a4193d629b89c1551beb365d1c0a4bc13}
+
+
+Generate Fortran code representing the subsequent execution of two statements. 
+
+Generate Fortran code that subsequently executes {\itshape s1} and {\itshape s2} (s1;s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_a0a05ea2fc6b0ca74871f60f1580fade0}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-div@{F\-\_\-div}}
+\index{F\-\_\-div@{F\-\_\-div}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-div}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-div (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a0a05ea2fc6b0ca74871f60f1580fade0}
+
+
+Generate Fortran code representing a division (/) operation. 
+
+Generate Fortran code that applies a division (/) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1 / s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_ae4f68d273f9c36127d05c8ce3036599e}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-elseif@{F\-\_\-elseif}}
+\index{F\-\_\-elseif@{F\-\_\-elseif}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-elseif}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-elseif (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_ae4f68d273f9c36127d05c8ce3036599e}
+\hypertarget{fortran_8h_a46ec6c338eb4bc765f191f1c4c3a4b53}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-eq\-\_\-op@{F\-\_\-eq\-\_\-op}}
+\index{F\-\_\-eq\-\_\-op@{F\-\_\-eq\-\_\-op}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-eq\-\_\-op}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-eq\-\_\-op (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a46ec6c338eb4bc765f191f1c4c3a4b53}
+
+
+Generate Fortran code representing a E\-Q\-U\-A\-L (==) operation. 
+
+Generate Fortran code that applies a E\-Q\-U\-A\-L (==) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1 == s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_abafedd063906b6369ffadd0d9ec36f9e}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-for@{F\-\_\-for}}
+\index{F\-\_\-for@{F\-\_\-for}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-for}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-for (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2, }
+\item[{char $\ast$}]{s3}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_abafedd063906b6369ffadd0d9ec36f9e}
+
+
+Generate Fortran code representing a for statement. 
+
+Generate Fortran code that applies a for statement on the code segments represented by {\itshape s1}, {\itshape s2} and {\itshape s3} (do {\itshape label} s1 = s2; s3; {\itshape label} continue). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+{\em s3} & Third code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_ae69df0da134bdabf8e931d0f18f9a9de}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-ge\-\_\-op@{F\-\_\-ge\-\_\-op}}
+\index{F\-\_\-ge\-\_\-op@{F\-\_\-ge\-\_\-op}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-ge\-\_\-op}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-ge\-\_\-op (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_ae69df0da134bdabf8e931d0f18f9a9de}
+
+
+Generate Fortran code representing a G\-R\-E\-A\-T\-E\-R O\-R E\-Q\-U\-A\-L ($>$=) operation. 
+
+Generate Fortran code that applies a G\-R\-E\-A\-T\-E\-R O\-R E\-Q\-U\-A\-L ($>$=) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1 $>$= s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_a97a8bc56d7ed7fee3bff400d1fd58ea3}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-gt\-\_\-op@{F\-\_\-gt\-\_\-op}}
+\index{F\-\_\-gt\-\_\-op@{F\-\_\-gt\-\_\-op}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-gt\-\_\-op}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-gt\-\_\-op (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a97a8bc56d7ed7fee3bff400d1fd58ea3}
+
+
+Generate Fortran code representing a G\-R\-E\-A\-T\-E\-R T\-H\-A\-N ($>$) operation. 
+
+Generate Fortran code that applies a G\-R\-E\-A\-T\-E\-R T\-H\-A\-N ($>$) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1 $>$ s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_ad35c68cadde4047a250fc7f3722cd4ba}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-if@{F\-\_\-if}}
+\index{F\-\_\-if@{F\-\_\-if}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-if}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-if (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_ad35c68cadde4047a250fc7f3722cd4ba}
+\hypertarget{fortran_8h_a9d12d2fadabc5cb43dcfd3da0a379a27}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-ifelse@{F\-\_\-ifelse}}
+\index{F\-\_\-ifelse@{F\-\_\-ifelse}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-ifelse}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-ifelse (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2, }
+\item[{char $\ast$}]{s3}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a9d12d2fadabc5cb43dcfd3da0a379a27}
+\hypertarget{fortran_8h_aa40f8274e7e8d72e7bf45b8ba657b487}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-ifelseif@{F\-\_\-ifelseif}}
+\index{F\-\_\-ifelseif@{F\-\_\-ifelseif}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-ifelseif}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-ifelseif (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2, }
+\item[{char $\ast$}]{s3}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_aa40f8274e7e8d72e7bf45b8ba657b487}
+\hypertarget{fortran_8h_a3c18e2e40028988c33e5513716e00395}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-ifelseifelse@{F\-\_\-ifelseifelse}}
+\index{F\-\_\-ifelseifelse@{F\-\_\-ifelseifelse}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-ifelseifelse}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-ifelseifelse (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2, }
+\item[{char $\ast$}]{s3, }
+\item[{char $\ast$}]{s4}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a3c18e2e40028988c33e5513716e00395}
+\hypertarget{fortran_8h_ae7130ea548b657055bbd08670caa7361}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-indexrange@{F\-\_\-indexrange}}
+\index{F\-\_\-indexrange@{F\-\_\-indexrange}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-indexrange}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-indexrange (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_ae7130ea548b657055bbd08670caa7361}
+
+
+Generate Fortran code representing a range (\-:) operation. 
+
+Generate Fortran code that applies a range (\-:) operation on the code segments represented by {\itshape s1} and {\itshape s2} preparing it for use in an array indexing expression (s1\-:s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_a9b9a6759bf60f4ee7f53eb2af65acf05}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-le\-\_\-op@{F\-\_\-le\-\_\-op}}
+\index{F\-\_\-le\-\_\-op@{F\-\_\-le\-\_\-op}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-le\-\_\-op}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-le\-\_\-op (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a9b9a6759bf60f4ee7f53eb2af65acf05}
+
+
+Generate Fortran code representing a L\-E\-S\-S\-E\-R O\-R E\-Q\-U\-A\-L ($<$=) operation. 
+
+Generate Fortran code that applies a L\-E\-S\-S\-E\-R O\-R E\-Q\-U\-A\-L ($<$=) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1 $<$= s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_a168e6ceafab728511a2832d50e48942a}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-lt\-\_\-op@{F\-\_\-lt\-\_\-op}}
+\index{F\-\_\-lt\-\_\-op@{F\-\_\-lt\-\_\-op}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-lt\-\_\-op}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-lt\-\_\-op (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a168e6ceafab728511a2832d50e48942a}
+
+
+Generate Fortran code representing a L\-E\-S\-S\-E\-R T\-H\-A\-N ($<$) operation. 
+
+Generate Fortran code that applies a L\-E\-S\-S\-E\-R T\-H\-A\-N ($<$) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1 $<$= s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_adc9b028cf89661eeb91182ab007da632}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-minus@{F\-\_\-minus}}
+\index{F\-\_\-minus@{F\-\_\-minus}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-minus}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-minus (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_adc9b028cf89661eeb91182ab007da632}
+
+
+Generate Fortran code representing a minus (-\/) operation. 
+
+Generate Fortran code that applies a minus (-\/) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1 -\/ s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_a1d67a9cba2734d4accc1f041aeab29dc}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-mul@{F\-\_\-mul}}
+\index{F\-\_\-mul@{F\-\_\-mul}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-mul}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-mul (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a1d67a9cba2734d4accc1f041aeab29dc}
+
+
+Generate Fortran code representing a multiplication ($\ast$) operation. 
+
+Generate Fortran code that applies a multiplication ($\ast$) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1 $\ast$ s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_afaf4bf6f26417c1e1abb46f4a67b3d90}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-ne\-\_\-op@{F\-\_\-ne\-\_\-op}}
+\index{F\-\_\-ne\-\_\-op@{F\-\_\-ne\-\_\-op}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-ne\-\_\-op}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-ne\-\_\-op (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_afaf4bf6f26417c1e1abb46f4a67b3d90}
+
+
+Generate Fortran code representing a N\-O\-T E\-Q\-U\-A\-L ($\sim$=, !=) operation. 
+
+Generate Fortran code that applies a N\-O\-T E\-Q\-U\-A\-L ($\sim$=, !=) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1 != s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_a0ca25a9453e2eeb469f1120368dd481f}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-negative@{F\-\_\-negative}}
+\index{F\-\_\-negative@{F\-\_\-negative}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-negative}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-negative (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a0ca25a9453e2eeb469f1120368dd481f}
+
+
+Generate Fortran code representing a negative sign (-\/) operation. 
+
+Generate Fortran code that applies a negative sign (-\/) operation on the code segment represented by {\itshape s1} (-\/s1). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & Code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_ad039b3cb32f255dbab046b141de3b710}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-not@{F\-\_\-not}}
+\index{F\-\_\-not@{F\-\_\-not}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-not}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-not (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_ad039b3cb32f255dbab046b141de3b710}
+
+
+Generate Fortran code representing a N\-O\-T ($\sim$, !) operation. 
+
+Generate Fortran code that applies a N\-O\-T ($\sim$, !) operation on the code segment represented by {\itshape s1} ($\sim$s1, !s1). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & Code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_a87a3641482ea51fff74931c9248ce245}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-or@{F\-\_\-or}}
+\index{F\-\_\-or@{F\-\_\-or}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-or}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-or (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a87a3641482ea51fff74931c9248ce245}
+
+
+Generate Fortran code representing an O\-R ($|$$|$) operation. 
+
+Generate Fortran code that applies an O\-R ($|$$|$) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1 \&\& s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_a02a98fd967252e6d807915856d09c77f}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-plus@{F\-\_\-plus}}
+\index{F\-\_\-plus@{F\-\_\-plus}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-plus}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-plus (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a02a98fd967252e6d807915856d09c77f}
+
+
+Generate Fortran code representing a plus (+) operation. 
+
+Generate Fortran code that applies a plus (+) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1 + s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_ab1deef2cd69a27b35060de99428d6002}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-pow@{F\-\_\-pow}}
+\index{F\-\_\-pow@{F\-\_\-pow}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-pow}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-pow (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_ab1deef2cd69a27b35060de99428d6002}
+
+
+Generate Fortran code representing a power ($^\wedge$) operation. 
+
+Generate Fortran code that applies a power ($^\wedge$) operation on the code segments represented by {\itshape s1} and {\itshape s2} (s1$^\wedge$s2). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_aa6f504e52bf6b28f12fcb6f052642d04}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-range@{F\-\_\-range}}
+\index{F\-\_\-range@{F\-\_\-range}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-range}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-range (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2, }
+\item[{char $\ast$}]{s3}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_aa6f504e52bf6b28f12fcb6f052642d04}
+
+
+Generate Fortran code representing a range (\-:) operation. 
+
+Generate Fortran code that applies a range (\-:) operation on the code segments represented by {\itshape s1}, {\itshape s2} and {\itshape s3}, preparing it for use in a for/do loop. 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+{\em s3} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_a6fc4168f0113431f451b2fbc8a23cd39}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-while@{F\-\_\-while}}
+\index{F\-\_\-while@{F\-\_\-while}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-while}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-while (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a6fc4168f0113431f451b2fbc8a23cd39}
+
+
+Generate Fortran code representing a while statement. 
+
+Generate Fortran code that applies a while statement on the code segments represented by {\itshape s1} and {\itshape s2} (while (s1); s2; end while). 
+\begin{DoxyParams}{Parameters}
+{\em s1} & First code segment. \\
+\hline
+{\em s2} & Second code segment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Fortran code. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_ab230e89691dc4f8dff8d85472c20fd8a}{\index{fortran.\-h@{fortran.\-h}!F\-\_\-zeros@{F\-\_\-zeros}}
+\index{F\-\_\-zeros@{F\-\_\-zeros}!fortran.h@{fortran.\-h}}
+\subsubsection[{F\-\_\-zeros}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ F\-\_\-zeros (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2, }
+\item[{int}]{allocate}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_ab230e89691dc4f8dff8d85472c20fd8a}
+\hypertarget{fortran_8h_a2222da9d792b8540ffba7e25fbf4e4a4}{\index{fortran.\-h@{fortran.\-h}!function\-To\-Fortran@{function\-To\-Fortran}}
+\index{function\-To\-Fortran@{function\-To\-Fortran}!fortran.h@{fortran.\-h}}
+\subsubsection[{function\-To\-Fortran}]{\setlength{\rightskip}{0pt plus 5cm}void function\-To\-Fortran (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{t}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a2222da9d792b8540ffba7e25fbf4e4a4}
+
+
+Translate a O\-D\-E function to Fortran. 
+
+Recursively translate the O\-D\-E function represented by {\itshape t} to Fortran and print the generated code to the output stream \hyperlink{tree_8h_a1277960b5f2b37137fe9b0b5a1ea0beb}{out}. 
+\begin{DoxyParams}{Parameters}
+{\em t} & O\-D\-E function to translate. \\
+\hline
+\end{DoxyParams}
+\hypertarget{fortran_8h_a9a1c3a7f211f7d42c6dedcdaed68067e}{\index{fortran.\-h@{fortran.\-h}!line@{line}}
+\index{line@{line}!fortran.h@{fortran.\-h}}
+\subsubsection[{line}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ line (
+\begin{DoxyParamCaption}
+\item[{int}]{label, }
+\item[{char $\ast$}]{content}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a9a1c3a7f211f7d42c6dedcdaed68067e}
+
+
+Fit a string into the Fortran fixed format. 
+
+Generates a Fortran fixed format output by distributing the {\itshape content} over multiple lines if lines would exceed the 72 characters allowed by this format. Furthermore the function takes care of the first six control characters. A label will be added if {\itshape label} is not equal to zero. 
+\begin{DoxyParams}{Parameters}
+{\em label} & Label to add to the line. 0 for no label. \\
+\hline
+{\em content} & Actual code that should be fit into the format. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The fixed form of the code provided. 
+\end{DoxyReturn}
+\hypertarget{fortran_8h_a6d57af6f238f091e9c62b9ed81f194a3}{\index{fortran.\-h@{fortran.\-h}!print\-Fortran\-Function@{print\-Fortran\-Function}}
+\index{print\-Fortran\-Function@{print\-Fortran\-Function}!fortran.h@{fortran.\-h}}
+\subsubsection[{print\-Fortran\-Function}]{\setlength{\rightskip}{0pt plus 5cm}void print\-Fortran\-Function (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{t, }
+\item[{int}]{jac}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a6d57af6f238f091e9c62b9ed81f194a3}
+
+
+Translate a O\-D\-E or Jacobian function to Fortran. 
+
+Recursively translate the O\-D\-E or Jacobian function represented by {\itshape t} to Fortran and print the generated code to the output stream \hyperlink{tree_8h_a1277960b5f2b37137fe9b0b5a1ea0beb}{out}. {\itshape jac} should be 0 for O\-D\-E functions and 1 for Jacobian functions. 
+\begin{DoxyParams}{Parameters}
+{\em t} & \hyperlink{structFunction}{Function} to translate. \\
+\hline
+{\em jac} & Whether the function is a O\-D\-E (0) or Jacobian (1) function. \\
+\hline
+\end{DoxyParams}
+\hypertarget{fortran_8h_a712ba008f0345618c5b1b87358a0206e}{\index{fortran.\-h@{fortran.\-h}!to\-Fortran@{to\-Fortran}}
+\index{to\-Fortran@{to\-Fortran}!fortran.h@{fortran.\-h}}
+\subsubsection[{to\-Fortran}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ to\-Fortran (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{t}
+\end{DoxyParamCaption}
+)}}\label{fortran_8h_a712ba008f0345618c5b1b87358a0206e}
+
+
+Recursively translate a Nodes to Fortran. 
+
+Translate \hyperlink{structNode}{Node} {\itshape t} to fixed format Fortran 95 code and do the same for its children. 
+\begin{DoxyParams}{Parameters}
+{\em t} & \hyperlink{structNode}{Node} to translate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String of Fortran code. 
+\end{DoxyReturn}

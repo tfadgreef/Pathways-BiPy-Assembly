@@ -23,7 +23,7 @@ void functionToJacobian(struct Node *t) {
     nodep = nodep->next;
   }
   
-  simplifyStructure(jac);
+//  simplifyStructure(jac);
   
   printFortranFunction(jac, 1);
 }
@@ -57,7 +57,7 @@ struct Node *derivative(struct Node *n, struct Node *j) {
         return tmp;
       case TNUM :
         return createConstant(0.0);
-      case TVAR : 
+      case TVAR :
         return D_var(n);
       case TARRAYINDEX :
         if (n->parent->tag == TASSIGN && n->parent->children == n) {
@@ -108,6 +108,7 @@ struct Node *derivative(struct Node *n, struct Node *j) {
       case TCOMBINE :
         /*fprintf(warn, "\n"); print_tree(0, n); fprintf(warn, "\n");*/
         fatalError("Internal error: TCOMBINE should not occur here.");
+      case TFUNCTION : return D_function(n->iname, n->children, j);
       default : fatalError("Undefined derivative.");
     }
   }
@@ -237,8 +238,12 @@ struct Node *D_assign(struct Node *n1, struct Node *n2){
       struct Node *obs = tmp;
       tmp = tmp->next;
       free(obs);
+    } else {
+      tmp = tmp->next;
     }
   }
+  
+  tmp = occ;
   
   while (tmp != NULL) {
     struct Node *r1 = createOperation(TIF);
@@ -308,6 +313,19 @@ struct Node *D_for(char *iden, struct Node *n1, struct Node *n2){
     tmp = tmp->next;
   }
   appendChild(r, r1);
+  
+  return r;
+}
+
+struct Node *D_function(char *iden, struct Node *n, struct Node *j) {
+  fprintf(warn, "FUNCTION: %s\n", iden);
+  struct MatlabFunction *mf = getFunctionInformation(iden);
+  
+  struct Node *r = createOperation(TMUL);
+  appendChild(r, derivative(n, j));
+  appendChild(r, createOperation(TFUNCTION));
+  setIdentifier(r->children->next, mf->fder);
+  appendChild(r->children->next, copyNode(n));
   
   return r;
 }

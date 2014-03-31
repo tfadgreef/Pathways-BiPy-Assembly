@@ -1,5 +1,6 @@
-\chapter[Usage]{Usage}
-\section[ODE Function]{The ODE Function}
+\chapter{Usage} \label{ch:Usage}
+The ODE solvers need an ODE system to be provided as a \Fortran subroutine (function), this can be done either manually or using the parser provided by the \PPODESUITE. Both options are described in the next two sections.
+\section{Manual ODE Function}
 \subsection{Introduction}
 The ODE function of the problem should be written in \Fortran 95. Here are some main \Fortran peculiarities to consider when writing \Fortran code.
 \begin{description}
@@ -40,24 +41,23 @@ The \Fortran subroutine that defines the ODE system should have the following ar
 
 Examples can be found in the \filepath{\ph{\PPODESUITE Source}/examples} folder.
 
-\subsection{Sparse Jacobian Matrix}
-When using the solver that uses a sparse matrix implementation for the Jacobian matrix, the number of non-zero values of the Jacobian matrix should be supplied. This is done using a \Fortran subroutine called \sourceword{nonzero}. The arguments of this subroutine are the following:
-\begin{description}
- \item[neq] \emph{input} Number of equations.
- \item[npar] \emph{input} Number of parameters.
- \item[par] \emph{input} The values of all parameters. Contrary to the ODE function, where the number of parameters and parameter values are supplied using a \sourceword{common} block, both are given as arguments here.
- \item[nnz] \emph{output} The number of nonzero elements in the Jacobian matrix. This value can be determined using the definition of the Jacobian matrix:
- \begin{equation}
-  J_{m,n} =
-  \begin{pmatrix}
-   \frac{\partial F_1}{\partial x_1} & \cdots & \frac{\partial F_1}{\partial x_n} \\
-   \vdots & \ddots & \vdots  \\
-   \frac{\partial F_m}{\partial x_1} & \cdots & \frac{\partial F_m}{\partial x_n}
-  \end{pmatrix}
- \end{equation}
- In the case of an ODE system, $m$ and $n$ are both equal to the number of equations. $F$ represents the system of ODEs.
- The number of nonzero elements can also be determined using trial and error. By just trying some values for \sourceword{nnz}, the error messages might give away the correlation between \sourceword{nnz} and the parameter and number of equations.
-\end{description}
+\section{Parser} \label{sec:Parser}
+\PPODESUITE can translate a \MATLAB function to \Fortran. The function that executes this procedure is PPODE\_translate. The parser is created using a combination of lex and yacc/bison. The parser interprets the the \MATLAB code and creates a tree structure out of it. This tree structure is then used to create the \Fortran code. This provides more flexibility and better interpretation than more direct forms of translation. An additional benefit is that the structure can be used to determine the Jacobian of the function.
+
+\subsection{Restrictions and Pitfalls}
+The \MATLAB ODE function should have the following structure:
+\matlabcmd{da = func( \ph{t}, \ph{x}, \ph{par}, \ph{neq}, \ph{np} )}
+Where \ph{t} is the independent variable, \ph{x} the dependent variable(s) and \ph{par} the parameter values. The last two arguments are optional and represent the number of equations (\ph{neq}) and number of parameters (\ph{np}).
+
+If the number of equations is not fixed, it should always depend on \ph{neq}. If you would for example use $\gamma$ as a parameter, which would per definition result in $2\cdot\gamma$ equations, define $\gamma = {neq \over 2}$ in your code, instead of passing $\gamma$ as a parameter.
+
+One of \MATLAB's main benefits is the ease of using vectors and matrices. Not all of this functionality can easily be ported to \Fortran, therefore there are some restrictions to consider when using vectors. First of all, matrices are (currently) not supported, only 1-dimensional datatypes are supported, i.e. vectors. Moreover, \MATLAB supports dynamic vectors (vectors that can change size during exection). This could be implemented in \Fortran, but it was chosen not to since almost all code that is written using dynamic vectors can also be written using static vectors, which in most cases is much faster. So make sure the size of vectors does not change in the ODE function and \textbf{all vectors are initialized using the \matlabcmdinline{zeros} function.}
+
+For example, the following code will not be parsed correctly and is slow and a bad coding practice in general:
+\matlabcmd{dx = [];
+dx = [dx; da]}
+
+Furtermore, bear in mind that \MATLAB has a lot of specific functions, that will are not implemented in \Fortran or the parser and will therefore not work.
 
 \section[Building]{Building the MEX Function}
 The \MATLAB function \sourceword{PPODE\_build}, included in the \PPODESUITE, can be used to build the ODE \Fortran file against the right solver libraries. First of all, make sure the \PPODESUITE paths are added to the \MATLAB path variable.
@@ -71,6 +71,25 @@ This command will generate a MEX file named 'odeproblem\_stiffsolver' of the pro
 The first two mandatory arguments, extra options can be specified. This is done by first giving the option name and then the value. For example, if the problem is not stiff and one would like verbose output, a non-stiff solver should be specified and the verbose mode should be enabled:
 \matlabcmd{PPODE\_build('odeproblem.F', 'odeproblem\_stiffsolver', ...\\\indent\indent'Solver', 'Non-Stiff', 'Verbose', 1)}
 Note that both the option name and value are case insensitive.
+
+\subsection{Sparse Jacobian Matrix}
+When using the solver that uses a sparse matrix implementation for the Jacobian matrix, the number of non-zero values of the Jacobian matrix should be supplied. There are two options to tackle this problem.
+
+The first and default option needs an analytical Jacobian to be specified. The generated function will evaluate the Jacobian two times to determine the number of non-zero elements. This option can be selected by setting 'INPUTNNZ' to zero.
+
+The second option is to manually provide a number of non-zero elements. This option can be selected by settting 'INPUTNNZ' to one. When this option is set, the generated function will require the first argument to be a 2x1 vector consisting of first the number of equations, and second the number of non-zero elements.
+
+In order to determine the number of non-zero elements of the Jacobian matrix, consider the definition of this matrix:
+\begin{equation}
+  J_{m,n} =
+  \begin{pmatrix}
+   \frac{\partial F_1}{\partial x_1} & \cdots & \frac{\partial F_1}{\partial x_n} \\
+   \vdots & \ddots & \vdots  \\
+   \frac{\partial F_m}{\partial x_1} & \cdots & \frac{\partial F_m}{\partial x_n}
+  \end{pmatrix}
+\end{equation}
+In the case of an ODE system, $m$ and $n$ are both equal to the number of equations. $F$ represents the system of ODEs.
+The number of nonzero elements can also be determined using trial and error. By just trying some values for \sourceword{nnz}, the error messages might give away the correlation between \sourceword{nnz} and the parameter and number of equations (this does not work with LSODES).
 
 \section[Execution]{Executing the MEX Function}
 The MEX function generated by the PPODE build function can be called as follows:

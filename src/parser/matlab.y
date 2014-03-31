@@ -80,7 +80,7 @@ index_expression_list
 array_expression
         : IDENTIFIER '(' index_expression_list ')'
         { 
-          $$ = createOperation(TARRAYINDEX);
+          $$ = createOperation(getIdentifierType($1));
           appendChild($$, $3);
           setIdentifier($$, $1);
         }
@@ -396,7 +396,14 @@ translation_unit
         : statement_list
         { fatalError("The file should provide a function, not a script."); }
         | FUNCTION function_declare eostmt statement_list
-        { processFunctionHeader($2); functionToFortran($4); functionToJacobian($4); /*fprintf(warn, "\n"); print_tree(0, $4); fprintf(warn, "\n");*/ }
+        { 
+          processFunctionHeader($2);
+          functionToFortran($4);
+          if (createJac == 1) {
+            functionToJacobian($4);
+          }
+          /*fprintf(warn, "\n"); print_tree(0, $4); fprintf(warn, "\n");*/
+        }
         ;
 
 func_ident_list
@@ -470,6 +477,16 @@ int main(unsigned int argc, unsigned char *argv[]) {
   func->j = "j";
   vars = NULL;
   simplifyStateSize = 3;
+  knownFunctions = NULL;
+  initializeKnownFunctions();
+
+  createJac = 1;
+  if (argc > 1) {
+    if (strcmp(argv[1], "0") == 0) {
+      createJac = 0;
+    }
+  }
+
   yyparse();
   return 0;
 }

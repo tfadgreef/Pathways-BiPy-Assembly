@@ -1,0 +1,30 @@
+<map id="D_plus" name="D_plus">
+<area shape="rect" id="node3" href="$node_8c.html#a990974952aa48d789ee7dabf10070194" title="Create a Node of the specified operation type. " alt="" coords="557,620,672,649"/>
+<area shape="rect" id="node7" href="$node_8c.html#ac59e12e2146890bd3656810716854c5f" title="Append a child Node to a parent Node. " alt="" coords="568,392,661,421"/>
+<area shape="rect" id="node11" href="$jacobian_8c.html#a679e6863209bf428a60f209b8ac64b2f" title="derivative" alt="" coords="119,657,196,686"/>
+<area shape="rect" id="node5" href="$tree_8c.html#a2e8df70b0cd23ae836717e0219526e39" title="Nicer memory allocation function. " alt="" coords="725,1589,792,1618"/>
+<area shape="rect" id="node9" href="$node_8c.html#a8021c7e05df0eb5a301433b6a83a5751" title="Find the last Node on the same level as the specified Node. " alt="" coords="737,392,780,421"/>
+<area shape="rect" id="node15" href="$node_8c.html#a630e9a32f8dad634171441534eedd274" title="Copies the data of a Node to a new Node instance. " alt="" coords="408,746,488,776"/>
+<area shape="rect" id="node20" href="$jacobian_8c.html#a9a73fec39d6f63181e0718e5af7a4580" title="D_zeros" alt="" coords="260,1156,329,1185"/>
+<area shape="rect" id="node32" href="$tree_8c.html#a512919504f1e49ef80bd2309e300e0ab" title="registerVariable" alt="" coords="392,1976,504,2005"/>
+<area shape="rect" id="node36" href="$jacobian_8c.html#af7f82a4a6c2a7751ae8b1ddfeda4c7e7" title="D_assign" alt="" coords="256,1384,333,1413"/>
+<area shape="rect" id="node48" href="$node_8c.html#af424017909286f07f58ff8bcc1cb16ca" title="Compare two Nodes and their children to check whether they are equivalent. " alt="" coords="393,1770,503,1800"/>
+<area shape="rect" id="node52" href="$tree_8c.html#a055e537e39403e6e3eab2415dd2428f9" title="getRelativeToY" alt="" coords="392,1693,504,1722"/>
+<area shape="rect" id="node55" href="$node_8c.html#aa603e9647cbbe4208a6de5546df7b9f7" title="Create a Node representing a constant number. " alt="" coords="560,1641,669,1670"/>
+<area shape="rect" id="node58" href="$tree_8c.html#a2c26e64b412545798ff08f0069cf2069" title="Fatal error function. " alt="" coords="577,1836,652,1865"/>
+<area shape="rect" id="node63" href="$jacobian_8c.html#adcb98e7d3dc6a9f4a69b2444a02ffc51" title="D_var" alt="" coords="267,1872,323,1901"/>
+<area shape="rect" id="node67" href="$jacobian_8c.html#a5d2292d7cc66b8ab6bf756608e0e2b7a" title="D_arrayindex" alt="" coords="245,976,344,1005"/>
+<area shape="rect" id="node76" href="$jacobian_8c.html#a7709640e1a5d9fdbe4b02d07e1389848" title="D_plus" alt="" coords="417,106,479,136"/>
+<area shape="rect" id="node81" href="$jacobian_8c.html#a18e1538e30dfe1e4d675c9ae7e090912" title="D_minus" alt="" coords="411,213,485,242"/>
+<area shape="rect" id="node86" href="$jacobian_8c.html#aabf319e76dcbd7f0f8135daea08130fb" title="D_negative" alt="" coords="404,160,492,189"/>
+<area shape="rect" id="node91" href="$jacobian_8c.html#a563b2d2ddf25802728e25a796247e051" title="D_mul" alt="" coords="265,366,324,396"/>
+<area shape="rect" id="node97" href="$jacobian_8c.html#a7a5c37c4ee6200ad5b2ed80f44594f7d" title="D_div" alt="" coords="267,684,323,713"/>
+<area shape="rect" id="node105" href="$jacobian_8c.html#a39e38e4c1369d762f09f15c5e4e727a1" title="D_if" alt="" coords="272,577,317,606"/>
+<area shape="rect" id="node111" href="$jacobian_8c.html#a66841a427a1ef221a92813ab9980933c" title="D_ifelse" alt="" coords="260,630,329,660"/>
+<area shape="rect" id="node117" href="$jacobian_8c.html#aa5e579b47c173b8044d76eaefe0f0ecf" title="D_for" alt="" coords="268,798,321,828"/>
+<area shape="rect" id="node23" href="$node_8c.html#ad1f8d800997fdede9718ede6b9b2d741" title="Set the identifier of a Node. " alt="" coords="403,1104,493,1133"/>
+<area shape="rect" id="node27" href="$node_8c.html#a25b6be3754d0bfe7f721c65986872f75" title="Create a Node representing a variable. " alt="" coords="396,1589,500,1618"/>
+<area shape="rect" id="node30" href="$jacobian_8c.html#a21d0cae9ba0f71cac6989332790340a4" title="D" alt="" coords="596,1694,633,1724"/>
+<area shape="rect" id="node38" href="$node_8c.html#ab62128f06e9ecf1ba999035e44e20125" title="findVariable" alt="" coords="403,1384,493,1413"/>
+<area shape="rect" id="node41" href="$node_8c.html#a36f4e62840cea8119a80005c7093c1a2" title="Append a statement to a list of statements. " alt="" coords="553,1384,676,1413"/>
+</map>

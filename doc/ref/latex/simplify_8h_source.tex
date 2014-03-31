@@ -1,0 +1,26 @@
+\hypertarget{simplify_8h_source}{\section{simplify.\-h}
+}
+
+\begin{DoxyCode}
+00001 \textcolor{preprocessor}{#ifndef SIMPLIFY\_H}
+00002 \textcolor{preprocessor}{}\textcolor{preprocessor}{#define SIMPLIFY\_H}
+00003 \textcolor{preprocessor}{}
+00004 \textcolor{keyword}{struct }\hyperlink{structNode}{Node};
+00005 \textcolor{keyword}{struct }\hyperlink{structVariable}{Variable};
+\hypertarget{simplify_8h_source_l00006}{}\hyperlink{simplify_8h_ae9d1253f6ec22141849cd8d6c51ce2b9}{00006} \textcolor{keyword}{enum} \hyperlink{simplify_8h_ae9d1253f6ec22141849cd8d6c51ce2b9}{SimplifyState} \{
+\hypertarget{simplify_8h_source_l00007}{}\hyperlink{simplify_8h_ae9d1253f6ec22141849cd8d6c51ce2b9a083e41952873b8835077428427331d46}{00007}   \hyperlink{simplify_8h_ae9d1253f6ec22141849cd8d6c51ce2b9a083e41952873b8835077428427331d46}{ZeroAssignments} = 0,
+\hypertarget{simplify_8h_source_l00008}{}\hyperlink{simplify_8h_ae9d1253f6ec22141849cd8d6c51ce2b9a6cfc44c973b3f839e7f8566c20d29df5}{00008}   \hyperlink{simplify_8h_ae9d1253f6ec22141849cd8d6c51ce2b9a6cfc44c973b3f839e7f8566c20d29df5}{ReplaceZeroAssignments} = 1,
+\hypertarget{simplify_8h_source_l00009}{}\hyperlink{simplify_8h_ae9d1253f6ec22141849cd8d6c51ce2b9aa0bcf5ec205659d2bcd81b388435a124}{00009}   \hyperlink{simplify_8h_ae9d1253f6ec22141849cd8d6c51ce2b9aa0bcf5ec205659d2bcd81b388435a124}{RemovePlusZero} = 2
+00010 \};
+\hypertarget{simplify_8h_source_l00011}{}\hyperlink{simplify_8h_a5509be8af5ad302a2cd471067a767d91}{00011} \textcolor{keyword}{enum} \hyperlink{simplify_8h_ae9d1253f6ec22141849cd8d6c51ce2b9}{SimplifyState} \hyperlink{simplify_8h_a5509be8af5ad302a2cd471067a767d91}{simplifyStateSize};
+00012 
+00013 \textcolor{keywordtype}{void} \hyperlink{simplify_8c_a8eb4efb3974bdf6363238f4df2c8f7e3}{simplifyStructure}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *t);
+00014 
+00015 \textcolor{keywordtype}{void} \hyperlink{simplify_8c_a6e2b9cdf29bedf48aba62a5034203f27}{registerZeroVar}(\textcolor{keywordtype}{char} *name, \textcolor{keywordtype}{int} \hyperlink{structVariable_a627f44b64b5d8d3ae8cb6a675f164405}{zero});
+00016 \textcolor{keywordtype}{int} \hyperlink{simplify_8c_a007c9cd2860c46f21184449737a510ad}{getVariableZero}(\textcolor{keywordtype}{char} *s);
+00017 \textcolor{keywordtype}{void} \hyperlink{simplify_8c_a03b5a4ee6f0130a2c38f54cea3016761}{S\_zeroAssignments}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *t);
+00018 \textcolor{keywordtype}{int} \hyperlink{simplify_8c_a62e326df000e3ab3090552236e1aefe4}{S\_replaceZeroAssignments}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *t);
+00019 \textcolor{keywordtype}{void} \hyperlink{simplify_8c_a85016bba267f2b9d0914f4080c31ea7d}{S\_removePlusZero}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *t);
+00020 
+00021 \textcolor{preprocessor}{#endif // SIMPLIFY\_H}
+\end{DoxyCode}

@@ -1,0 +1,90 @@
+\hypertarget{simplify_8c}{\section{simplify.\-c File Reference}
+\label{simplify_8c}\index{simplify.\-c@{simplify.\-c}}
+}
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}simplify.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}jacobian.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}fortran.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}tree.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}node.\-h\char`\"{}}\\*
+Include dependency graph for simplify.\-c\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{simplify_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{simplify_8c_a369266c24eacffb87046522897a570d5}{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{simplify_8c_a8eb4efb3974bdf6363238f4df2c8f7e3}{simplify\-Structure} (struct \hyperlink{structNode}{Node} $\ast$t)
+\item 
+void \hyperlink{simplify_8c_a03b5a4ee6f0130a2c38f54cea3016761}{S\-\_\-zero\-Assignments} (struct \hyperlink{structNode}{Node} $\ast$t)
+\item 
+void \hyperlink{simplify_8c_a6e2b9cdf29bedf48aba62a5034203f27}{register\-Zero\-Var} (char $\ast$s, int zero)
+\item 
+int \hyperlink{simplify_8c_a007c9cd2860c46f21184449737a510ad}{get\-Variable\-Zero} (char $\ast$s)
+\item 
+int \hyperlink{simplify_8c_a62e326df000e3ab3090552236e1aefe4}{S\-\_\-replace\-Zero\-Assignments} (struct \hyperlink{structNode}{Node} $\ast$t)
+\item 
+void \hyperlink{simplify_8c_a85016bba267f2b9d0914f4080c31ea7d}{S\-\_\-remove\-Plus\-Zero} (struct \hyperlink{structNode}{Node} $\ast$t)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{simplify_8c_a369266c24eacffb87046522897a570d5}{\index{simplify.\-c@{simplify.\-c}!\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E@{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}}
+\index{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E@{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}!simplify.c@{simplify.\-c}}
+\subsubsection[{\-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define \-\_\-\-G\-N\-U\-\_\-\-S\-O\-U\-R\-C\-E}}\label{simplify_8c_a369266c24eacffb87046522897a570d5}
+
+
+\subsection{Function Documentation}
+\hypertarget{simplify_8c_a007c9cd2860c46f21184449737a510ad}{\index{simplify.\-c@{simplify.\-c}!get\-Variable\-Zero@{get\-Variable\-Zero}}
+\index{get\-Variable\-Zero@{get\-Variable\-Zero}!simplify.c@{simplify.\-c}}
+\subsubsection[{get\-Variable\-Zero}]{\setlength{\rightskip}{0pt plus 5cm}int get\-Variable\-Zero (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{simplify_8c_a007c9cd2860c46f21184449737a510ad}
+\hypertarget{simplify_8c_a6e2b9cdf29bedf48aba62a5034203f27}{\index{simplify.\-c@{simplify.\-c}!register\-Zero\-Var@{register\-Zero\-Var}}
+\index{register\-Zero\-Var@{register\-Zero\-Var}!simplify.c@{simplify.\-c}}
+\subsubsection[{register\-Zero\-Var}]{\setlength{\rightskip}{0pt plus 5cm}void register\-Zero\-Var (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s, }
+\item[{int}]{zero}
+\end{DoxyParamCaption}
+)}}\label{simplify_8c_a6e2b9cdf29bedf48aba62a5034203f27}
+\hypertarget{simplify_8c_a85016bba267f2b9d0914f4080c31ea7d}{\index{simplify.\-c@{simplify.\-c}!S\-\_\-remove\-Plus\-Zero@{S\-\_\-remove\-Plus\-Zero}}
+\index{S\-\_\-remove\-Plus\-Zero@{S\-\_\-remove\-Plus\-Zero}!simplify.c@{simplify.\-c}}
+\subsubsection[{S\-\_\-remove\-Plus\-Zero}]{\setlength{\rightskip}{0pt plus 5cm}void S\-\_\-remove\-Plus\-Zero (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{t}
+\end{DoxyParamCaption}
+)}}\label{simplify_8c_a85016bba267f2b9d0914f4080c31ea7d}
+\hypertarget{simplify_8c_a62e326df000e3ab3090552236e1aefe4}{\index{simplify.\-c@{simplify.\-c}!S\-\_\-replace\-Zero\-Assignments@{S\-\_\-replace\-Zero\-Assignments}}
+\index{S\-\_\-replace\-Zero\-Assignments@{S\-\_\-replace\-Zero\-Assignments}!simplify.c@{simplify.\-c}}
+\subsubsection[{S\-\_\-replace\-Zero\-Assignments}]{\setlength{\rightskip}{0pt plus 5cm}int S\-\_\-replace\-Zero\-Assignments (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{t}
+\end{DoxyParamCaption}
+)}}\label{simplify_8c_a62e326df000e3ab3090552236e1aefe4}
+\hypertarget{simplify_8c_a03b5a4ee6f0130a2c38f54cea3016761}{\index{simplify.\-c@{simplify.\-c}!S\-\_\-zero\-Assignments@{S\-\_\-zero\-Assignments}}
+\index{S\-\_\-zero\-Assignments@{S\-\_\-zero\-Assignments}!simplify.c@{simplify.\-c}}
+\subsubsection[{S\-\_\-zero\-Assignments}]{\setlength{\rightskip}{0pt plus 5cm}void S\-\_\-zero\-Assignments (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{t}
+\end{DoxyParamCaption}
+)}}\label{simplify_8c_a03b5a4ee6f0130a2c38f54cea3016761}
+\hypertarget{simplify_8c_a8eb4efb3974bdf6363238f4df2c8f7e3}{\index{simplify.\-c@{simplify.\-c}!simplify\-Structure@{simplify\-Structure}}
+\index{simplify\-Structure@{simplify\-Structure}!simplify.c@{simplify.\-c}}
+\subsubsection[{simplify\-Structure}]{\setlength{\rightskip}{0pt plus 5cm}void simplify\-Structure (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{t}
+\end{DoxyParamCaption}
+)}}\label{simplify_8c_a8eb4efb3974bdf6363238f4df2c8f7e3}

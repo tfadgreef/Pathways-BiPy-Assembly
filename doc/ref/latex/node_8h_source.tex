@@ -1,0 +1,84 @@
+\hypertarget{node_8h_source}{\section{node.\-h}
+}
+
+\begin{DoxyCode}
+00001 \textcolor{preprocessor}{#ifndef NODE\_H}
+00002 \textcolor{preprocessor}{}\textcolor{preprocessor}{#define NODE\_H}
+00003 \textcolor{preprocessor}{}
+\hypertarget{node_8h_source_l00005}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919}{00005} \textcolor{keyword}{enum} \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919}{NodeTag} \{
+\hypertarget{node_8h_source_l00006}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ab61d4391af9740a542e317b9ce6a3d2e}{00006}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ab61d4391af9740a542e317b9ce6a3d2e}{TPLUS},            
+\hypertarget{node_8h_source_l00007}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a229e1fa5893725d4ab9141de9a5221c3}{00007}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a229e1fa5893725d4ab9141de9a5221c3}{TMINUS},           
+\hypertarget{node_8h_source_l00008}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a2f6da8014bbb780265737f3edb98f928}{00008}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a2f6da8014bbb780265737f3edb98f928}{TMUL},             
+\hypertarget{node_8h_source_l00009}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ac3e4cf6bb26322af5dcabd9a3e536863}{00009}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ac3e4cf6bb26322af5dcabd9a3e536863}{TDIV},             
+\hypertarget{node_8h_source_l00010}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ac9f2843a55469a6152dd35687d275193}{00010}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ac9f2843a55469a6152dd35687d275193}{TPOW},             
+\hypertarget{node_8h_source_l00011}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a71fff872f388505135681e9fad482e72}{00011}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a71fff872f388505135681e9fad482e72}{TNUM},             
+\hypertarget{node_8h_source_l00012}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919afe64957b6fe1c660804c3d310000b5f0}{00012}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919afe64957b6fe1c660804c3d310000b5f0}{TVAR},             
+\hypertarget{node_8h_source_l00013}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aae1cac6fabc93853164889cdc0d77b1a}{00013}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aae1cac6fabc93853164889cdc0d77b1a}{TFOR},             
+00014   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aaf9a72d2b433486eb715922b4c98b19b}{TWHILE},           
+00018   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a8583540b6f599086fc9753a345cedba8}{TASSIGN},          
+\hypertarget{node_8h_source_l00022}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a1ba33d59e4de7364510db374755b7d7e}{00022}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a1ba33d59e4de7364510db374755b7d7e}{TRANGE},           
+\hypertarget{node_8h_source_l00023}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ada27aaee300d100894b7052b2063d6dd}{00023}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ada27aaee300d100894b7052b2063d6dd}{TOR},              
+\hypertarget{node_8h_source_l00024}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ac83acf67a25689b50ade68bb2c59391f}{00024}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ac83acf67a25689b50ade68bb2c59391f}{TAND},             
+\hypertarget{node_8h_source_l00025}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a2628d0015da0ba3baca55ea90b6bdeba}{00025}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a2628d0015da0ba3baca55ea90b6bdeba}{TEQ\_OP},           
+\hypertarget{node_8h_source_l00026}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ada7148d13131a5296980f6158b94f9b6}{00026}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ada7148d13131a5296980f6158b94f9b6}{TNE\_OP},           
+\hypertarget{node_8h_source_l00027}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a275466a9a49ca2f6b9aac4c714420bd0}{00027}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a275466a9a49ca2f6b9aac4c714420bd0}{TGT\_OP},           
+\hypertarget{node_8h_source_l00028}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a69747867f677928f5b44b50be82e355a}{00028}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a69747867f677928f5b44b50be82e355a}{TLT\_OP},           
+\hypertarget{node_8h_source_l00029}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aa7765aa3b3c0d91d3bb14099258f72f3}{00029}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aa7765aa3b3c0d91d3bb14099258f72f3}{TGE\_OP},           
+\hypertarget{node_8h_source_l00030}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a06cb01dea3f4bfae79d87b0534c0a221}{00030}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a06cb01dea3f4bfae79d87b0534c0a221}{TLE\_OP},           
+\hypertarget{node_8h_source_l00031}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919af6049a2c76faf4a885590098b3c6f5d7}{00031}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919af6049a2c76faf4a885590098b3c6f5d7}{TIF},              
+\hypertarget{node_8h_source_l00032}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a2f21ceca5171b4c27f561a3abdac8cd9}{00032}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a2f21ceca5171b4c27f561a3abdac8cd9}{TIFELSE},          
+\hypertarget{node_8h_source_l00033}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a00caba3d6b9ef9fa9adeed58f0fab5ae}{00033}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a00caba3d6b9ef9fa9adeed58f0fab5ae}{TIFELSEIF},        
+\hypertarget{node_8h_source_l00034}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a2c176bcae51056202bb3b10ca15bec6c}{00034}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a2c176bcae51056202bb3b10ca15bec6c}{TELSEIF},          
+\hypertarget{node_8h_source_l00035}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a47618f8f65141735078edfa809d0e93c}{00035}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a47618f8f65141735078edfa809d0e93c}{TIFELSEIFELSE},    
+\hypertarget{node_8h_source_l00036}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a5b179cf7f0b8747fa3f686c8d7cdc2aa}{00036}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a5b179cf7f0b8747fa3f686c8d7cdc2aa}{TARRAYINDEX},      
+00037   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aeeb11e0d29bd5515538fc54998e73698}{TLIST},            
+\hypertarget{node_8h_source_l00039}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a3b314fffc527699e89b8904804e41bfe}{00039}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a3b314fffc527699e89b8904804e41bfe}{TFUNCDEC},         
+\hypertarget{node_8h_source_l00040}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ac66d28545a7441c95c8ef80bb8c72ce2}{00040}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ac66d28545a7441c95c8ef80bb8c72ce2}{TMISC},            
+\hypertarget{node_8h_source_l00041}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a8d8ec3ec1fab79e3ecb560657481efc9}{00041}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a8d8ec3ec1fab79e3ecb560657481efc9}{TCOMBINE},         
+00042   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aecc032ac8d73ded1632db71be06e61a9}{TNOT},             
+\hypertarget{node_8h_source_l00045}{}\hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919adca0a7f9ec50a9d85eb8b1852387be0d}{00045}   \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919adca0a7f9ec50a9d85eb8b1852387be0d}{TNEGATIVE}         
+00046 \};
+00047 
+00049 
+\hypertarget{node_8h_source_l00082}{}\hyperlink{structNode}{00082} \textcolor{keyword}{struct }\hyperlink{structNode}{Node} \{
+\hypertarget{node_8h_source_l00084}{}\hyperlink{structNode_aae55c9a8e76121d7f9c721c0239e6fb8}{00084}   \textcolor{keyword}{enum} \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919}{NodeTag} \hyperlink{structNode_aae55c9a8e76121d7f9c721c0239e6fb8}{tag};
+00086 
+\hypertarget{node_8h_source_l00089}{}\hyperlink{structNode_aa162dd1e0693188a22b1f13b9a2a0ef0}{00089}   \textcolor{keyword}{struct }\hyperlink{structNode}{Node} *\hyperlink{structNode_aa162dd1e0693188a22b1f13b9a2a0ef0}{next};
+00091 
+\hypertarget{node_8h_source_l00094}{}\hyperlink{structNode_a9a9311efc5dc64017bf492a386b77b0d}{00094}   \textcolor{keyword}{struct }\hyperlink{structNode}{Node} *\hyperlink{structNode_a9a9311efc5dc64017bf492a386b77b0d}{previous};
+00096 
+\hypertarget{node_8h_source_l00100}{}\hyperlink{structNode_a827ac726d02ddf6d00ba8a55cd296df2}{00100}   \textcolor{keyword}{struct }\hyperlink{structNode}{Node} *\hyperlink{structNode_a827ac726d02ddf6d00ba8a55cd296df2}{children};
+00102 
+\hypertarget{node_8h_source_l00105}{}\hyperlink{structNode_a7b739036012f282683e6452a0b1595af}{00105}   \textcolor{keyword}{struct }\hyperlink{structNode}{Node} *\hyperlink{structNode_a7b739036012f282683e6452a0b1595af}{parent};
+00107 
+\hypertarget{node_8h_source_l00110}{}\hyperlink{structNode_ad7f9455e819b623c0e4a9480476eacfe}{00110}   \textcolor{keywordtype}{double} \hyperlink{structNode_ad7f9455e819b623c0e4a9480476eacfe}{ival};
+00112 
+\hypertarget{node_8h_source_l00119}{}\hyperlink{structNode_a76c70ae7ac3d58ebe41da968fedb8093}{00119}   \textcolor{keywordtype}{char} *\hyperlink{structNode_a76c70ae7ac3d58ebe41da968fedb8093}{iname};
+\hypertarget{node_8h_source_l00121}{}\hyperlink{structNode_a28a2a20ee60bdfbd168e4f4bf20d8c82}{00121}   \textcolor{keywordtype}{int} \hyperlink{structNode_a28a2a20ee60bdfbd168e4f4bf20d8c82}{ignore};
+00122 \};
+00123 
+00125 
+00131 \textcolor{keyword}{struct }\hyperlink{structNode}{Node} *\hyperlink{node_8c_a990974952aa48d789ee7dabf10070194}{createOperation}(\textcolor{keyword}{enum} \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919}{NodeTag} op);
+00133 
+00139 \textcolor{keywordtype}{void} \hyperlink{node_8c_ac59e12e2146890bd3656810716854c5f}{appendChild}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *\hyperlink{structNode_a7b739036012f282683e6452a0b1595af}{parent}, \textcolor{keyword}{struct} \hyperlink{structNode}{Node} *child);
+00141 
+00146 \textcolor{keywordtype}{void} \hyperlink{node_8c_ad1f8d800997fdede9718ede6b9b2d741}{setIdentifier}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *node, \textcolor{keywordtype}{char} *identifier);
+00148 
+00153 \textcolor{keyword}{struct }\hyperlink{structNode}{Node} *\hyperlink{node_8c_a8021c7e05df0eb5a301433b6a83a5751}{last}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *t);
+00155 
+00160 \textcolor{keyword}{struct }\hyperlink{structNode}{Node} *\hyperlink{node_8c_aa603e9647cbbe4208a6de5546df7b9f7}{createConstant}(\textcolor{keywordtype}{double} num);
+00162 
+00167 \textcolor{keyword}{struct }\hyperlink{structNode}{Node} *\hyperlink{node_8c_a25b6be3754d0bfe7f721c65986872f75}{createVariable}(\textcolor{keywordtype}{char} *varname);
+00169 
+00179 \textcolor{keyword}{struct }\hyperlink{structNode}{Node} *\hyperlink{node_8c_a36f4e62840cea8119a80005c7093c1a2}{appendStatement}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *prevnodes, \textcolor{keyword}{struct} 
+      \hyperlink{structNode}{Node} *newnode);
+00181 
+00188 \textcolor{keyword}{struct }\hyperlink{structNode}{Node} *\hyperlink{node_8c_a630e9a32f8dad634171441534eedd274}{copyNode}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *n);
+00190 
+00194 \textcolor{keywordtype}{void} \hyperlink{node_8c_a9404ea17c515d0d18c37bde7c31b5979}{removeNode}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *n);
+00196 \textcolor{keyword}{struct }\hyperlink{structNode}{Node} *\hyperlink{node_8c_ab62128f06e9ecf1ba999035e44e20125}{findVariable}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *n);
+00198 
+00206 \textcolor{keywordtype}{int} \hyperlink{node_8c_af424017909286f07f58ff8bcc1cb16ca}{compareNodes}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *n1, \textcolor{keyword}{struct} \hyperlink{structNode}{Node} *n2);
+00207 
+00208 \textcolor{preprocessor}{#endif // NODE\_H}
+\end{DoxyCode}

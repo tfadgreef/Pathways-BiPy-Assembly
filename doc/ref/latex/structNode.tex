@@ -1,0 +1,126 @@
+\hypertarget{structNode}{\section{Node Struct Reference}
+\label{structNode}\index{Node@{Node}}
+}
+
+
+A two dimensional node/tree data.  
+
+
+
+
+{\ttfamily \#include $<$node.\-h$>$}
+
+
+
+Collaboration diagram for Node\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=178pt]{structNode__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919}{Node\-Tag} \hyperlink{structNode_aae55c9a8e76121d7f9c721c0239e6fb8}{tag}
+\begin{DoxyCompactList}\small\item\em The tag of the \hyperlink{structNode}{Node}, specifying the type of the node. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{structNode_aa162dd1e0693188a22b1f13b9a2a0ef0}{next}
+\begin{DoxyCompactList}\small\item\em Pointer to the next \hyperlink{structNode}{Node}. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{structNode_a9a9311efc5dc64017bf492a386b77b0d}{previous}
+\begin{DoxyCompactList}\small\item\em Pointer to the previous \hyperlink{structNode}{Node}. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{structNode_a827ac726d02ddf6d00ba8a55cd296df2}{children}
+\begin{DoxyCompactList}\small\item\em Pointer to the first child \hyperlink{structNode}{Node}. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{structNode_a7b739036012f282683e6452a0b1595af}{parent}
+\begin{DoxyCompactList}\small\item\em Pointer to the previous \hyperlink{structNode}{Node}. \end{DoxyCompactList}\item 
+double \hyperlink{structNode_ad7f9455e819b623c0e4a9480476eacfe}{ival}
+\begin{DoxyCompactList}\small\item\em Value of the number represented by this \hyperlink{structNode}{Node}. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{structNode_a76c70ae7ac3d58ebe41da968fedb8093}{iname}
+\begin{DoxyCompactList}\small\item\em The name of the identifier represented by this \hyperlink{structNode}{Node}. \end{DoxyCompactList}\item 
+int \hyperlink{structNode_a28a2a20ee60bdfbd168e4f4bf20d8c82}{ignore}
+\begin{DoxyCompactList}\small\item\em Property that will make parsers ignore the current assignment if set to 1. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A two dimensional node/tree data. 
+
+This data structure consists of nodes that specify their neighbours. Each node has a left neighbour, right neighbour, parent and children, resulting in a structure like this\-: \begin{DoxyVerb}node-1
+  |-> node-1.1
+  |-> node-1.2 
+\end{DoxyVerb}
+ Where node-\/1 has no neighbours, but two \hyperlink{structNode_a827ac726d02ddf6d00ba8a55cd296df2}{Node\-::children}\-: node-\/1.\-1 and node-\/1.\-2. node-\/1.\-1 is positioned \hyperlink{structNode_a9a9311efc5dc64017bf492a386b77b0d}{Node\-::previous} of node-\/1.\-2, whereas node-\/1.\-2 is the \hyperlink{structNode_aa162dd1e0693188a22b1f13b9a2a0ef0}{Node\-::next} node relative to node-\/1.\-1. Both node-\/1.\-1 and node-\/1.\-2 have node-\/1 as \hyperlink{structNode_a7b739036012f282683e6452a0b1595af}{Node\-::parent}.
+
+Each node also has a \hyperlink{structNode_aae55c9a8e76121d7f9c721c0239e6fb8}{Node\-::tag}, defining the type of the node. Examples of tags are \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919ab61d4391af9740a542e317b9ce6a3d2e}{T\-P\-L\-U\-S} and \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a2f6da8014bbb780265737f3edb98f928}{T\-M\-U\-L}, specifying a plus (+) or multiplication ($\ast$) operation respectively.
+
+If the node specifies a number (i.\-e. the tag is \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a71fff872f388505135681e9fad482e72}{T\-N\-U\-M}), \hyperlink{structNode_ad7f9455e819b623c0e4a9480476eacfe}{Node\-::ival} will hold the value of this number. Every number is interpreted as a double precision number, since Matlab does not really distinguishes between integers and floating point numbers either.
+
+The \hyperlink{structNode_a76c70ae7ac3d58ebe41da968fedb8093}{Node\-::iname} property can be used in combination with the \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919afe64957b6fe1c660804c3d310000b5f0}{T\-V\-A\-R}, \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a5b179cf7f0b8747fa3f686c8d7cdc2aa}{T\-A\-R\-R\-A\-Y\-I\-N\-D\-E\-X} or \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aae1cac6fabc93853164889cdc0d77b1a}{T\-F\-O\-R} tags to specify the name of the identifier used.
+
+The \hyperlink{structNode_a28a2a20ee60bdfbd168e4f4bf20d8c82}{Node\-::ignore} property can be used to ignore Matlab specific assignments that should not be translated to Fortran code.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{node_8h_a630e9a32f8dad634171441534eedd274}{copy\-Node}, \hyperlink{node_8h_a9404ea17c515d0d18c37bde7c31b5979}{remove\-Node}, \hyperlink{node_8h_a990974952aa48d789ee7dabf10070194}{create\-Operation}, \hyperlink{node_8h_aa603e9647cbbe4208a6de5546df7b9f7}{create\-Constant}, \hyperlink{node_8h_a25b6be3754d0bfe7f721c65986872f75}{create\-Variable}, \hyperlink{node_8h_ac59e12e2146890bd3656810716854c5f}{append\-Child}, \hyperlink{tree_8h_a4035da3929ae669ab801f4eff738bb6e}{print\-\_\-tree} 
+\end{DoxySeeAlso}
+
+
+\subsection{Field Documentation}
+\hypertarget{structNode_a827ac726d02ddf6d00ba8a55cd296df2}{\index{Node@{Node}!children@{children}}
+\index{children@{children}!Node@{Node}}
+\subsubsection[{children}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ children}}\label{structNode_a827ac726d02ddf6d00ba8a55cd296df2}
+
+
+Pointer to the first child \hyperlink{structNode}{Node}. 
+
+All other children can be accessed using the \hyperlink{structNode_aa162dd1e0693188a22b1f13b9a2a0ef0}{Node\-::next} properties of the children. Null when the \hyperlink{structNode}{Node} does not have children. \hypertarget{structNode_a28a2a20ee60bdfbd168e4f4bf20d8c82}{\index{Node@{Node}!ignore@{ignore}}
+\index{ignore@{ignore}!Node@{Node}}
+\subsubsection[{ignore}]{\setlength{\rightskip}{0pt plus 5cm}int ignore}}\label{structNode_a28a2a20ee60bdfbd168e4f4bf20d8c82}
+
+
+Property that will make parsers ignore the current assignment if set to 1. 
+
+\hypertarget{structNode_a76c70ae7ac3d58ebe41da968fedb8093}{\index{Node@{Node}!iname@{iname}}
+\index{iname@{iname}!Node@{Node}}
+\subsubsection[{iname}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ iname}}\label{structNode_a76c70ae7ac3d58ebe41da968fedb8093}
+
+
+The name of the identifier represented by this \hyperlink{structNode}{Node}. 
+
+This property is only set when the tag of the \hyperlink{structNode}{Node} is either \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919afe64957b6fe1c660804c3d310000b5f0}{T\-V\-A\-R}, T\-A\-R\-R\-A\-Y\-I\-N\-D\-E\-X or \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aae1cac6fabc93853164889cdc0d77b1a}{T\-F\-O\-R}. In the case of \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919afe64957b6fe1c660804c3d310000b5f0}{T\-V\-A\-R} and T\-A\-R\-R\-A\-Y\-I\-N\-D\-E\-X, this property specifies the name of the variable. When the tag is \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919aae1cac6fabc93853164889cdc0d77b1a}{T\-F\-O\-R}, this property specifies the name of the variable that is used by the for statement. \hypertarget{structNode_ad7f9455e819b623c0e4a9480476eacfe}{\index{Node@{Node}!ival@{ival}}
+\index{ival@{ival}!Node@{Node}}
+\subsubsection[{ival}]{\setlength{\rightskip}{0pt plus 5cm}double ival}}\label{structNode_ad7f9455e819b623c0e4a9480476eacfe}
+
+
+Value of the number represented by this \hyperlink{structNode}{Node}. 
+
+This property is only set when the tag of the \hyperlink{structNode}{Node} is \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919a71fff872f388505135681e9fad482e72}{T\-N\-U\-M}. \hypertarget{structNode_aa162dd1e0693188a22b1f13b9a2a0ef0}{\index{Node@{Node}!next@{next}}
+\index{next@{next}!Node@{Node}}
+\subsubsection[{next}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ next}}\label{structNode_aa162dd1e0693188a22b1f13b9a2a0ef0}
+
+
+Pointer to the next \hyperlink{structNode}{Node}. 
+
+N\-U\-L\-L when the \hyperlink{structNode}{Node} does not have a next neighbour. \hypertarget{structNode_a7b739036012f282683e6452a0b1595af}{\index{Node@{Node}!parent@{parent}}
+\index{parent@{parent}!Node@{Node}}
+\subsubsection[{parent}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ parent}}\label{structNode_a7b739036012f282683e6452a0b1595af}
+
+
+Pointer to the previous \hyperlink{structNode}{Node}. 
+
+N\-U\-L\-L when the \hyperlink{structNode}{Node} is the topmost \hyperlink{structNode}{Node}. \hypertarget{structNode_a9a9311efc5dc64017bf492a386b77b0d}{\index{Node@{Node}!previous@{previous}}
+\index{previous@{previous}!Node@{Node}}
+\subsubsection[{previous}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ previous}}\label{structNode_a9a9311efc5dc64017bf492a386b77b0d}
+
+
+Pointer to the previous \hyperlink{structNode}{Node}. 
+
+N\-U\-L\-L when the \hyperlink{structNode}{Node} does not have a previous neighbour. \hypertarget{structNode_aae55c9a8e76121d7f9c721c0239e6fb8}{\index{Node@{Node}!tag@{tag}}
+\index{tag@{tag}!Node@{Node}}
+\subsubsection[{tag}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Node\-Tag} tag}}\label{structNode_aae55c9a8e76121d7f9c721c0239e6fb8}
+
+
+The tag of the \hyperlink{structNode}{Node}, specifying the type of the node. 
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{node_8h}{node.\-h}\end{DoxyCompactItemize}

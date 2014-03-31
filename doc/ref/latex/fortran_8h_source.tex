@@ -1,0 +1,46 @@
+\hypertarget{fortran_8h_source}{\section{fortran.\-h}
+}
+
+\begin{DoxyCode}
+00001 \textcolor{preprocessor}{#ifndef FORTRAN\_H}
+00002 \textcolor{preprocessor}{}\textcolor{preprocessor}{#define FORTRAN\_H}
+00003 \textcolor{preprocessor}{}
+00004 \textcolor{keyword}{struct }\hyperlink{structNode}{Node};
+00005 
+00006 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a712ba008f0345618c5b1b87358a0206e}{toFortran}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *t);
+00007 \textcolor{keywordtype}{void} \hyperlink{fortran_8c_a2222da9d792b8540ffba7e25fbf4e4a4}{functionToFortran}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *t);
+00008 \textcolor{keywordtype}{void} \hyperlink{fortran_8c_a6d57af6f238f091e9c62b9ed81f194a3}{printFortranFunction}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node} *t, \textcolor{keywordtype}{int} jac);
+00009 
+00010 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a9a1c3a7f211f7d42c6dedcdaed68067e}{line}(\textcolor{keywordtype}{int} label, \textcolor{keywordtype}{char} *content);
+00011 
+00012 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a02a98fd967252e6d807915856d09c77f}{F\_plus}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00013 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_adc9b028cf89661eeb91182ab007da632}{F\_minus}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00014 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a0ca25a9453e2eeb469f1120368dd481f}{F\_negative}(\textcolor{keywordtype}{char} *s1);
+00015 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a1d67a9cba2734d4accc1f041aeab29dc}{F\_mul}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00016 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a0a05ea2fc6b0ca74871f60f1580fade0}{F\_div}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00017 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_ab1deef2cd69a27b35060de99428d6002}{F\_pow}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00018 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_ad039b3cb32f255dbab046b141de3b710}{F\_not}(\textcolor{keywordtype}{char} *s1);
+00019 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a46ec6c338eb4bc765f191f1c4c3a4b53}{F\_eq\_op}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00020 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_afaf4bf6f26417c1e1abb46f4a67b3d90}{F\_ne\_op}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00021 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a97a8bc56d7ed7fee3bff400d1fd58ea3}{F\_gt\_op}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00022 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_ae69df0da134bdabf8e931d0f18f9a9de}{F\_ge\_op}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00023 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a168e6ceafab728511a2832d50e48942a}{F\_lt\_op}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00024 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a9b9a6759bf60f4ee7f53eb2af65acf05}{F\_le\_op}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00025 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a3a9a87b9a8262532d796ae4904caac49}{F\_assign}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00026 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_abafedd063906b6369ffadd0d9ec36f9e}{F\_for}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2, \textcolor{keywordtype}{char} *s3);
+00027 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_aa6f504e52bf6b28f12fcb6f052642d04}{F\_range}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2, \textcolor{keywordtype}{char} *s3);
+00028 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a6fc4168f0113431f451b2fbc8a23cd39}{F\_while}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00029 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a0cd8a485e5575fe231bd15bb724c904f}{F\_and}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00030 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a87a3641482ea51fff74931c9248ce245}{F\_or}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00031 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_ad35c68cadde4047a250fc7f3722cd4ba}{F\_if}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00032 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a9d12d2fadabc5cb43dcfd3da0a379a27}{F\_ifelse}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2, \textcolor{keywordtype}{char} *s3);
+00033 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_aa40f8274e7e8d72e7bf45b8ba657b487}{F\_ifelseif}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2, \textcolor{keywordtype}{char} *s3);
+00034 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_ae4f68d273f9c36127d05c8ce3036599e}{F\_elseif}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00035 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a3c18e2e40028988c33e5513716e00395}{F\_ifelseifelse}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2, \textcolor{keywordtype}{char} *s3, \textcolor{keywordtype}{char} *s4);
+00036 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_abcfc636d10b338ba9603adc5080f8268}{F\_arrayindex}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00037 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_ae7130ea548b657055bbd08670caa7361}{F\_indexrange}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00038 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_ab230e89691dc4f8dff8d85472c20fd8a}{F\_zeros}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2, \textcolor{keywordtype}{int} allocate);
+00039 \textcolor{keywordtype}{char} *\hyperlink{fortran_8c_a4193d629b89c1551beb365d1c0a4bc13}{F\_combine}(\textcolor{keywordtype}{char} *s1, \textcolor{keywordtype}{char} *s2);
+00040 
+00041 \textcolor{preprocessor}{#endif // FORTRAN\_H}
+\end{DoxyCode}

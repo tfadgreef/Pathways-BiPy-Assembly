@@ -1,5 +1,6 @@
-\chapter[Usage]{Usage}
-\section[ODE Function]{The ODE Function}
+\chapter{Usage} \label{ch:Usage}
+The ODE solvers need an ODE system to be provided as a \Fortran subroutine (function), this can be done either manually or using the parser provided by the \PPODESUITE. Both options are described in the next two sections.
+\section{Manual ODE Function}
 \subsection{Introduction}
 The ODE function of the problem should be written in \Fortran 95. Here are some main \Fortran peculiarities to consider when writing \Fortran code.
 \begin{description}
@@ -40,6 +41,25 @@ The \Fortran subroutine that defines the ODE system should have the following ar
 
 Examples can be found in the \filepath{\ph{\PPODESUITE Source}/examples} folder.
 
+\section{Parser} \label{sec:Parser}
+\PPODESUITE can translate a \MATLAB function to \Fortran. The function that executes this procedure is PPODE\_translate. The parser is created using a combination of lex and yacc/bison. The parser interprets the the \MATLAB code and creates a tree structure out of it. This tree structure is then used to create the \Fortran code. This provides more flexibility and better interpretation than more direct forms of translation. An additional benefit is that the structure can be used to determine the Jacobian of the function.
+
+\subsection{Restrictions and Pitfalls}
+The \MATLAB ODE function should have the following structure:
+\matlabcmd{\ph{dx} = func( \ph{t}, \ph{x}, \ph{par}, \ph{neq}, \ph{np} )}
+Where \ph{t} is the independent variable, \ph{x} the dependent variable(s) and \ph{par} the parameter values. The last two arguments are optional and represent the number of equations (\ph{neq}) and number of parameters (\ph{np}).
+
+If the number of equations is not fixed, it should always depend on \ph{neq}. If you would for example use $\gamma$ as a parameter, which would per definition result in $2\cdot\gamma$ equations, define $\gamma = {neq \over 2}$ in your code, instead of passing $\gamma$ as a parameter.
+
+One of \MATLAB's main benefits is the ease of using vectors and matrices. Not all of this functionality can easily be ported to \Fortran, therefore there are some restrictions to consider when using vectors. First of all, matrices are (currently) not supported, only 1-dimensional datatypes are supported, i.e. vectors. Moreover, \MATLAB supports dynamic vectors (vectors that can change size during exection). This could be implemented in \Fortran, but it was chosen not to since almost all code that is written using dynamic vectors can also be written using static vectors, which in most cases is much faster. So make sure the size of vectors does not change in the ODE function and \textbf{all vectors are initialized using the \matlabcmdinline{zeros} function.}
+
+For example, the following code will not be parsed correctly and is slow and a bad coding practice in general:
+\matlabcmd{dx = []; dx = [dx da]; dx = [dx da];}
+Here, the vector \texttt{dx} is initialized as an empty vector and changes size twice afterwards. Better code, that can be translated to \Fortran is the following:
+\matlabcmd{i = length(da); dx = zeros(2*i, 1); dx(1:i) = da; dx((i+1):(2*i)) = da;}
+
+Furtermore, bear in mind that \MATLAB has a lot of specific functions, that will are not implemented in \Fortran or the parser and will therefore not work.
+
 \section[Building]{Building the MEX Function}
 The \MATLAB function \sourceword{PPODE\_build}, included in the \PPODESUITE, can be used to build the ODE \Fortran file against the right solver libraries. First of all, make sure the \PPODESUITE paths are added to the \MATLAB path variable.
 \matlabcmd{PPODE\_addPaths}
@@ -68,7 +88,7 @@ In order to determine the number of non-zero elements of the Jacobian matrix, co
    \vdots & \ddots & \vdots  \\
    \frac{\partial F_m}{\partial x_1} & \cdots & \frac{\partial F_m}{\partial x_n}
   \end{pmatrix}
- \end{equation}
+\end{equation}
 In the case of an ODE system, $m$ and $n$ are both equal to the number of equations. $F$ represents the system of ODEs.
 The number of nonzero elements can also be determined using trial and error. By just trying some values for \sourceword{nnz}, the error messages might give away the correlation between \sourceword{nnz} and the parameter and number of equations (this does not work with LSODES).
 

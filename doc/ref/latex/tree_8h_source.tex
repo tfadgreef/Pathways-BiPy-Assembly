@@ -1,0 +1,67 @@
+\hypertarget{tree_8h_source}{\section{tree.\-h}
+}
+
+\begin{DoxyCode}
+00001 \textcolor{preprocessor}{#include "stdio.h"}
+00002 
+\hypertarget{tree_8h_source_l00003}{}\hyperlink{tree_8h_a74e75242132eaabbc1c512488a135926}{00003} \textcolor{preprocessor}{#define MIN(x, y) (((x) < (y)) ? (x) : (y))}
+00004 \textcolor{preprocessor}{}
+00005 \textcolor{comment}{// Forward declartion}
+\hypertarget{tree_8h_source_l00006}{}\hyperlink{tree_8h_a7b668745fc4f8ed77aec0648aebf9058}{00006} \textcolor{keyword}{struct }\hyperlink{structNode}{Node};
+00007 
+00008 \textcolor{comment}{// Output streams for warnings and output.}
+00009 FILE * \hyperlink{tree_8h_a7b668745fc4f8ed77aec0648aebf9058}{warn};
+\hypertarget{tree_8h_source_l00010}{}\hyperlink{tree_8h_a1277960b5f2b37137fe9b0b5a1ea0beb}{00010} FILE * \hyperlink{tree_8h_a1277960b5f2b37137fe9b0b5a1ea0beb}{out};
+00011 
+\hypertarget{tree_8h_source_l00013}{}\hyperlink{tree_8h_a083bb88db3e0bb67c8410b9d89d11015}{00013} \textcolor{keywordtype}{int} \hyperlink{tree_8h_a083bb88db3e0bb67c8410b9d89d11015}{labelcount};
+00014 
+\hypertarget{tree_8h_source_l00016}{}\hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309ab}{00016} \textcolor{keyword}{enum} \hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309ab}{VariableType} \{
+\hypertarget{tree_8h_source_l00017}{}\hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309abaa8660a08a413e18977c553b09a26733d}{00017}   \hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309abaa8660a08a413e18977c553b09a26733d}{TDOUBLE},        
+\hypertarget{tree_8h_source_l00018}{}\hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309abac7f403f30660fcff1bc31cf1e20496c9}{00018}   \hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309abac7f403f30660fcff1bc31cf1e20496c9}{TINT},           
+\hypertarget{tree_8h_source_l00019}{}\hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309abaf3606f710a76d91a9d7f48b3604fb673}{00019}   \hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309abaf3606f710a76d91a9d7f48b3604fb673}{TDOUBLEARRAY}    
+00020 \};
+00021 
+00023 
+\hypertarget{tree_8h_source_l00027}{}\hyperlink{structVariable}{00027} \textcolor{keyword}{struct }\hyperlink{structVariable}{Variable} \{
+\hypertarget{tree_8h_source_l00029}{}\hyperlink{structVariable_a6d3af05ac5e896c45aeb8834fcbf84f4}{00029}   \textcolor{keyword}{enum} \hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309ab}{VariableType} \hyperlink{structVariable_a6d3af05ac5e896c45aeb8834fcbf84f4}{type};
+\hypertarget{tree_8h_source_l00031}{}\hyperlink{structVariable_ac6387180163bef05cf8ea37a4fbd0682}{00031}   \textcolor{keyword}{struct }\hyperlink{structVariable}{Variable} *\hyperlink{structVariable_ac6387180163bef05cf8ea37a4fbd0682}{next};
+\hypertarget{tree_8h_source_l00033}{}\hyperlink{structVariable_ad27df2f2e773678c5804cc233343aed1}{00033}   \textcolor{keyword}{struct }\hyperlink{structVariable}{Variable} *\hyperlink{structVariable_ad27df2f2e773678c5804cc233343aed1}{previous};
+\hypertarget{tree_8h_source_l00035}{}\hyperlink{structVariable_a76c70ae7ac3d58ebe41da968fedb8093}{00035}   \textcolor{keywordtype}{char} *\hyperlink{structVariable_a76c70ae7ac3d58ebe41da968fedb8093}{iname};
+\hypertarget{tree_8h_source_l00037}{}\hyperlink{structVariable_adf9b74cb9b4f3a80e8af89e50bd11975}{00037}   \textcolor{keyword}{struct }\hyperlink{structNode}{Node} *\hyperlink{structVariable_adf9b74cb9b4f3a80e8af89e50bd11975}{rel};
+\hypertarget{tree_8h_source_l00039}{}\hyperlink{structVariable_a627f44b64b5d8d3ae8cb6a675f164405}{00039}   \textcolor{keywordtype}{int} \hyperlink{structVariable_a627f44b64b5d8d3ae8cb6a675f164405}{zero};
+00040 \};
+00041 
+00043 
+\hypertarget{tree_8h_source_l00050}{}\hyperlink{structFunction}{00050} \textcolor{keyword}{struct }\hyperlink{structFunction}{Function} \{
+\hypertarget{tree_8h_source_l00052}{}\hyperlink{structFunction_a21feba301403a65090791a94f26c9d92}{00052}   \textcolor{keywordtype}{char} *\hyperlink{structFunction_a21feba301403a65090791a94f26c9d92}{t};
+\hypertarget{tree_8h_source_l00054}{}\hyperlink{structFunction_a87d9da60be62fb1a74b56404c392bf74}{00054}   \textcolor{keywordtype}{char} *\hyperlink{structFunction_a87d9da60be62fb1a74b56404c392bf74}{x};
+\hypertarget{tree_8h_source_l00056}{}\hyperlink{structFunction_aaa1ebe818ec1c763a776cc580551f3e6}{00056}   \textcolor{keywordtype}{char} *\hyperlink{structFunction_aaa1ebe818ec1c763a776cc580551f3e6}{p};
+\hypertarget{tree_8h_source_l00058}{}\hyperlink{structFunction_aa66668aed9b94cfd43d1d5fcad8e923d}{00058}   \textcolor{keywordtype}{char} *\hyperlink{structFunction_aa66668aed9b94cfd43d1d5fcad8e923d}{dx};
+00059   
+\hypertarget{tree_8h_source_l00061}{}\hyperlink{structFunction_a26607bec2385a751e572c5aa9976262d}{00061}   \textcolor{keywordtype}{char} *\hyperlink{structFunction_a26607bec2385a751e572c5aa9976262d}{neq};
+\hypertarget{tree_8h_source_l00063}{}\hyperlink{structFunction_ac5e9e8f42513fbf549dcde4107b633d0}{00063}   \textcolor{keywordtype}{char} *\hyperlink{structFunction_ac5e9e8f42513fbf549dcde4107b633d0}{np};
+00064   
+00066 
+\hypertarget{tree_8h_source_l00069}{}\hyperlink{structFunction_aabe3f0c55a8ab8de92abb1da25c055db}{00069}   \textcolor{keywordtype}{char} *\hyperlink{structFunction_aabe3f0c55a8ab8de92abb1da25c055db}{j};
+00070 \};
+00071 
+\hypertarget{tree_8h_source_l00073}{}\hyperlink{tree_8h_a0fd22d424b64c2cec7bfee56806f173e}{00073} \textcolor{keyword}{struct }\hyperlink{structFunction}{Function} *\hyperlink{tree_8h_a0fd22d424b64c2cec7bfee56806f173e}{func};
+00074 
+00076 \textcolor{keywordtype}{void} *\hyperlink{tree_8c_a2e8df70b0cd23ae836717e0219526e39}{emalloc}(\textcolor{keywordtype}{size\_t} nbytes);
+00078 
+00082 \textcolor{keywordtype}{void} \hyperlink{tree_8c_a2c26e64b412545798ff08f0069cf2069}{fatalError}(\textcolor{keywordtype}{char} *message);
+00084 \textcolor{keywordtype}{void} \hyperlink{tree_8c_a4035da3929ae669ab801f4eff738bb6e}{print\_tree}(\textcolor{keywordtype}{int} d, \textcolor{keyword}{struct} \hyperlink{structNode}{Node} *\hyperlink{structFunction_a21feba301403a65090791a94f26c9d92}{t});
+00085 
+\hypertarget{tree_8h_source_l00087}{}\hyperlink{tree_8h_a2b48f6e35d13f38c37921e0991426c1c}{00087} \textcolor{keyword}{struct }\hyperlink{structVariable}{Variable} *\hyperlink{tree_8h_a2b48f6e35d13f38c37921e0991426c1c}{vars};
+00088 
+00089 \textcolor{keyword}{struct }\hyperlink{structVariable}{Variable} *\hyperlink{tree_8c_a512919504f1e49ef80bd2309e300e0ab}{registerVariable}(\textcolor{keywordtype}{char} *s, \textcolor{keyword}{enum} 
+      \hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309ab}{VariableType} tp);
+00090 \textcolor{keywordtype}{char} *\hyperlink{tree_8c_a3020412eb1f21838ad4e159d6aa9d1c2}{processIdentifier}(\textcolor{keywordtype}{char} *nm, \textcolor{keyword}{enum} \hyperlink{tree_8h_ac62972ff1b21a037e56530cde67309ab}{VariableType} tp);
+00091 
+00092 \textcolor{keywordtype}{void} \hyperlink{tree_8c_aa2d5d17ce59f6cf43cb57ce62d879e29}{processDependentVectorIdentifier}(\textcolor{keywordtype}{char} *s, \textcolor{keyword}{struct} 
+      \hyperlink{structNode}{Node} *\hyperlink{structVariable_adf9b74cb9b4f3a80e8af89e50bd11975}{rel});
+00093 
+00094 \textcolor{keywordtype}{void} \hyperlink{tree_8c_a8bf735ac7bae4295a443e9a0857559eb}{processFunctionHeader}(\textcolor{keyword}{struct} \hyperlink{structNode}{Node}* f);
+00095 \textcolor{keyword}{struct }\hyperlink{structNode}{Node} *\hyperlink{tree_8c_a055e537e39403e6e3eab2415dd2428f9}{getRelativeToY}(\textcolor{keywordtype}{char} *s);
+00096 
+\end{DoxyCode}

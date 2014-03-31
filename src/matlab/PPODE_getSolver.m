@@ -27,13 +27,13 @@ switch upper(name)
         solver.name = ['LSODE: Backward Differential Formulas [1-5] '...
                       '(Stiff)'];
         solver.libs = {'ODEPACK'};
-        solver.interface = {'lsodawrapper', 'ppodemex'};
+        solver.interface = {'lsodewrapper', 'ppodemex'};
         solver.defs = {'STIFFSOLVER', 'ODEPACK'};
         solver.maxorder = 5;
     case {'ADAMS-MOULTON', 'NON-STIFF'}
         solver.name = 'LSODE: Adams Moulton Method [1-12] (Non-Stiff)';
         solver.libs = {'ODEPACK'};
-        solver.interface = {'lsodawrapper', 'ppodemex'};
+        solver.interface = {'lsodewrapper', 'ppodemex'};
         solver.defs = {'NONSTIFFSOLVER', 'ODEPACK'};
         solver.maxorder = 12;
     case {'SWITCHING', 'LSODA'}
@@ -42,7 +42,7 @@ switch upper(name)
                       '(Stiff) and (b) Adams Moulton Method [1-12] '...
                       '(Non-Stiff)'];
         solver.libs = {'ODEPACK'};
-        solver.interface = {'lsodawrapper', 'ppodemex'};
+        solver.interface = {'lsodewrapper', 'ppodemex'};
         solver.defs = {'SWITCHINGSOLVER', 'ODEPACK'};
         solver.maxorder = [5 12];
     case {'RK23'}
@@ -89,7 +89,7 @@ switch upper(name)
                       'Formulas using a Sparse Jacobian Matrix'...
                       '[1-5] (Stiff)'];
         solver.libs = {'ODEPACK'};
-        solver.interface = {'lsodawrapper', 'ppodemex'};
+        solver.interface = {'lsodewrapper', 'ppodemex'};
         solver.defs = {'BDFSPARSESOLVER', 'ODEPACK'};
         solver.maxorder = 5;
     otherwise

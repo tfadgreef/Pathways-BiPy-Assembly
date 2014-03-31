@@ -551,8 +551,8 @@ static const yytype_uint16 yyrline[] =
      255,   256,   260,   262,   264,   266,   268,   270,   272,   277,
      279,   284,   285,   289,   293,   298,   300,   305,   310,   311,
      315,   316,   320,   326,   333,   340,   352,   358,   368,   374,
-     381,   391,   392,   396,   398,   403,   408,   416,   421,   426,
-     428,   430,   435,   436
+     381,   391,   392,   396,   398,   410,   415,   423,   428,   433,
+     435,   437,   442,   443
 };
 #endif
 
@@ -1714,7 +1714,7 @@ yyreduce:
 /* Line 1787 of yacc.c  */
 #line 82 "matlab.y"
     { 
-          (yyval.node) = createOperation(TARRAYINDEX);
+          (yyval.node) = createOperation(getIdentifierType((yyvsp[(1) - (4)].iden)));
           appendChild((yyval.node), (yyvsp[(3) - (4)].node));
           setIdentifier((yyval.node), (yyvsp[(1) - (4)].iden));
         }
@@ -2150,12 +2150,19 @@ yyreduce:
   case 84:
 /* Line 1787 of yacc.c  */
 #line 399 "matlab.y"
-    { processFunctionHeader((yyvsp[(2) - (4)].node)); functionToFortran((yyvsp[(4) - (4)].node)); functionToJacobian((yyvsp[(4) - (4)].node)); /*fprintf(warn, "\n"); print_tree(0, $4); fprintf(warn, "\n");*/ }
+    { 
+          processFunctionHeader((yyvsp[(2) - (4)].node));
+          functionToFortran((yyvsp[(4) - (4)].node));
+          if (createJac == 1) {
+            functionToJacobian((yyvsp[(4) - (4)].node));
+          }
+          /*fprintf(warn, "\n"); print_tree(0, $4); fprintf(warn, "\n");*/
+        }
     break;
 
   case 85:
 /* Line 1787 of yacc.c  */
-#line 404 "matlab.y"
+#line 411 "matlab.y"
     { 
           (yyval.node) = createOperation(TLIST);
           appendChild((yyval.node), createVariable((yyvsp[(1) - (1)].iden)));
@@ -2164,7 +2171,7 @@ yyreduce:
 
   case 86:
 /* Line 1787 of yacc.c  */
-#line 409 "matlab.y"
+#line 416 "matlab.y"
     {
           (yyval.node) = (yyvsp[(1) - (3)].node);
           appendChild((yyvsp[(1) - (3)].node), createVariable((yyvsp[(3) - (3)].iden)));
@@ -2173,7 +2180,7 @@ yyreduce:
 
   case 87:
 /* Line 1787 of yacc.c  */
-#line 417 "matlab.y"
+#line 424 "matlab.y"
     {
           (yyval.node) = createOperation(TLIST);
           appendChild((yyval.node), createVariable((yyvsp[(1) - (1)].iden)));
@@ -2182,31 +2189,31 @@ yyreduce:
 
   case 88:
 /* Line 1787 of yacc.c  */
-#line 422 "matlab.y"
+#line 429 "matlab.y"
     { (yyval.node) = (yyvsp[(2) - (3)].node); }
     break;
 
   case 89:
 /* Line 1787 of yacc.c  */
-#line 427 "matlab.y"
+#line 434 "matlab.y"
     { fatalError("Incorrect number of input arguments."); }
     break;
 
   case 90:
 /* Line 1787 of yacc.c  */
-#line 429 "matlab.y"
+#line 436 "matlab.y"
     { fatalError("Incorrect number of input arguments."); }
     break;
 
   case 91:
 /* Line 1787 of yacc.c  */
-#line 431 "matlab.y"
+#line 438 "matlab.y"
     { (yyval.node) = (yyvsp[(3) - (4)].node); }
     break;
 
   case 93:
 /* Line 1787 of yacc.c  */
-#line 437 "matlab.y"
+#line 444 "matlab.y"
     {
           (yyval.node) = createOperation(TFUNCDEC);
           appendChild((yyval.node), (yyvsp[(1) - (3)].node));
@@ -2216,7 +2223,7 @@ yyreduce:
 
 
 /* Line 1787 of yacc.c  */
-#line 2220 "y.tab.c"
+#line 2227 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2448,7 +2455,7 @@ yyreturn:
 
 
 /* Line 2050 of yacc.c  */
-#line 444 "matlab.y"
+#line 451 "matlab.y"
 
 
 int yydebug=1;
@@ -2478,6 +2485,16 @@ int main(unsigned int argc, unsigned char *argv[]) {
   func->j = "j";
   vars = NULL;
   simplifyStateSize = 3;
+  knownFunctions = NULL;
+  initializeKnownFunctions();
+
+  createJac = 1;
+  if (argc > 1) {
+    if (strcmp(argv[1], "0") == 0) {
+      createJac = 0;
+    }
+  }
+
   yyparse();
   return 0;
 }

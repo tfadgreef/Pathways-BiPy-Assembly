@@ -1,0 +1,245 @@
+\hypertarget{node_8c}{\section{node.\-c File Reference}
+\label{node_8c}\index{node.\-c@{node.\-c}}
+}
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}node.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}tree.\-h\char`\"{}}\\*
+Include dependency graph for node.\-c\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{node_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8c_a8021c7e05df0eb5a301433b6a83a5751}{last} (struct \hyperlink{structNode}{Node} $\ast$t)
+\begin{DoxyCompactList}\small\item\em Find the last \hyperlink{structNode}{Node} on the same level as the specified \hyperlink{structNode}{Node}. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8c_a990974952aa48d789ee7dabf10070194}{create\-Operation} (enum \hyperlink{node_8h_a83ba1e84fa23f6619c3d29036b160919}{Node\-Tag} op)
+\begin{DoxyCompactList}\small\item\em Create a \hyperlink{structNode}{Node} of the specified operation type. \end{DoxyCompactList}\item 
+void \hyperlink{node_8c_ac59e12e2146890bd3656810716854c5f}{append\-Child} (struct \hyperlink{structNode}{Node} $\ast$parent, struct \hyperlink{structNode}{Node} $\ast$child)
+\begin{DoxyCompactList}\small\item\em Append a child \hyperlink{structNode}{Node} to a parent \hyperlink{structNode}{Node}. \end{DoxyCompactList}\item 
+void \hyperlink{node_8c_ad1f8d800997fdede9718ede6b9b2d741}{set\-Identifier} (struct \hyperlink{structNode}{Node} $\ast$node, char $\ast$identifier)
+\begin{DoxyCompactList}\small\item\em Set the identifier of a \hyperlink{structNode}{Node}. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8c_aa603e9647cbbe4208a6de5546df7b9f7}{create\-Constant} (double num)
+\begin{DoxyCompactList}\small\item\em Create a \hyperlink{structNode}{Node} representing a constant number. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8c_a25b6be3754d0bfe7f721c65986872f75}{create\-Variable} (char $\ast$varname)
+\begin{DoxyCompactList}\small\item\em Create a \hyperlink{structNode}{Node} representing a variable. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8c_a36f4e62840cea8119a80005c7093c1a2}{append\-Statement} (struct \hyperlink{structNode}{Node} $\ast$prevnodes, struct \hyperlink{structNode}{Node} $\ast$newnode)
+\begin{DoxyCompactList}\small\item\em Append a statement to a list of statements. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8c_a630e9a32f8dad634171441534eedd274}{copy\-Node} (struct \hyperlink{structNode}{Node} $\ast$n)
+\begin{DoxyCompactList}\small\item\em Copies the data of a \hyperlink{structNode}{Node} to a new \hyperlink{structNode}{Node} instance. \end{DoxyCompactList}\item 
+struct \hyperlink{structNode}{Node} $\ast$ \hyperlink{node_8c_ab62128f06e9ecf1ba999035e44e20125}{find\-Variable} (struct \hyperlink{structNode}{Node} $\ast$n)
+\item 
+int \hyperlink{node_8c_af424017909286f07f58ff8bcc1cb16ca}{compare\-Nodes} (struct \hyperlink{structNode}{Node} $\ast$n1, struct \hyperlink{structNode}{Node} $\ast$n2)
+\begin{DoxyCompactList}\small\item\em Compare two Nodes and their children to check whether they are equivalent. \end{DoxyCompactList}\item 
+void \hyperlink{node_8c_a9404ea17c515d0d18c37bde7c31b5979}{remove\-Node} (struct \hyperlink{structNode}{Node} $\ast$n)
+\begin{DoxyCompactList}\small\item\em Remove an \hyperlink{structNode}{Node} instance and free the memory it used. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{node_8c_ac59e12e2146890bd3656810716854c5f}{\index{node.\-c@{node.\-c}!append\-Child@{append\-Child}}
+\index{append\-Child@{append\-Child}!node.c@{node.\-c}}
+\subsubsection[{append\-Child}]{\setlength{\rightskip}{0pt plus 5cm}void append\-Child (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{parent, }
+\item[{struct {\bf Node} $\ast$}]{child}
+\end{DoxyParamCaption}
+)}}\label{node_8c_ac59e12e2146890bd3656810716854c5f}
+
+
+Append a child \hyperlink{structNode}{Node} to a parent \hyperlink{structNode}{Node}. 
+
+Append the \hyperlink{structNode}{Node} {\itshape child} to the list of children of \hyperlink{structNode}{Node} {\itshape parent} and sets {\itshape parent} as the parent \hyperlink{structNode}{Node} of {\itshape child}. 
+\begin{DoxyParams}{Parameters}
+{\em parent} & \hyperlink{structNode}{Node} where the {\itshape child} \hyperlink{structNode}{Node} is to be appended to. \\
+\hline
+{\em child} & \hyperlink{structNode}{Node} to be appended to the children of {\itshape parent}. \\
+\hline
+\end{DoxyParams}
+\hypertarget{node_8c_a36f4e62840cea8119a80005c7093c1a2}{\index{node.\-c@{node.\-c}!append\-Statement@{append\-Statement}}
+\index{append\-Statement@{append\-Statement}!node.c@{node.\-c}}
+\subsubsection[{append\-Statement}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ append\-Statement (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{prevnodes, }
+\item[{struct {\bf Node} $\ast$}]{newnode}
+\end{DoxyParamCaption}
+)}}\label{node_8c_a36f4e62840cea8119a80005c7093c1a2}
+
+
+Append a statement to a list of statements. 
+
+Appends the statement {\itshape newnode} to the list of statements {\itshape prevnodes}. {\itshape prevnodes} does not have to point at the last \hyperlink{structNode}{Node} of that level. This function will find the last \hyperlink{structNode}{Node} of the same level and append the {\itshape newnode} there. 
+\begin{DoxyParams}{Parameters}
+{\em prevnodes} & Pointer to a \hyperlink{structNode}{Node} on which level the \hyperlink{structNode}{Node} {\itshape newnode} should be added. \\
+\hline
+{\em newnode} & \hyperlink{structNode}{Node} to add to the linked list. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to a \hyperlink{structNode}{Node} of the level where {\itshape newnode} was added. 
+\end{DoxyReturn}
+\hypertarget{node_8c_af424017909286f07f58ff8bcc1cb16ca}{\index{node.\-c@{node.\-c}!compare\-Nodes@{compare\-Nodes}}
+\index{compare\-Nodes@{compare\-Nodes}!node.c@{node.\-c}}
+\subsubsection[{compare\-Nodes}]{\setlength{\rightskip}{0pt plus 5cm}int compare\-Nodes (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n1, }
+\item[{struct {\bf Node} $\ast$}]{n2}
+\end{DoxyParamCaption}
+)}}\label{node_8c_af424017909286f07f58ff8bcc1cb16ca}
+
+
+Compare two Nodes and their children to check whether they are equivalent. 
+
+Compare the Nodes {\itshape n1} and {\itshape n2} and their children to check whether they are equivalent. All properties of the \hyperlink{structNode}{Node} struct are compared, just like the complete structure the Nodes represent. 
+\begin{DoxyParams}{Parameters}
+{\em n1} & First \hyperlink{structNode}{Node}. \\
+\hline
+{\em n2} & Second \hyperlink{structNode}{Node}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 when the first and second \hyperlink{structNode}{Node} are equivalent, 0 otherwise. 
+\end{DoxyReturn}
+\hypertarget{node_8c_a630e9a32f8dad634171441534eedd274}{\index{node.\-c@{node.\-c}!copy\-Node@{copy\-Node}}
+\index{copy\-Node@{copy\-Node}!node.c@{node.\-c}}
+\subsubsection[{copy\-Node}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ copy\-Node (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n}
+\end{DoxyParamCaption}
+)}}\label{node_8c_a630e9a32f8dad634171441534eedd274}
+
+
+Copies the data of a \hyperlink{structNode}{Node} to a new \hyperlink{structNode}{Node} instance. 
+
+Copy the contents of \hyperlink{structNode}{Node} {\itshape n} to a new \hyperlink{structNode}{Node} and recursively does the same to all children. The neighbours of \hyperlink{structNode}{Node} {\itshape n} will not be copied. 
+\begin{DoxyParams}{Parameters}
+{\em n} & \hyperlink{structNode}{Node} to copy. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the new \hyperlink{structNode}{Node} with the same data as {\itshape n}. 
+\end{DoxyReturn}
+\hypertarget{node_8c_aa603e9647cbbe4208a6de5546df7b9f7}{\index{node.\-c@{node.\-c}!create\-Constant@{create\-Constant}}
+\index{create\-Constant@{create\-Constant}!node.c@{node.\-c}}
+\subsubsection[{create\-Constant}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ create\-Constant (
+\begin{DoxyParamCaption}
+\item[{double}]{num}
+\end{DoxyParamCaption}
+)}}\label{node_8c_aa603e9647cbbe4208a6de5546df7b9f7}
+
+
+Create a \hyperlink{structNode}{Node} representing a constant number. 
+
+Create a \hyperlink{structNode}{Node} representing the number {\itshape num}. 
+\begin{DoxyParams}{Parameters}
+{\em num} & The value of the constant. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the created \hyperlink{structNode}{Node} instance. 
+\end{DoxyReturn}
+\hypertarget{node_8c_a990974952aa48d789ee7dabf10070194}{\index{node.\-c@{node.\-c}!create\-Operation@{create\-Operation}}
+\index{create\-Operation@{create\-Operation}!node.c@{node.\-c}}
+\subsubsection[{create\-Operation}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ create\-Operation (
+\begin{DoxyParamCaption}
+\item[{enum {\bf Node\-Tag}}]{op}
+\end{DoxyParamCaption}
+)}}\label{node_8c_a990974952aa48d789ee7dabf10070194}
+
+
+Create a \hyperlink{structNode}{Node} of the specified operation type. 
+
+Create a \hyperlink{structNode}{Node} of the specified operation, whilst setting all other properties to zero or N\-U\-L\-L. 
+\begin{DoxyParams}{Parameters}
+{\em op} & Operation type of the \hyperlink{structNode}{Node} to be created. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The created \hyperlink{structNode}{Node} instance. 
+\end{DoxyReturn}
+\hypertarget{node_8c_a25b6be3754d0bfe7f721c65986872f75}{\index{node.\-c@{node.\-c}!create\-Variable@{create\-Variable}}
+\index{create\-Variable@{create\-Variable}!node.c@{node.\-c}}
+\subsubsection[{create\-Variable}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ create\-Variable (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{varname}
+\end{DoxyParamCaption}
+)}}\label{node_8c_a25b6be3754d0bfe7f721c65986872f75}
+
+
+Create a \hyperlink{structNode}{Node} representing a variable. 
+
+Create a \hyperlink{structNode}{Node} representing a variable with the name {\itshape varname}. 
+\begin{DoxyParams}{Parameters}
+{\em varname} & The name of the variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the created \hyperlink{structNode}{Node} instance. 
+\end{DoxyReturn}
+\hypertarget{node_8c_ab62128f06e9ecf1ba999035e44e20125}{\index{node.\-c@{node.\-c}!find\-Variable@{find\-Variable}}
+\index{find\-Variable@{find\-Variable}!node.c@{node.\-c}}
+\subsubsection[{find\-Variable}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ find\-Variable (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n}
+\end{DoxyParamCaption}
+)}}\label{node_8c_ab62128f06e9ecf1ba999035e44e20125}
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000001}{Todo}]Describe this function \end{DoxyRefDesc}
+\hypertarget{node_8c_a8021c7e05df0eb5a301433b6a83a5751}{\index{node.\-c@{node.\-c}!last@{last}}
+\index{last@{last}!node.c@{node.\-c}}
+\subsubsection[{last}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Node}$\ast$ last (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{t}
+\end{DoxyParamCaption}
+)}}\label{node_8c_a8021c7e05df0eb5a301433b6a83a5751}
+
+
+Find the last \hyperlink{structNode}{Node} on the same level as the specified \hyperlink{structNode}{Node}. 
+
+Search the last \hyperlink{structNode}{Node} on the same level as \hyperlink{structNode}{Node} {\itshape t}. 
+\begin{DoxyParams}{Parameters}
+{\em t} & \hyperlink{structNode}{Node} of which to find the last neighbour/peer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The last \hyperlink{structNode}{Node} on the same level as \hyperlink{structNode}{Node} {\itshape t}. 
+\end{DoxyReturn}
+\hypertarget{node_8c_a9404ea17c515d0d18c37bde7c31b5979}{\index{node.\-c@{node.\-c}!remove\-Node@{remove\-Node}}
+\index{remove\-Node@{remove\-Node}!node.c@{node.\-c}}
+\subsubsection[{remove\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void remove\-Node (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{n}
+\end{DoxyParamCaption}
+)}}\label{node_8c_a9404ea17c515d0d18c37bde7c31b5979}
+
+
+Remove an \hyperlink{structNode}{Node} instance and free the memory it used. 
+
+Removes \hyperlink{structNode}{Node} {\itshape n} and all its children. 
+\begin{DoxyParams}{Parameters}
+{\em n} & \hyperlink{structNode}{Node} to remove. \\
+\hline
+\end{DoxyParams}
+\hypertarget{node_8c_ad1f8d800997fdede9718ede6b9b2d741}{\index{node.\-c@{node.\-c}!set\-Identifier@{set\-Identifier}}
+\index{set\-Identifier@{set\-Identifier}!node.c@{node.\-c}}
+\subsubsection[{set\-Identifier}]{\setlength{\rightskip}{0pt plus 5cm}void set\-Identifier (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Node} $\ast$}]{node, }
+\item[{char $\ast$}]{identifier}
+\end{DoxyParamCaption}
+)}}\label{node_8c_ad1f8d800997fdede9718ede6b9b2d741}
+
+
+Set the identifier of a \hyperlink{structNode}{Node}. 
+
+Set the identifier (\hyperlink{structNode_a76c70ae7ac3d58ebe41da968fedb8093}{Node\-::iname}) of \hyperlink{structNode}{Node} {\itshape node} to {\itshape identifier}. 
+\begin{DoxyParams}{Parameters}
+{\em node} & \hyperlink{structNode}{Node} to set the identifier of. \\
+\hline
+{\em identifier} & Name of the identifier. \\
+\hline
+\end{DoxyParams}

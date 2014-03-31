@@ -1,0 +1,98 @@
+\hypertarget{structFunc}{\section{Func Struct Reference}
+\label{structFunc}\index{Func@{Func}}
+}
+
+
+Datatype of a function definition.  
+
+
+
+
+{\ttfamily \#include $<$tree.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{structFunc_a21feba301403a65090791a94f26c9d92}{t}
+\begin{DoxyCompactList}\small\item\em Identifier of the independent variable. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{structFunc_a87d9da60be62fb1a74b56404c392bf74}{x}
+\begin{DoxyCompactList}\small\item\em Identifier of the dependent variables. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{structFunc_aaa1ebe818ec1c763a776cc580551f3e6}{p}
+\begin{DoxyCompactList}\small\item\em Identifier of the parameters. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{structFunc_aa66668aed9b94cfd43d1d5fcad8e923d}{dx}
+\begin{DoxyCompactList}\small\item\em Identifier of the differential (dx = f(x(t))). \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{structFunc_a26607bec2385a751e572c5aa9976262d}{neq}
+\begin{DoxyCompactList}\small\item\em Identifier of the Number of E\-Qations. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{structFunc_ac5e9e8f42513fbf549dcde4107b633d0}{np}
+\begin{DoxyCompactList}\small\item\em Identifier of the Number of Parameters. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{structFunc_aabe3f0c55a8ab8de92abb1da25c055db}{j}
+\begin{DoxyCompactList}\small\item\em Identifier of the current Jacobian index. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Datatype of a function definition. 
+
+Holds the names of the various arguments of the O\-D\-E function. In Matlab the O\-D\-E function should be defined as follows\-: 
+\begin{DoxyCode}
+\hyperlink{structFunc_aa66668aed9b94cfd43d1d5fcad8e923d}{dx} = \textcolor{keyword}{function}(\hyperlink{structFunc_a21feba301403a65090791a94f26c9d92}{t}, \hyperlink{structFunc_a87d9da60be62fb1a74b56404c392bf74}{x}, \hyperlink{structFunc_aaa1ebe818ec1c763a776cc580551f3e6}{p}, \hyperlink{structFunc_a26607bec2385a751e572c5aa9976262d}{neq}, \hyperlink{structFunc_ac5e9e8f42513fbf549dcde4107b633d0}{np})
+\end{DoxyCode}
+ 
+
+\subsection{Field Documentation}
+\hypertarget{structFunc_aa66668aed9b94cfd43d1d5fcad8e923d}{\index{Func@{Func}!dx@{dx}}
+\index{dx@{dx}!Func@{Func}}
+\subsubsection[{dx}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ dx}}\label{structFunc_aa66668aed9b94cfd43d1d5fcad8e923d}
+
+
+Identifier of the differential (dx = f(x(t))). 
+
+\hypertarget{structFunc_aabe3f0c55a8ab8de92abb1da25c055db}{\index{Func@{Func}!j@{j}}
+\index{j@{j}!Func@{Func}}
+\subsubsection[{j}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ j}}\label{structFunc_aabe3f0c55a8ab8de92abb1da25c055db}
+
+
+Identifier of the current Jacobian index. 
+
+\begin{DoxyNote}{Note}
+Does not occur in the function definition. 
+\end{DoxyNote}
+\hypertarget{structFunc_a26607bec2385a751e572c5aa9976262d}{\index{Func@{Func}!neq@{neq}}
+\index{neq@{neq}!Func@{Func}}
+\subsubsection[{neq}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ neq}}\label{structFunc_a26607bec2385a751e572c5aa9976262d}
+
+
+Identifier of the Number of E\-Qations. 
+
+\hypertarget{structFunc_ac5e9e8f42513fbf549dcde4107b633d0}{\index{Func@{Func}!np@{np}}
+\index{np@{np}!Func@{Func}}
+\subsubsection[{np}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ np}}\label{structFunc_ac5e9e8f42513fbf549dcde4107b633d0}
+
+
+Identifier of the Number of Parameters. 
+
+\hypertarget{structFunc_aaa1ebe818ec1c763a776cc580551f3e6}{\index{Func@{Func}!p@{p}}
+\index{p@{p}!Func@{Func}}
+\subsubsection[{p}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ p}}\label{structFunc_aaa1ebe818ec1c763a776cc580551f3e6}
+
+
+Identifier of the parameters. 
+
+\hypertarget{structFunc_a21feba301403a65090791a94f26c9d92}{\index{Func@{Func}!t@{t}}
+\index{t@{t}!Func@{Func}}
+\subsubsection[{t}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ t}}\label{structFunc_a21feba301403a65090791a94f26c9d92}
+
+
+Identifier of the independent variable. 
+
+\hypertarget{structFunc_a87d9da60be62fb1a74b56404c392bf74}{\index{Func@{Func}!x@{x}}
+\index{x@{x}!Func@{Func}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ x}}\label{structFunc_a87d9da60be62fb1a74b56404c392bf74}
+
+
+Identifier of the dependent variables. 
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{tree_8h}{tree.\-h}\end{DoxyCompactItemize}

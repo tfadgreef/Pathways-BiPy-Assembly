@@ -385,6 +385,8 @@ c-----------------------------------------------------------------------
       return
       end
 
+#ifdef USERSUPPLIEDJAC
+
       subroutine vodejac (neq, t, y, ml, mu, pd, nrowpd, rpar, ipar)
       external jac
       double precision t, y(*), pd(nrowpd, *), pdj(neq), rpar(*)
@@ -404,5 +406,4 @@ c-----------------------------------------------------------------------
 
       return
       end
-
-
+#endif

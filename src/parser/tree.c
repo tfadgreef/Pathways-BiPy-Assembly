@@ -199,3 +199,147 @@ struct Node *getRelativeToY(char *s) {
   }
   return NULL;
 }
+
+void initializeKnownFunctions() {
+  struct MatlabFunction *tmp = emalloc(sizeof(*knownFunctions));
+  tmp->name = "sin";
+  tmp->fname = "dsin";
+  tmp->fder = "dcos";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  knownFunctions = tmp;
+  tmp = tmp->next;
+  
+  tmp->name = "cos";
+  tmp->fname = "dcos";
+  tmp->fder = "d01cos";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "tan";
+  tmp->fname = "dtan";
+  tmp->fder = "d01tan";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "cot";
+  tmp->fname = "dcot";
+  tmp->fder = "d01cot";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "sec";
+  tmp->fname = "dsec";
+  tmp->fder = "d01sec";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "csc";
+  tmp->fname = "dcsc";
+  tmp->fder = "d01csc";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "arcsin";
+  tmp->fname = "dasin";
+  tmp->fder = "d01asin";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "arccos";
+  tmp->fname = "dacos";
+  tmp->fder = "d01acos";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "arctan";
+  tmp->fname = "datan";
+  tmp->fder = "d01atan";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "exp";
+  tmp->fname = "dexp";
+  tmp->fder = "dexp";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "ln";
+  tmp->fname = "dlog";
+  tmp->fder = "d01log";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "sqrt";
+  tmp->fname = "dsqrt";
+  tmp->fder = "d01sqrt";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "abs";
+  tmp->fname = "dabs";
+  tmp->fder = "d01abs";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "sinh";
+  tmp->fname = "dsinh";
+  tmp->fder = "dcosh";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "cosh";
+  tmp->fname = "dcosh";
+  tmp->fder = "d01cosh";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "tanh";
+  tmp->fname = "dtanh";
+  tmp->fder = "d01tanh";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "sech";
+  tmp->fname = "dsech";
+  tmp->fder = "d01sech";
+  
+  tmp->next = NULL;
+}
+
+enum NodeTag getIdentifierType(char *s){
+  struct MatlabFunction *tmp = knownFunctions;
+  while (tmp != NULL) {
+    if (strcmp(tmp->name, s) == 0) {
+      return TFUNCTION;
+    }
+    tmp = tmp->next;
+  }
+  return TARRAYINDEX;
+}
+
+struct MatlabFunction *getFunctionInformation(char *s){
+  struct MatlabFunction *tmp = knownFunctions;
+  while (tmp != NULL) {
+    if (strcmp(tmp->name, s) == 0) {
+      return tmp;
+    }
+    tmp = tmp->next;
+  }
+  return NULL;
+}

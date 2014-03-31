@@ -21,6 +21,7 @@ struct Node *D_ifelse(struct Node *n1, struct Node *n2, struct Node *n3, struct 
 struct Node *D_for(char *iden, struct Node *n1, struct Node *n2);
 struct Node *D_zeros(char *iden, struct Node *n);
 struct Node *D_arrayindex(char *iden, struct Node *n);
+struct Node *D_function(char *iden, struct Node *n, struct Node *j);
 
 int main(void);
 
