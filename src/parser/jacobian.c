@@ -23,7 +23,7 @@ void functionToJacobian(struct Node *t) {
     nodep = nodep->next;
   }
   
-//  simplifyStructure(jac);
+  simplifyStructure(jac);
   
   printFortranFunction(jac, 1);
 }

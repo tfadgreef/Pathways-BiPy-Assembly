@@ -92,6 +92,14 @@ switch upper(name)
         solver.interface = {'lsodewrapper', 'ppodemex'};
         solver.defs = {'BDFSPARSESOLVER', 'ODEPACK'};
         solver.maxorder = 5;
+    case {'SWITCHINGSPARSE', 'LSODAS'}
+        solver.name = ['LSODAS: Backward Differential '...
+                      'Formulas using a Sparse Jacobian Matrix'...
+                      '[1-5] (Stiff)'];
+        solver.libs = {'ODEPACK'};
+        solver.interface = {'lsodewrapper', 'ppodemex'};
+        solver.defs = {'SWITCHINGSPARSESOLVER', 'ODEPACK'};
+        solver.maxorder = [5 12];
     otherwise
         solver.error = true;
 end

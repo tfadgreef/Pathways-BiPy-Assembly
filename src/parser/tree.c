@@ -319,6 +319,13 @@ void initializeKnownFunctions() {
   tmp->fname = "dsech";
   tmp->fder = "d01sech";
   
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "round";
+  tmp->fname = "idnint";
+  tmp->fder = "idnint";
+  
   tmp->next = NULL;
 }
 

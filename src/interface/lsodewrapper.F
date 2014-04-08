@@ -136,7 +136,7 @@ c function.
 #elif defined(SWITCHINGSOLVER)
       lrw = 22 + neq * max(16, neq + 9)
       liw = 20 + neq
-#elif defined(BDFSPARSESOLVER)
+#elif defined(BDFSPARSESOLVER) || defined(SWITCHINGSPARSESOLVER)
 #if defined(INPUTNONZERO)
       nnz = int(oret(1))
 #else
@@ -147,8 +147,13 @@ c function.
       k = mexPrintf(line//achar(13))
 #endif
 
+#if defined(SWITCHINGSPARSESOLVER)
+      lrw = 30 + 3*nnz + 20*neq
+      liw = 40
+#else
       lrw = 20 + 3*nnz + 20*neq
       liw = 30
+#endif
 #endif
 
       allocate(rwork(lrw))
@@ -187,7 +192,7 @@ c Set all optional inputs to default.
       iwork(6) = 1000
 #endif
 
-#ifdef SWITCHINGSOLVER
+#if defined(SWITCHINGSOLVER) || defined(SWITCHINGSPARSESOLVER)
 #ifdef MAXORDER1
       iwork(9) = MAXORDER1
 #endif
@@ -201,7 +206,7 @@ c Set all optional inputs to default.
 #endif
 
 #ifdef DEBUG
-#ifdef SWITCHINGSOLVER
+#if defined(SWITCHINGSOLVER) || defined(SWITCHINGSPARSESOLVER)
       iwork(5) = 1
 #endif
 #endif
@@ -272,6 +277,9 @@ c Call the solver
 #endif
 #elif defined(SWITCHINGSOLVER)
         call dlsoda(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
+     1   istate, iopt, rwork, lrw, iwork, liw, dummy, jt)
+#elif defined(SWITCHINGSPARSESOLVER)
+        call dlsodas(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, jt)
 #endif
 c Copy the value of y(:) to the output vector.
@@ -365,8 +373,17 @@ c Print summary
       k = mexPrintf(line//achar(13))
 #endif
 
+      goto 450
+
+  400 do 420 i=1, nout
+        tret(i) = 0.0d0
+        do 410 j=1, neq
+          yret(i,j) = 0.0d0
+  410   continue
+  420 continue
+
 c Print the LSODE output.
-  400 rewind 6
+  450 rewind 6
       do
         read(6,'(a)',end=500) line
         k = mexPrintf(line//achar(13))
@@ -423,7 +440,7 @@ c-----------------------------------------------------------------------
       end
 
 #ifdef USERSUPPLIEDJAC
-#ifdef BDFSPARSESOLVER
+#if defined(BDFSPARSESOLVER) || defined(SWITCHINGSPARSESOLVER)
 c--
 c--
       subroutine lsodesjac (neq, t, y, j, ia, ja, pdj)

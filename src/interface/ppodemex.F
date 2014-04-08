@@ -270,7 +270,7 @@ c Copy the result.
       return
       end
 
-#if ( defined(MEBDFSO) || defined(BDFSPARSESOLVER) )
+#if ( defined(MEBDFSO) || defined(BDFSPARSESOLVER) || defined(SWITCHINGSPARSESOLVER))
 c-----------------------------------------------------------------------
 c
 c NNZ from analytical Jacobian

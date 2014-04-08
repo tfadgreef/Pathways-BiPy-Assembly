@@ -1,6 +1,8 @@
 \documentclass[a4paper,10pt]{book}
 \usepackage[utf8]{inputenc}
 
+\renewcommand{\familydefault}{\sfdefault}
+
 \usepackage{textcomp}
 \usepackage{listings}
 \usepackage{enumitem}
@@ -9,14 +11,14 @@
 \usepackage{pdfpages}
 \usepackage{amsmath}
 
-\newcommand{\PPODESUITE}{\textsc{PPODE SUITE}~}
-\newcommand{\PPODE}{\emph{PPODE}~}
-\newcommand{\MATLAB}{MATLAB~}
-\newcommand{\MSDOS}{Windows~}
-\newcommand{\MATHWORKS}{MathWorks~}
-\newcommand{\UBUNTU}{Ubuntu~}
-\newcommand{\nix}{\textborn nix~}
-\newcommand{\Fortran}{Fortran~}
+\newcommand{\PPODESUITE}{PPODE SUITE}
+\newcommand{\PPODE}{\emph{PPODE}}
+\newcommand{\MATLAB}{MATLAB}
+\newcommand{\MSDOS}{Windows}
+\newcommand{\MATHWORKS}{MathWorks}
+\newcommand{\UBUNTU}{Ubuntu}
+\newcommand{\nix}{\textborn nix}
+\newcommand{\Fortran}{Fortran}
 
 \newcommand{\shellcmd}[1]{\\\indent\indent\texttt{\footnotesize \$ #1}\\}
 \newcommand{\matlabcmd}[1]{\\\indent\texttt{\footnotesize >> #1}\\}

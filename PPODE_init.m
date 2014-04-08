@@ -22,7 +22,7 @@ PPODE_addPaths
 
 % Define all libraries, files, etcetera.
 libnames = {'ODEPACK', 'RKSUITE', 'MEBDFSO', 'VODE'};
-libdeps = {{'opkdmain', 'opkda1', 'opkda2'}, {'rksuite'}, {'yale', 'helpers', 'mebdfso'}, {'vode', 'helpers'}};
+libdeps = {{'opkdmain', 'opkda1', 'opkda2', 'lsodas'}, {'rksuite'}, {'yale', 'helpers', 'mebdfso'}, {'vode', 'helpers'}};
 
 [basedir, ~, ~] = fileparts(mfilename('fullpath'));
 builddir = fullfile(basedir, 'build');

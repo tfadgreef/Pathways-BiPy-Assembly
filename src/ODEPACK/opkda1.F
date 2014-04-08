@@ -3953,7 +3953,7 @@ C Initialize switching parameters.  METH = 1 is assumed initially. -----
       PDEST = 0.0D0
       PDLAST = 0.0D0
 c Switching ratio [NOTE] (5.0D0)
-cP      RATIO = 5.0D0
+c      RATIO = 5.0D0
       RATIOP = 5.0D0
       RATIOM = 1.0D0
       CALL DCFODE (2, ELCO, TESCO)

@@ -1,6 +1,8 @@
 %function compareSolvers()
 clear all;
 
+PPODE_translate('vanderPol');
+
 y0 = [2 0];
 par = [1000];
 t = 0:1:3000;

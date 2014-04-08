@@ -1,5 +1,9 @@
 \chapter[Introduction]{Introduction}
-The \PPODESUITE aims to bring ordinary differential equation (ODE) solvers to \MATLAB that - in a lot of cases - will increase the performance with respect to the default ODE solvers provided \MATLAB. The default \MATLAB ODE solvers use the \MATLAB language to define the ODE system, which allows access to the wide variety of \MATLAB functions and toolboxes. However, since \MATLAB is a scripting language, the execution of \MATLAB code requires an extra interpretation step at every execution compared to languages like C/C++ and \Fortran, which require a translation step only once (Figure \ref{fig:InterpretationVSCompilation}).
+\section{Ordinary Differential Equations}
+
+
+\section{\PPODESUITE}
+The \PPODESUITE aims to bring ordinary differential equation (ODE) solvers to \MATLAB~that - in a lot of cases - will increase the performance with respect to the default ODE solvers provided \MATLAB. The default \MATLAB~ODE solvers use the \MATLAB~language to define the ODE system, which allows access to the wide variety of \MATLAB~functions and toolboxes. However, since \MATLAB~is a scripting language, the execution of \MATLAB~code requires an extra interpretation step at every execution compared to languages like C/C++ and \Fortran, which require a translation step only once (Figure \ref{fig:InterpretationVSCompilation}).
 \begin{figure}[hb]
  \centering
  \includegraphics[width=0.6\textwidth]{./graphics/interpreter-vs-compiler.eps}
@@ -11,7 +15,7 @@ Considering the differences between compilation and interpretation, various case
 
 %TODO: Reference to PUAMAT/CVODE Parser
 
-Furthermore, there is a more specific problem with the build-in \MATLAB solvers, namely that not for every specific situation the most suitable solver is available. For example, large systems of sparsely interlinked differential equations (e.g. Equation \ref{eq:BandedExample}) become time consuming to solve using \MATLAB.
+Furthermore, there is a more specific problem with the build-in \MATLAB~solvers, namely that not for every specific situation the most suitable solver is available. For example, large systems of sparsely interlinked differential equations (e.g. Equation \ref{eq:BandedExample}) become time consuming to solve using \MATLAB.
 \begin{equation} \label{eq:BandedExample}
   \frac{d\mathbf{F}}{dt} =
   \begin{pmatrix}
@@ -41,12 +45,12 @@ Where $i_{Jac}$ is the number of elements in the Jacobian matrix and $t_{Jac,op}
 
 In the specific case of Equation \ref{eq:BandedExample}, the Jacobian matrix is a band matrix, which enables specialized matrix handling methods for the Jacobian matrix, which only make $t_{Jac,op}$ increase linearly.
 
-A more general method is the use of a sparse implementation of the Jacobian matrix. This allows elements of the Jacobian matrix not in the center band to be non-zero, in contrast to band matrix implementations. This suite was created to enable \MATLAB to call this type of ODE solvers, following the need to solve large nucleation-elongation ODE systems. These system make use of a cut-off to limit the number of equations, since the exact system consists of an infinite amount of equations. To facilitate the use of a cut-off, the number of equations was left variable and can vary between function calls, without the need to recompile the code.
+A more general method is the use of a sparse implementation of the Jacobian matrix. This allows elements of the Jacobian matrix not in the center band to be non-zero, in contrast to band matrix implementations. This suite was created to enable \MATLAB~to call this type of ODE solvers, following the need to solve large nucleation-elongation ODE systems. These system make use of a cut-off to limit the number of equations, since the exact system consists of an infinite amount of equations. To facilitate the use of a cut-off, the number of equations was left variable and can vary between function calls, without the need to recompile the code.
 
-Next to these specific "sparse Jacobian" solvers, a wide variety of other solvers - all written in the \Fortran programming language - is available through this suite, for an overview see Chapter \ref{ch:Solvers}. The suite consist of the following tools:
+Next to these specific "sparse Jacobian" solvers, a wide variety of other solvers - all written in the \Fortran~programming language - is available through this suite, for an overview see Chapter \ref{ch:Solvers}. The suite consist of the following tools:
 \begin{description}
  \item[PPODE\_init] builds the ODE solver libraries and in principle only has to be executed once. See Chapter \ref{ch:Installation}.
- \item[PPODE\_addPaths] loads paths of the \PPODESUITE into the \MATLAB path variable. To access the \PPODESUITE, this function has to be executed. See Chapter \ref{ch:Installation}.
- \item[PPODE\_parser] parses a \MATLAB ODE function to \Fortran. The use of this function eliminates the need for knowledge about the \Fortran programming language. See Chapter \ref{ch:Usage}.
- \item[PPODE\_build] builds the \Fortran function generated by PPODE\_parser. Of course, one can also manually provide a \Fortran function. See Chapter \ref{ch:Usage}.
+ \item[PPODE\_addPaths] loads paths of the \PPODESUITE~into the \MATLAB~path variable. To access the \PPODESUITE, this function has to be executed. See Chapter \ref{ch:Installation}.
+ \item[PPODE\_translate] parses a \MATLAB~ODE function to \Fortran. The use of this function eliminates the need for knowledge about the \Fortran~programming language. See Chapter \ref{ch:Usage}.
+ \item[PPODE\_build] builds the \Fortran~function generated by PPODE\_parser. Of course, one can also manually provide a \Fortran~function. See Chapter \ref{ch:Usage}.
 \end{description}
