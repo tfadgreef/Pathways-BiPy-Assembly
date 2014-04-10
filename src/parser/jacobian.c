@@ -68,19 +68,24 @@ struct Node *derivative(struct Node *n, struct Node *j) {
           if (strcmp(n->iname, func->p) == 0) {
             return createConstant(0.0);
           } else if (strcmp(n->iname, func->x) == 0) {
-            if (j != NULL && compareNodes(n, j) == 1) {
-              return createConstant(1.0);
-            } else {
-              return createConstant(0.0);
+            tmp = j;
+            while (tmp != NULL){
+              if (compareNodes(n, tmp) == 1) {
+                return createConstant(1.0);
+              }
+              tmp = tmp->next;
             }
+            return createConstant(0.0);
           } else {
             struct Node *rel = getRelativeToY(n->iname);
             if (rel != NULL) {
-              if (j != NULL && compareNodes(n, j) == 1) {
-                return createConstant(1.0);
-              } else {
-                return createConstant(0.0);
+              tmp = j;
+              while (tmp != NULL){
+                if (compareNodes(n, j) == 1) {
+                  return createConstant(1.0);
+                }
               }
+              return createConstant(0.0);
             }
             return createConstant(0.0);
             //return D_arrayindex(n->iname, n->children);
@@ -245,8 +250,18 @@ struct Node *D_assign(struct Node *n1, struct Node *n2){
   
   tmp = occ;
   
+  struct Node *rifs = NULL;
+  
   while (tmp != NULL) {
-    struct Node *r1 = createOperation(TIF);
+    struct Node *r1;
+    if (rifs == NULL) {
+      r1 = createOperation(TIF);
+      rifs = r1;
+    } else {
+      rifs->tag = TIFELSEIF;
+      r1 = createOperation(TELSEIF);
+      appendChild(rifs, r1);
+    }
     struct Node *r1a = createOperation(TEQ_OP);
     appendChild(r1a, createVariable(func->j));
     struct Node *rely = getRelativeToY(tmp->children->iname);
@@ -272,9 +287,10 @@ struct Node *D_assign(struct Node *n1, struct Node *n2){
     appendChild(r2, derivative(n1, NULL));
     appendChild(r2, derivative(n2, tmp->children));
     appendChild(r1, r2);
-    r = appendStatement(r, r1);
     tmp = tmp->next;
   }
+  
+  r = appendStatement(r, rifs);
   
   return r;
 }

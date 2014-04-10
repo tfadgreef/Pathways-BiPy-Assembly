@@ -24,7 +24,7 @@ c-----------------------------------------------------------------------
 
 c-----------------------------------------------------------------------
 c
-c LSODEW - LSODE Wrapper
+c LSODASW - LSODAS Wrapper
 c
 c DEVELOPED BY:
 c
@@ -57,7 +57,7 @@ c
 c-----------------------------------------------------------------------
 #include "defs.h"
 
-      subroutine lsodew(neq, atol, rtol, nout, times, npar, par, y0,
+      subroutine lsodasw(neq, atol, rtol, nout, times, npar, par, y0,
      + tret, yret, oret)
 
 c-----------------------------------------------------------------------
@@ -84,13 +84,18 @@ c Declare output arguments.
 c Declare local variables.
       integer, allocatable :: iwork(:)
       integer i, iopar, iopt, iout, istate, itask, itol, leniw, lenrw,
-     1 jt, ml, mu, nerr, nfe, nfea, nje, nqu, nst, lrw, liw, np, j, nnz
+     1 jt, ml, mu, nerr, nfe, nfea, nje, nqu, nst, lrw, liw, np, j, nnz,
+     2 mf
+      integer ia(neq+1)
 
       double precision, pointer :: p(:)
       double precision :: dtout, er, erm, ero, hu, tout, t, rtols,
      1 tolsf, atols, maxint
       double precision :: y(neq)
       double precision, allocatable :: rwork(:)
+      double precision pdj1(neq), pdj2(neq), y1(neq)
+      integer jat(neq), nnzt
+      integer, allocatable :: jatt(:), ja(:)
 #ifdef MAXTIME
       real maxt0, maxt1
 #endif
@@ -127,37 +132,80 @@ c-----------------------------------------------------------------------
 c Calculate the correct size of the iwork and rwork
 c variables, based on the description of the LSODe
 c function.
-#if defined(STIFFSOLVER)
-      lrw = 22 +  9*neq + neq**2
-      liw = 22 + neq
-#elif defined(NONSTIFFSOLVER)
-      lrw = 20 + 16 * neq
-      liw = 20
-#elif defined(SWITCHINGSOLVER)
-      lrw = 22 + neq * max(16, neq + 9)
-      liw = 20 + neq
-#elif defined(BDFSPARSESOLVER) || defined(SWITCHINGSPARSESOLVER)
 #if defined(INPUTNONZERO)
       nnz = int(oret(1))
 #else
-      call jacnonzero(neq, y0, npar, par, nnz)
+c      call jacnonzero(neq, y0, npar, par, nnz)
+
+      nnz = 0
+      nnzt = neq
+
+c Create another set of values based on random numbers. This might not
+c always work, but generally it will.
+      do 600 i = 1, neq
+       y1(i) = y0(i) + 100.0d0 * rand()
+  600 continue      
+
+c Iterate through all states and calculate the part of the Jacobian that
+c represents the derivative to that state.
+      do 700 j = 1, neq
+c Start with all zeros.
+       do 605 i = 1, nnzt
+        jat(i) = 0.0d0
+  605  continue
+       nnzt = 0
+       do 610 i = 1, neq
+        pdj1(i) = 0.0d0
+        pdj2(i) = 0.0d0
+  610  continue
+
+c Calculate for two series of values.
+       call jac(neq, 0.0d0, y0, npar, par, j, pdj1)
+       call jac(neq, 0.0d0, y1, npar, par, j, pdj2)
+
+c Add one to the number of non-zero elements if one of the two values of
+c a certain position in the matrix is not zero.
+       do 630 i = 1, neq
+        if ((pdj1(i) .ne. 0.0d0) .or. (pdj2(i) .ne. 0.0d0)) then
+         nnzt = nnzt + 1
+         jat(nnzt) = i
+        end if
+  630  continue
+
+       ia(j) = nnz + 1
+
+       if (nnz .eq. 0) go to 650
+       allocate(jatt(nnz))
+       jatt(1:nnz) = ja(1:nnz)
+       deallocate(ja)
+
+  650  allocate(ja(nnz+nnzt))
+       if (nnz .eq. 0) go to 660
+
+       ja(1:nnz) = jatt(1:nnz)
+       deallocate(jatt)
+
+  660  ja((nnz+1):(nnz+nnzt)) = jat(1:nnzt)
+
+       nnz = nnz + nnzt
+       
+  700 continue
+
+      ia(neq+1) = nnz
 #endif
 #if defined(DEBUG)
       write(line,*) 'Calculated NNZ = ', nnz
       k = mexPrintf(line//achar(13))
 #endif
 
-#if defined(SWITCHINGSPARSESOLVER)
       lrw = 30 + 3*nnz + 20*neq
-      liw = 40
-#else
-      lrw = 20 + 3*nnz + 20*neq
-      liw = 30
-#endif
-#endif
+      liw = 40 + neq + nnz
 
       allocate(rwork(lrw))
       allocate(iwork(liw))
+
+      iwork(31:(31+neq)) = ia(1:(neq+1))
+      iwork((32+neq):(32+neq+nnz)) = ja(1:nnz)
 c The first time to output is the first value in the times
 c vector.
       tout = times(1)
@@ -173,6 +221,8 @@ c Specify tolerance as a scalar (2 for vector/array).
 c      itol = 2
 c Define the Jacobian type (full).
       jt = 2
+
+      mf = 022
 
 c Start with the given tolerances.
       atols = atol
@@ -192,23 +242,11 @@ c Set all optional inputs to default.
       iwork(6) = 1000
 #endif
 
-#if defined(SWITCHINGSOLVER) || defined(SWITCHINGSPARSESOLVER)
 #ifdef MAXORDER1
       iwork(9) = MAXORDER1
 #endif
 #ifdef MAXORDER2
       iwork(8) = MAXORDER2
-#endif
-#else
-#ifdef MAXORDER1
-      iwork(5) = MAXORDER1
-#endif
-#endif
-
-#ifdef DEBUG
-#if defined(SWITCHINGSOLVER) || defined(SWITCHINGSPARSESOLVER)
-      iwork(5) = 1
-#endif
 #endif
 
 #else
@@ -256,32 +294,8 @@ c Benchmarking
         call cpu_time(bench0)
 #endif
 c Call the solver
-#if defined(STIFFSOLVER)
-#if defined(USERSUPPLIEDJAC)
-        call dlsode(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
-     1   istate, iopt, rwork, lrw, iwork, liw, lsjac, 21)
-#else
-        call dlsode(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
-     1   istate, iopt, rwork, lrw, iwork, liw, dummy, 22)
-#endif
-#elif defined(NONSTIFFSOLVER)
-        call dlsode(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
-     1   istate, iopt, rwork, lrw, iwork, liw, dummy, 10)
-#elif defined(BDFSPARSESOLVER)
-#if defined(USERSUPPLIEDJAC)
-        call dlsodes(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
-     1   istate, iopt, rwork, lrw, iwork, liw, lsodesjac, 221)
-#else
-        call dlsodes(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
-     1   istate, iopt, rwork, lrw, iwork, liw, dummy, 222)
-#endif
-#elif defined(SWITCHINGSOLVER)
-        call dlsoda(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
-     1   istate, iopt, rwork, lrw, iwork, liw, dummy, jt)
-#elif defined(SWITCHINGSPARSESOLVER)
         call dlsodas(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
-     1   istate, iopt, rwork, lrw, iwork, liw, dummy, 222)
-#endif
+     1   istate, iopt, rwork, lrw, iwork, liw, dummy, mf)
 c Copy the value of y(:) to the output vector.
         yret(iout, :) = y
 c Copy this time point to the output vector of times.
@@ -294,7 +308,7 @@ c Benchmarking
 #endif
 
 c Check whether the solver was successful.
-        if (istate .lt. 0) then
+        if (istate .lt. 0 .and. istate .ne. -42) then
           select case (istate)
             case(-1)
               write(line,8001) istate
@@ -337,7 +351,17 @@ c Check whether the passed time is below the maximum time.
 #endif
 
 c Get the new time point.
- 170    tout = times(iout+1)
+  170   if (istate .eq. -42) then
+          if (mf .eq. 222) then
+            mf = 10
+          else
+            mf = 022
+          end if
+          istate = 3
+        else
+          tout = times(iout+1)
+        end if
+c 170    tout = times(iout+1)
 
  175  continue
 

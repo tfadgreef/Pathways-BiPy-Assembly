@@ -255,6 +255,9 @@ c Call the correct solver.
 #elif defined(VODE)
       call vodew(neq, atol, rtol, nout, times, npar, par, y0, t, y,
      + opt)
+#elif defined(LSODAS)
+      call lsodasw(neq, atol, rtol, nout, times, npar, par, y0, t, y,
+     + opt)
 #endif
 
 
@@ -346,5 +349,76 @@ c a certain position in the matrix is not zero.
 
       return
       end
+
+! 
+!       subroutine jacstructure (neq, y, np, p, nnz, ia, ja)
+!       implicit none
+!       external jac
+!       double precision y(neq), pdj1(neq), pdj2(neq), p(np), y0(neq)
+!       integer neq, np, j, i, nnz, ia(neq), jat(neq), nnzt
+!       integer, allocatable :: jatt(:)
+!       integer, allocatable, intent(out) :: ja(:)
+!       nnz = 0
+!       nnzt = neq
+! 
+!       if (allocated(ja)) then
+!        deallocate(ja)
+!       end if
+! 
+! c Create another set of values based on random numbers. This might not
+! c always work, but generally it will.
+!       do 600 i = 1, neq
+!        y0(i) = y(i) + 100.0d0 * rand()
+!   600 continue      
+! 
+! c Iterate through all states and calculate the part of the Jacobian that
+! c represents the derivative to that state.
+!       do 700 j = 1, neq
+! c Start with all zeros.
+!        do 605 i = 1, nnzt
+!         jat(i) = 0.0d0
+!   605  continue
+!        nnzt = 0
+!        do 610 i = 1, neq
+!         pdj1(i) = 0.0d0
+!         pdj2(i) = 0.0d0
+!   610  continue
+! 
+! c Calculate for two series of values.
+!        call jac(neq, 0.0d0, y, np, p, j, pdj1)
+!        call jac(neq, 0.0d0, y0, np, p, j, pdj2)
+! 
+! c Add one to the number of non-zero elements if one of the two values of
+! c a certain position in the matrix is not zero.
+!        do 630 i = 1, neq
+!         if ((pdj1(i) .ne. 0.0d0) .or. (pdj2(i) .ne. 0.0d0)) then
+!          nnzt = nnzt + 1
+!          jat(nnzt) = i
+!         end if
+!   630  continue
+! 
+!        ia(j) = nnz + 1
+! 
+!        if (nnz .eq. 0) go to 650
+!        allocate(jatt(nnz))
+!        jatt(1:nnz) = ja(1:nnz)
+!        deallocate(ja)
+! 
+!   650  allocate(ja(nnz+nnzt))
+!        if (nnz .eq. 0) go to 660
+! 
+!        ja(1:nnz) = jatt(1:nnz)
+!        deallocate(jatt)
+! 
+!   660  ja((nnz+1):(nnz+nnzt)) = jat(1:nnzt)
+! 
+!        nnz = nnz + nnzt
+!        
+!   700 continue
+! 
+!       ia(neq+1) = nnz
+! 
+!       return
+!       end
 
 #endif
