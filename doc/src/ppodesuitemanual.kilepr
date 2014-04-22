@@ -58,7 +58,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=28
 mode=LaTeX
-open=true
+open=false
 order=1
 
 [item:Introduction.tex]
@@ -69,16 +69,16 @@ highlight=LaTeX
 line=2
 mode=LaTeX
 open=true
-order=4
+order=0
 
 [item:Main.tex]
 archive=true
-column=36
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=13
+line=55
 mode=LaTeX
-open=true
+open=false
 order=0
 
 [item:Solvers.tex]
@@ -88,7 +88,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=16
 mode=LaTeX
-open=true
+open=false
 order=3
 
 [item:Usage.tex]
@@ -98,7 +98,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=63
 mode=LaTeX
-open=true
+open=false
 order=2
 
 [item:interpreter-vs-compiler.eps]
@@ -134,10 +134,10 @@ JumpList=
 ViMarks=.,2,0,[,2,0,],-1,-1
 
 [view-settings,view=0,item:Main.tex]
-CursorColumn=36
-CursorLine=13
+CursorColumn=0
+CursorLine=55
 JumpList=
-ViMarks=.,13,36,[,13,36,],13,36
+ViMarks=.,56,0,[,56,0,],56,0
 
 [view-settings,view=0,item:Solvers.tex]
 CursorColumn=78

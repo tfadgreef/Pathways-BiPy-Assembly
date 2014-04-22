@@ -142,6 +142,7 @@ c function.
 #else
       call jacnonzero(neq, y0, npar, par, nnz)
 #endif
+!      nnz = nnz * 2
 #if defined(DEBUG)
       write(line,*) 'Calculated NNZ = ', nnz
       k = mexPrintf(line//achar(13))

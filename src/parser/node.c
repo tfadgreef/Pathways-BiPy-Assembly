@@ -127,7 +127,7 @@ struct Node *findVariable(struct Node *n) {
   
   while (tmp != NULL) {
     if (tmp->tag == TARRAYINDEX || tmp->tag == TVAR) {
-      if (strcmp(tmp->iname, func->x) == 0) {
+      if (strcmp(tmp->iname, func->x) == 0 || strcmp(tmp->iname, func->dx) == 0) {
         struct Node *pntr = createOperation(TMISC);
         pntr->children = tmp;
         occ = appendStatement(occ, pntr);

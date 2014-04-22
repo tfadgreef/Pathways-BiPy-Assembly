@@ -243,7 +243,10 @@ c Copy the value of the arguments.
       CALL mxcopyptrtoreal8(parp, par, nel)
 
 c Call the correct solver.
-#if defined(ODEPACK)
+#if defined(LSODAS)
+      call lsodasw(neq, atol, rtol, nout, times, npar, par, y0, t, y,
+     + opt)
+#elif defined(ODEPACK)
       call lsodew(neq, atol, rtol, nout, times, npar, par, y0, t, y,
      + opt)
 #elif defined(RKSUITE)
@@ -254,9 +257,6 @@ c Call the correct solver.
      + opt)
 #elif defined(VODE)
       call vodew(neq, atol, rtol, nout, times, npar, par, y0, t, y,
-     + opt)
-#elif defined(LSODAS)
-      call lsodasw(neq, atol, rtol, nout, times, npar, par, y0, t, y,
      + opt)
 #endif
 
@@ -321,7 +321,7 @@ c-----------------------------------------------------------------------
 c Create another set of values based on random numbers. This might not
 c always work, but generally it will.
       do 600 i = 1, neq
-       y0(i) = y(i) + 100.0d0 * rand()
+       y0(i) = y(i) + 1.0d0 * rand()
   600 continue      
 
 c Iterate through all states and calculate the part of the Jacobian that

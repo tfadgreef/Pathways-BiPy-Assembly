@@ -21,8 +21,8 @@ function PPODE_init(varargin)
 PPODE_addPaths
 
 % Define all libraries, files, etcetera.
-libnames = {'ODEPACK', 'RKSUITE', 'MEBDFSO', 'VODE', 'LSODAS'};
-libdeps = {{'opkdmain', 'opkda1', 'opkda2'}, {'rksuite'}, {'yale', 'helpers', 'mebdfso'}, {'vode', 'helpers'},{'lsodas','opkda1','opkda2'}};
+libnames = {'ODEPACK', 'RKSUITE', 'MEBDFSO', 'VODE'};
+libdeps = {{'opkdmain', 'lsodas', 'opkda1', 'opkda2'}, {'rksuite'}, {'yale', 'helpers', 'mebdfso'}, {'vode', 'helpers'}};
 
 [basedir, ~, ~] = fileparts(mfilename('fullpath'));
 builddir = fullfile(basedir, 'build');

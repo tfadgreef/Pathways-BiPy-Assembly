@@ -181,8 +181,8 @@ void processDependentVectorIdentifier(char *s, struct Node *rel) {
 }
 
 struct Node *getRelativeToY(char *s) {
-  if (strcmp(s, func->t) != 0 != 0 && strcmp(s, func->p) != 0 && strcmp(s, func->dx) != 0 && strcmp(s, D(func->dx)) && strcmp(s, func->neq) != 0 && strcmp(s, func->np) != 0 && strcmp(s, func->j) && strcmp(s, "zeros") != 0) {
-    if (strcmp(s, func->x) == 0) {
+  if (strcmp(s, func->t) != 0 != 0 && strcmp(s, func->p) != 0 && strcmp(s, D(func->dx)) != 0 && strcmp(s, func->neq) != 0 && strcmp(s, func->np) != 0 && strcmp(s, func->j) && strcmp(s, "zeros") != 0) {
+    if (strcmp(s, func->x) == 0 || strcmp(s, func->dx) == 0) {
       return createConstant(1.0);
     }
     if (vars == NULL) {
@@ -323,8 +323,22 @@ void initializeKnownFunctions() {
   tmp = tmp->next;
   
   tmp->name = "round";
-  tmp->fname = "idnint";
-  tmp->fder = "idnint";
+  tmp->fname = "dround";
+  tmp->fder = "dzero";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "ceil";
+  tmp->fname = "dceiling";
+  tmp->fder = "dzero";
+  
+  tmp->next = emalloc(sizeof(*tmp->next));
+  tmp = tmp->next;
+  
+  tmp->name = "floor";
+  tmp->fname = "dfloor";
+  tmp->fder = "dzero";
   
   tmp->next = NULL;
 }

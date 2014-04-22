@@ -45,7 +45,7 @@ function PPODE_build(infile, outfile, varargin)
 %               time step. The default value is 1000 steps for all
 %               solvers. The value 'high' will set the maximum number of
 %               steps to 42e7, which will probably not cause the solver
-%               to abort because of the maximum number of steps. If the
+%               to abort due to the maximum number of steps. If the
 %               number contains an imaginary part, the solver will 
 %               enable an intelligent distribution for determining the
 %               maximum number of steps. imag(value) should then give

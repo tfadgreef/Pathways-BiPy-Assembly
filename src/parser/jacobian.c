@@ -81,9 +81,10 @@ struct Node *derivative(struct Node *n, struct Node *j) {
             if (rel != NULL) {
               tmp = j;
               while (tmp != NULL){
-                if (compareNodes(n, j) == 1) {
-                  return createConstant(1.0);
+                if (compareNodes(n->children, j->children) == 1) {
+                  return D_arrayindex(n->iname, n->children);//createConstant(1.0);
                 }
+                tmp = tmp->next;
               }
               return createConstant(0.0);
             }
@@ -117,7 +118,7 @@ struct Node *derivative(struct Node *n, struct Node *j) {
       default : fatalError("Undefined derivative.");
     }
   }
-  return NULL;
+  return createOperation(TMISC);
 }
 
 struct Node *D_zeros(char *iden, struct Node *n) {
@@ -198,8 +199,44 @@ struct Node *D_pow(struct Node *n1, struct Node *n2, struct Node *j) {
   // Find independent variable in power
   // If not found, just decrease power with one and multiply everything with power.
   // If found, generalized power rule. (Maybe first just show error message?)
+  // f(x)^g(x) => f(x)^g(x) * (((g(x)*f'(x)) / f(x)) + ln(f(x))*g'(x))
   
-  return NULL;
+  // mul1 = g(x) * f'(x)
+  struct Node *mul1 = createOperation(TMUL);
+  appendChild(mul1, copyNode(n2));
+  appendChild(mul1, derivative(n1, j));
+  
+  // div1 = mul1 / f(x)
+  struct Node *div1 = createOperation(TDIV);
+  appendChild(div1, mul1);
+  appendChild(div1, copyNode(n1));
+  
+  // ln1 = ln(f(x))
+  struct Node *ln1 = createOperation(TFUNCTION);
+  setIdentifier(ln1, "dlog");
+  appendChild(ln1, copyNode(n1));
+  
+  // mul2 = ln1 * g'(x)
+  struct Node *mul2 = createOperation(TMUL);
+  appendChild(mul2, ln1);
+  appendChild(mul2, derivative(n2, j));
+  
+  // pls1 = div1 + mul2
+  struct Node *pls1 = createOperation(TPLUS);
+  appendChild(pls1, div1);
+  appendChild(pls1, mul2);
+  
+  // pow1 = f(x)^g(x)
+  struct Node *pow1 = createOperation(TPOW);
+  appendChild(pow1, copyNode(n1));
+  appendChild(pow1, copyNode(n2));
+  
+  // pow1 * pls1
+  struct Node *n = createOperation(TMUL);
+  appendChild(n, pow1);
+  appendChild(n, pls1);
+  
+  return n;
 }
 
 struct Node *D_var(struct Node *n){
@@ -247,7 +284,7 @@ struct Node *D_assign(struct Node *n1, struct Node *n2){
       tmp = tmp->next;
     }
   }
-  
+
   tmp = occ;
   
   struct Node *rifs = NULL;
@@ -265,13 +302,16 @@ struct Node *D_assign(struct Node *n1, struct Node *n2){
     struct Node *r1a = createOperation(TEQ_OP);
     appendChild(r1a, createVariable(func->j));
     struct Node *rely = getRelativeToY(tmp->children->iname);
-    
     if (rely->tag == TNUM && rely->ival == 1) {
-      appendChild(r1a, copyNode(tmp->children->children));
+      if (tmp->children->tag == TARRAYINDEX) {
+        appendChild(r1a, copyNode(tmp->children->children));
+      } else {
+        appendChild(r1a, copyNode(rely));
+      }
     } else {
       if (tmp->children->tag == TARRAYINDEX) {
         struct Node *appendRely = createOperation(TPLUS);
-        appendChild(appendRely, rely);
+        appendChild(appendRely, copyNode(rely));
         appendChild(appendRely, copyNode(tmp->children->children));
         struct Node *subOne = createOperation(TMINUS);
         appendChild(subOne, appendRely);

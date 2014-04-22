@@ -130,3 +130,28 @@ c Helper functions.
       d01csch = -dcoth(x)*dcsch(x)
       return
       end
+
+      function dceiling(x)
+      double precision x
+      dceiling = dble(ceiling(x))
+      return
+      end
+
+      function dfloor(x)
+      double precision x
+      dfloor = dble(floor(x))
+      return
+      end
+
+      function dround(x)
+      double precision x
+      dround = dble(idnint(x))
+      return
+      end
+
+      function dzero(x)
+      double precision x
+      dzero = 0.0d0
+      return
+      end
+

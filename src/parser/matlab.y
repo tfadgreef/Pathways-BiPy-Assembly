@@ -210,6 +210,12 @@ equality_expression
 and_expression
         : equality_expression
         { $$ = $1; }
+        | and_expression '&' '&' equality_expression
+        { 
+          $$ = createOperation(TAND);
+          appendChild($$, $1);
+          appendChild($$, $4);
+        }
         | and_expression '&' equality_expression
         { 
           $$ = createOperation(TAND);
@@ -221,6 +227,12 @@ and_expression
 or_expression
         : and_expression
         { $$ = $1; }
+        | or_expression '|' '|' and_expression
+        { 
+          $$ = createOperation(TOR);
+          appendChild($$, $1);
+          appendChild($$, $4);
+        }
         | or_expression '|' and_expression
         { 
           $$ = createOperation(TOR);

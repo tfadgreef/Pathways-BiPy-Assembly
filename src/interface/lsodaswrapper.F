@@ -352,7 +352,7 @@ c Check whether the passed time is below the maximum time.
 
 c Get the new time point.
   170   if (istate .eq. -42) then
-          if (mf .eq. 222) then
+          if (mf .eq. 022) then
             mf = 10
           else
             mf = 022
