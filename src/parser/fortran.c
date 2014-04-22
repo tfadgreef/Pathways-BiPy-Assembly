@@ -210,7 +210,7 @@ char *toFortran(struct Node *t) {
           return F_indexrange(toFortran(nd->children), toFortran(nd->children->next));
         }
       case TOR : return F_or(toFortran(nd->children), toFortran(nd->children->next));
-      case TAND : return F_or(toFortran(nd->children), toFortran(nd->children->next));
+      case TAND : return F_and(toFortran(nd->children), toFortran(nd->children->next));
       case TEQ_OP : return F_eq_op(toFortran(nd->children), toFortran(nd->children->next));
       case TNE_OP : return F_ne_op(toFortran(nd->children), toFortran(nd->children->next));
       case TGT_OP : return F_gt_op(toFortran(nd->children), toFortran(nd->children->next));
@@ -238,6 +238,14 @@ char *toFortran(struct Node *t) {
         return  F_ifelseifelse(toFortran(nd->children), toFortran(nd->children->next), s1, toFortran(tmp));
       case TARRAYINDEX : return  F_arrayindex(processIdentifier(nd->iname, TINT), toFortran(nd->children));
       case TCOMBINE :
+        s1 = "";
+        tmp = nd->children;
+        while (tmp != NULL) {
+          s1 = F_combine(s1, toFortran(tmp));
+          tmp = tmp->next;
+        }
+        return s1;
+      case TIFBODY :
         s1 = "";
         tmp = nd->children;
         while (tmp != NULL) {

@@ -43,7 +43,8 @@ enum NodeTag {
                     //!< the tree.
   TNOT,             //!< NOT operation (!a, ~a, NOT a), one child.
   TNEGATIVE,        //!< Negative sign operation (-a), one child.
-  TFUNCTION         //!< A recognized Matlab function.
+  TFUNCTION,        //!< A recognized Matlab function.
+  TIFBODY           //!< Body of an if statement.
 };
 
 //! A two dimensional node/tree data.

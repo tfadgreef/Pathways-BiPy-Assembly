@@ -249,6 +249,10 @@ if values('ANAJAC')
     fprintf(fid, '#define USERSUPPLIEDJAC\n');
 end
 
+if values('INPUTNNZ')
+    fprintf(fid, '#define INPUTNONZERO\n');
+end
+
 fclose(fid);
 
 libstr = '';

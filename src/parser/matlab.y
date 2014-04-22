@@ -333,14 +333,17 @@ selection_statement
         { 
           $$ = createOperation(TIF);
           appendChild($$, $2);
-          appendChild($$, $3);
+          appendChild($$, createOperation(TIFBODY));
+          appendChild($$->children->next, $3);
         }
         | IF expression statement_list ELSE statement_list END eostmt
         { 
           $$ = createOperation(TIFELSE);
           appendChild($$, $2);
-          appendChild($$, $3);
-          appendChild($$, $5);
+          appendChild($$, createOperation(TIFBODY));
+          appendChild($$->children->next, $3);
+          appendChild($$, createOperation(TIFBODY));
+          appendChild($$->children->next->next, $5);
         }
         | IF expression statement_list elseif_clause END eostmt
         { 

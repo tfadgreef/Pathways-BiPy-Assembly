@@ -4,6 +4,7 @@
 
 #include "node.h"
 #include "tree.h"
+#include "fortran.h"
 
 struct Node *last(struct Node *t) {
   struct Node *tmp = t;
@@ -48,7 +49,9 @@ void appendChild(struct Node *parent, struct Node *child) {
 }
 
 void setIdentifier(struct Node *node, char *identifier) {
-  node->iname = identifier;
+  node->iname = emalloc(sizeof(char) * strlen(identifier));
+  strcpy(node->iname, identifier);
+//  node->iname = identifier;
 }
 
 struct Node *createConstant(double num) {
@@ -71,7 +74,8 @@ struct Node *createVariable(char *varname) {
     t->tag = TVAR;
 //     t->iname = emalloc(sizeof(char) * strlen(varname));
 //     strcpy(t->iname, varname);
-    t->iname = varname;
+//    t->iname = varname;
+    setIdentifier(t, varname);
     t->previous = NULL;
     t->next = NULL;
     t->parent = NULL;
@@ -123,21 +127,21 @@ struct Node *copyNode(struct Node *n) {
 
 struct Node *findVariable(struct Node *n) {
   struct Node *occ = NULL;
-  struct Node *tmp = n->children;
+  struct Node *tmp = n;
   
-  while (tmp != NULL) {
-    if (tmp->tag == TARRAYINDEX || tmp->tag == TVAR) {
-      if (strcmp(tmp->iname, func->x) == 0 || strcmp(tmp->iname, func->dx) == 0) {
+  
+    if (n->tag == TARRAYINDEX || n->tag == TVAR) {
+      if (strcmp(n->iname, func->x) == 0 || strcmp(n->iname, func->dx) == 0) {
         struct Node *pntr = createOperation(TMISC);
-        pntr->children = tmp;
+        pntr->children = n;
         occ = appendStatement(occ, pntr);
       } else {
         struct Variable *tmpvar = vars;
         while (tmpvar != NULL) {
           if (tmpvar->rel != NULL) {
-            if (strcmp(tmp->iname, tmpvar->iname) == 0) {
+            if (strcmp(n->iname, tmpvar->iname) == 0) {
               struct Node *pntr = createOperation(TMISC);
-              pntr->children = tmp;
+              pntr->children = n;
               occ = appendStatement(occ, pntr);
             }
           }
@@ -145,10 +149,12 @@ struct Node *findVariable(struct Node *n) {
         }
       }
     } else {
-      occ = appendStatement(occ, findVariable(tmp));
+      tmp = n->children;
+      while (tmp != NULL) {
+        occ = appendStatement(occ, findVariable(tmp));
+        tmp = tmp->next;
+      }
     }
-    tmp = tmp->next;
-  }
   
   return occ;
 }

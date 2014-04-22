@@ -30,6 +30,7 @@ void functionToJacobian(struct Node *t) {
 
 struct Node *derivative(struct Node *n, struct Node *j) {
   struct Node *tmp;
+  struct Node *tmp2;
   if (n->ignore == 0) {
     switch (n->tag) {
       case TASSIGN :
@@ -70,7 +71,7 @@ struct Node *derivative(struct Node *n, struct Node *j) {
           } else if (strcmp(n->iname, func->x) == 0) {
             tmp = j;
             while (tmp != NULL){
-              if (compareNodes(n, tmp) == 1) {
+              if (compareNodes(n, tmp->children) == 1) {
                 return createConstant(1.0);
               }
               tmp = tmp->next;
@@ -79,16 +80,23 @@ struct Node *derivative(struct Node *n, struct Node *j) {
           } else {
             struct Node *rel = getRelativeToY(n->iname);
             if (rel != NULL) {
-              tmp = j;
-              while (tmp != NULL){
-                if (compareNodes(n->children, j->children) == 1) {
-                  return D_arrayindex(n->iname, n->children);//createConstant(1.0);
+              if (j == NULL) {
+                return createConstant(0.0);
+              } else {
+                tmp = j;
+                while (tmp != NULL){
+                  if (compareNodes(n->children, tmp->children) == 1) {
+                    return createConstant(1.0);//D_arrayindex(n->iname, n->children);//createConstant(1.0);
+                  }
+                  tmp = tmp->next;
                 }
-                tmp = tmp->next;
+                return D_arrayindex(n->iname, n->children);
               }
-              return createConstant(0.0);
+              //return D_arrayindex(D(n->iname), n->children);
+              //return createConstant(0.0);
             }
-            return createConstant(0.0);
+            return D_arrayindex(n->iname, n->children);
+            //return createConstant(0.0);
             //return D_arrayindex(n->iname, n->children);
           }
         }
@@ -97,7 +105,7 @@ struct Node *derivative(struct Node *n, struct Node *j) {
       case TNEGATIVE : return D_negative(n->children, j);
       case TMUL : return D_mul(n->children, n->children->next, j);
       case TDIV : return D_div(n->children, n->children->next, j);
-      case TPOW : return D_div(n->children, n->children->next, j);
+      case TPOW : return D_pow(n->children, n->children->next, j);
       case TRANGE : fatalError("Internal error: can not compute derivative of range.");
       case TNOT : fatalError("Internal error: can not compute derivative of NOT.");
       case TOR : fatalError("Internal error: can not compute derivative of OR.");
@@ -111,6 +119,14 @@ struct Node *derivative(struct Node *n, struct Node *j) {
       case TIF : return  D_if(n->children, n->children->next, j);
       case TIFELSE : return  D_ifelse(n->children, n->children->next, n->children->next->next, j);
       case TFOR : return D_for(n->iname, n->children, n->children->next);
+      case TIFBODY :
+        tmp2 = createOperation(TIFBODY);
+        tmp = n->children;
+        while (tmp != NULL) {
+          appendChild(tmp2, derivative(tmp, NULL));
+          tmp = tmp->next;
+        }
+        return tmp2;
       case TCOMBINE :
         /*fprintf(warn, "\n"); print_tree(0, n); fprintf(warn, "\n");*/
         fatalError("Internal error: TCOMBINE should not occur here.");
@@ -199,44 +215,67 @@ struct Node *D_pow(struct Node *n1, struct Node *n2, struct Node *j) {
   // Find independent variable in power
   // If not found, just decrease power with one and multiply everything with power.
   // If found, generalized power rule. (Maybe first just show error message?)
-  // f(x)^g(x) => f(x)^g(x) * (((g(x)*f'(x)) / f(x)) + ln(f(x))*g'(x))
   
-  // mul1 = g(x) * f'(x)
-  struct Node *mul1 = createOperation(TMUL);
-  appendChild(mul1, copyNode(n2));
-  appendChild(mul1, derivative(n1, j));
-  
-  // div1 = mul1 / f(x)
-  struct Node *div1 = createOperation(TDIV);
-  appendChild(div1, mul1);
-  appendChild(div1, copyNode(n1));
-  
-  // ln1 = ln(f(x))
-  struct Node *ln1 = createOperation(TFUNCTION);
-  setIdentifier(ln1, "dlog");
-  appendChild(ln1, copyNode(n1));
-  
-  // mul2 = ln1 * g'(x)
-  struct Node *mul2 = createOperation(TMUL);
-  appendChild(mul2, ln1);
-  appendChild(mul2, derivative(n2, j));
-  
-  // pls1 = div1 + mul2
-  struct Node *pls1 = createOperation(TPLUS);
-  appendChild(pls1, div1);
-  appendChild(pls1, mul2);
-  
-  // pow1 = f(x)^g(x)
-  struct Node *pow1 = createOperation(TPOW);
-  appendChild(pow1, copyNode(n1));
-  appendChild(pow1, copyNode(n2));
-  
-  // pow1 * pls1
-  struct Node *n = createOperation(TMUL);
-  appendChild(n, pow1);
-  appendChild(n, pls1);
-  
-  return n;
+  if (n2->tag == TNUM) {
+    // f(x)^a => a*f'(x)*f(x)^(a-1)
+    
+    // mul1 = a*f'(x)
+    struct Node *mul1 = createOperation(TMUL);
+    appendChild(mul1, copyNode(n2));
+    appendChild(mul1, derivative(n1, j));
+    
+    // pow1 = f(x)^(a-1)
+    struct Node *pow1 = createOperation(TPOW);
+    appendChild(pow1, copyNode(n1));
+    appendChild(pow1, createConstant(n2->ival - 1.0));
+    
+    // mul1*pow1
+    struct Node *n = createOperation(TMUL);
+    appendChild(n, mul1);
+    appendChild(n, pow1);
+    
+    return n;
+  } else {
+    // f(x)^g(x) => f(x)^g(x) * (((g(x)*f'(x)) / f(x)) + ln(f(x))*g'(x))
+      
+    // mul1 = g(x) * f'(x)
+    struct Node *mul1 = createOperation(TMUL);
+    appendChild(mul1, copyNode(n2));
+    appendChild(mul1, derivative(n1, j));
+      
+    // div1 = mul1 / f(x)
+    struct Node *div1 = createOperation(TDIV);
+    appendChild(div1, mul1);
+    appendChild(div1, copyNode(n1));
+      
+    // ln1 = ln(f(x))
+    struct Node *ln1 = createOperation(TFUNCTION);
+    setIdentifier(ln1, "ln");
+    appendChild(ln1, copyNode(n1));
+  //  struct Node *ln1 = copyNode(n1);
+    
+    // mul2 = ln1 * g'(x)
+    struct Node *mul2 = createOperation(TMUL);
+    appendChild(mul2, ln1);
+    appendChild(mul2, derivative(n2, j));
+      
+    // pls1 = div1 + mul2
+    struct Node *pls1 = createOperation(TPLUS);
+    appendChild(pls1, div1);
+    appendChild(pls1, mul2);
+      
+    // pow1 = f(x)^g(x)
+    struct Node *pow1 = createOperation(TPOW);
+    appendChild(pow1, copyNode(n1));
+    appendChild(pow1, copyNode(n2));
+      
+    // pow1 * pls1
+    struct Node *n = createOperation(TMUL);
+    appendChild(n, pow1);
+    appendChild(n, pls1);
+        
+    return n;
+  }
 }
 
 struct Node *D_var(struct Node *n){
@@ -290,6 +329,83 @@ struct Node *D_assign(struct Node *n1, struct Node *n2){
   struct Node *rifs = NULL;
   
   while (tmp != NULL) {
+    struct Node *tmp2 = tmp->next;
+    while (tmp2 != NULL){
+      struct Node *r1;
+      struct Node *r11;
+      struct Node *r12;
+      if (rifs == NULL) {
+        r1 = createOperation(TIF);
+        rifs = r1;
+      } else {
+        rifs->tag = TIFELSEIF;
+        r1 = createOperation(TELSEIF);
+        appendChild(rifs, r1);
+      }
+      
+      r11 = createOperation(TAND);
+      
+      struct Node *r1a = createOperation(TEQ_OP);
+      appendChild(r1a, createVariable(func->j));
+      struct Node *rely = getRelativeToY(tmp->children->iname);
+      if (rely->tag == TNUM && rely->ival == 1) {
+        if (tmp->children->tag == TARRAYINDEX) {
+          appendChild(r1a, copyNode(tmp->children->children));
+        } else {
+          appendChild(r1a, copyNode(rely));
+        }
+      } else {
+        if (tmp->children->tag == TARRAYINDEX) {
+          struct Node *appendRely = createOperation(TPLUS);
+          appendChild(appendRely, copyNode(rely));
+          appendChild(appendRely, copyNode(tmp->children->children));
+          struct Node *subOne = createOperation(TMINUS);
+          appendChild(subOne, appendRely);
+          appendChild(subOne, createConstant(1.0));
+          
+          appendChild(r1a, subOne);
+        } else {
+          appendChild(r1a, copyNode(rely));
+        }
+      }
+      appendChild(r11, r1a);
+      
+      struct Node *r1a2 = createOperation(TEQ_OP);
+      appendChild(r1a2, createVariable(func->j));
+      struct Node *rely2 = getRelativeToY(tmp2->children->iname);
+      if (rely2->tag == TNUM && rely2->ival == 1) {
+        if (tmp2->children->tag == TARRAYINDEX) {
+          appendChild(r1a2, copyNode(tmp2->children->children));
+        } else {
+          appendChild(r1a2, copyNode(rely2));
+        }
+      } else {
+        if (tmp2->children->tag == TARRAYINDEX) {
+          struct Node *appendRely2 = createOperation(TPLUS);
+          appendChild(appendRely2, copyNode(rely2));
+          appendChild(appendRely2, copyNode(tmp2->children->children));
+          struct Node *subOne2 = createOperation(TMINUS);
+          appendChild(subOne2, appendRely2);
+          appendChild(subOne2, createConstant(1.0));
+          
+          appendChild(r1a2, subOne2);
+        } else {
+          appendChild(r1a2, copyNode(rely2));
+        }
+      }
+      appendChild(r11, r1a2);
+      
+      appendChild(r1, r11);
+      
+      struct Node *r2 = createOperation(TASSIGN);
+      appendChild(r2, derivative(n1, NULL));
+      struct Node *deriv = copyNode(tmp);
+      appendStatement(deriv, copyNode(tmp2));
+      appendChild(r2, derivative(n2, deriv));
+      appendChild(r1, r2);
+      tmp2 = tmp2->next;
+    }
+    
     struct Node *r1;
     if (rifs == NULL) {
       r1 = createOperation(TIF);
@@ -299,6 +415,7 @@ struct Node *D_assign(struct Node *n1, struct Node *n2){
       r1 = createOperation(TELSEIF);
       appendChild(rifs, r1);
     }
+    
     struct Node *r1a = createOperation(TEQ_OP);
     appendChild(r1a, createVariable(func->j));
     struct Node *rely = getRelativeToY(tmp->children->iname);
@@ -323,10 +440,12 @@ struct Node *D_assign(struct Node *n1, struct Node *n2){
       }
     }
     appendChild(r1, r1a);
+    
     struct Node *r2 = createOperation(TASSIGN);
     appendChild(r2, derivative(n1, NULL));
-    appendChild(r2, derivative(n2, tmp->children));
+    appendChild(r2, derivative(n2, copyNode(tmp)));
     appendChild(r1, r2);
+    
     tmp = tmp->next;
   }
   

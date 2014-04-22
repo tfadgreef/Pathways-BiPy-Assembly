@@ -152,10 +152,11 @@ c Get the number of equations.
 #ifdef INPUTNONZERO
 c If INPUTNONZERO is defined, the value of NNZ is the second element of
 c the vector NEQ.
-      m = mxgetm(prhs(argtimes))
-      n = mxgetn(prhs(argtimes))
+      m = mxgetm(prhs(argneq))
+      n = mxgetn(prhs(argneq))
       if (max(m, n) .ne. 2) then
-        call mexerrmsgtxt('PPODE requires NEQ to be a 2 x 1 vector if INPUTNONZERO is set.')
+        call mexerrmsgtxt('PPODE requires NEQ to be a 2 x 1 vector if'//
+     + 'INPUTNONZERO is set.')
       end if
       nel = max(m, n)
 #else
@@ -315,6 +316,10 @@ c-----------------------------------------------------------------------
       external jac
       double precision y(neq), pdj1(neq), pdj2(neq), p(np), y0(neq)
       integer neq, np, j, i, nnz
+c MEX printing
+      character*120 line
+      integer*4 k
+      integer*4 mexPrintf
 
       nnz = 0
 
@@ -341,6 +346,8 @@ c Add one to the number of non-zero elements if one of the two values of
 c a certain position in the matrix is not zero.
        do 630 i = 1, neq
         if ((pdj1(i) .ne. 0.0d0) .or. (pdj2(i) .ne. 0.0d0)) then
+c         write(line,*) '(', j, ', ', i, ')'
+c         k = mexPrintf(line//achar(13))
          nnz = nnz + 1
         end if
   630  continue

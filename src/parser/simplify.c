@@ -186,17 +186,17 @@ void S_removePlusZero(struct Node *t) {
         obs = t->children;
         nod = t->children->next;
       } else if (t->tag == TPLUS && t->children->next->tag == TNUM && t->children->next->ival == 0.0) {
-        nod = t->children;
         obs = t->children->next;
+        nod = t->children;
       } else if (t->tag == TMUL && t->children->tag == TNUM && t->children->ival == 0.0) {
-        nod = t->children;
         obs = t->children->next;
+        nod = t->children;
       } else if (t->tag == TMUL && t->children->next->tag == TNUM && t->children->next->ival == 0.0) {
         obs = t->children;
         nod = t->children->next;
       } else if (t->tag == TMINUS && (t->children->next->tag == TNUM && t->children->next->ival == 0.0)) {
-        nod = t->children;
         obs = t->children->next;
+        nod = t->children;
       } else if ((t->tag == TMUL) && (t->children->tag == TNUM && t->children->ival == 1.0)) {
         obs = t->children;
         nod = t->children->next;
@@ -225,7 +225,9 @@ void S_removePlusZero(struct Node *t) {
       }
       
       if (obs != NULL) {
-        free(obs->iname);
+        if (obs->iname != NULL) {
+          free(obs->iname);
+        }
         free(obs);
       }
       free(t);

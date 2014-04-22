@@ -139,6 +139,8 @@ c function.
 #elif defined(BDFSPARSESOLVER) || defined(SWITCHINGSPARSESOLVER)
 #if defined(INPUTNONZERO)
       nnz = int(oret(1))
+      write(line,*) 'Calculated NNZ = ', nnz
+      k = mexPrintf(line//achar(13))
 #else
       call jacnonzero(neq, y0, npar, par, nnz)
 #endif
@@ -241,8 +243,8 @@ c
 c Loop through al desired output points.
 c
 c-----------------------------------------------------------------------
-
-      do 175 iout = 1,nout
+      iout = 1
+      do while (iout .le. nout)
 
 #ifdef IMAXSTEPS
         if ((IMAXSTEPS*times(iout)) .gt. maxint) then
@@ -279,9 +281,6 @@ c Call the solver
 #elif defined(SWITCHINGSOLVER)
         call dlsoda(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, jt)
-#elif defined(SWITCHINGSPARSESOLVER)
-        call dlsodas(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
-     1   istate, iopt, rwork, lrw, iwork, liw, dummy, 222)
 #endif
 c Copy the value of y(:) to the output vector.
         yret(iout, :) = y
@@ -293,6 +292,50 @@ c Benchmarking
           call cpu_time(bench1)
           oret(iout) = (bench1-bench0)
 #endif
+
+c Adjust the tolerances if necessary
+        if ((istate .eq. -3) .or. (istate .eq. -5)) then
+          tolsf = rwork(14)
+          if (tolsf .gt. 1.0d0) then
+            atols = atols * tolsf
+            rtols = rtols * tolsf
+
+            write(line,160) tolsf
+  160       format('Tolerances scaled up by a factor ',d10.4, '.')
+            k = mexPrintf(line//achar(13))
+
+            istate = 3
+            go to 175
+          elseif ((rtols .le. 1.0d-5) .and. (atols .le. 1.0d-5)) then
+            tolsf = 1000
+
+            atols = atols * tolsf
+            rtols = rtols * tolsf
+
+            write(line,165) tolsf
+  165       format('Tolerances scaled up by a factor ',d10.4, '. ')
+            k = mexPrintf(line//achar(13))
+
+            write(line,166) iout
+  166       format('At iout = ',i4,'.')
+            k = mexPrintf(line//achar(13))
+
+            write(line,167) rtols
+  167       format('RTol = ',d10.4, '.')
+            k = mexPrintf(line//achar(13))
+
+            write(line,168) atols
+  168       format('ATol = ',d10.4, '.')
+            k = mexPrintf(line//achar(13))
+
+            istate = 3
+            go to 175
+          else
+            write(line,169)
+  169       format('Tolerances to large to scale up more.')
+            k = mexPrintf(line//achar(13))     
+          endif
+        endif
 
 c Check whether the solver was successful.
         if (istate .lt. 0) then
@@ -338,9 +381,11 @@ c Check whether the passed time is below the maximum time.
 #endif
 
 c Get the new time point.
- 170    tout = times(iout+1)
+ 170    iout = iout + 1
+        tout = times(iout)
 
- 175  continue
+ 175    continue
+      end do
 
 c Check for errors one more time
  180  if (istate .lt. 0) nerr = nerr + 1
