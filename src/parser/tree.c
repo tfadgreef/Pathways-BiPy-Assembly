@@ -163,7 +163,8 @@ void processDependentVectorIdentifier(char *s, struct Node *rel) {
       while (1) {
         if (strcmp(tmp->iname, s) == 0) {
           if (tmp->rel == NULL) {
-            tmp->rel = copyNode(rel);
+            tmp->rel = createOperation(TMISC);
+            appendChild(tmp->rel, copyNode(rel));
             fprintf(warn, "Vector '%s' (%s) relative to Y.\n", s, toFortran(rel));
           } else {
             fprintf(warn, "Relative record of '%s' already exists, ignoring new one.\n", s);
@@ -182,20 +183,20 @@ void processDependentVectorIdentifier(char *s, struct Node *rel) {
 
 struct Node *getRelativeToY(char *s) {
   if (strcmp(s, func->t) != 0 != 0 && strcmp(s, func->p) != 0 && strcmp(s, D(func->dx)) != 0 && strcmp(s, func->neq) != 0 && strcmp(s, func->np) != 0 && strcmp(s, func->j) && strcmp(s, "zeros") != 0) {
-    if (strcmp(s, func->x) == 0 || strcmp(s, func->dx) == 0) {
+    if (strcmp(s, func->x) == 0) { //|| strcmp(s, func->dx) == 0
       return createConstant(1.0);
     }
-    if (vars == NULL) {
-      fatalError("Internal error: No variables available.");
-    } else {
-      struct Variable *tmp = vars;
-      while (tmp != NULL) {
-        if (strcmp(tmp->iname, s) == 0) {
-          return tmp->rel;
-        }
-        tmp = tmp->next;
-      }
-    }
+//     if (vars == NULL) {
+//       fatalError("Internal error: No variables available.");
+//     } else {
+//       struct Variable *tmp = vars;
+//       while (tmp != NULL) {
+//         if (strcmp(tmp->iname, s) == 0) {
+//           return tmp->rel;
+//         }
+//         tmp = tmp->next;
+//       }
+//     }
   }
   return NULL;
 }

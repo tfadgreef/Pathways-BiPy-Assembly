@@ -321,6 +321,8 @@ c MEX printing
       integer*4 k
       integer*4 mexPrintf
 
+c      open (unit=20,file="nnz.txt",action="write",status="replace")
+
       nnz = 0
 
 c Create another set of values based on random numbers. This might not
@@ -348,11 +350,14 @@ c a certain position in the matrix is not zero.
         if ((pdj1(i) .ne. 0.0d0) .or. (pdj2(i) .ne. 0.0d0)) then
 c         write(line,*) '(', j, ', ', i, ')'
 c         k = mexPrintf(line//achar(13))
+c         write(20, *) j, "  ", i 
          nnz = nnz + 1
         end if
   630  continue
        
   700 continue
+
+c      close(20)
 
       return
       end

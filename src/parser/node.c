@@ -131,23 +131,24 @@ struct Node *findVariable(struct Node *n) {
   
   
     if (n->tag == TARRAYINDEX || n->tag == TVAR) {
-      if (strcmp(n->iname, func->x) == 0 || strcmp(n->iname, func->dx) == 0) {
+      if (strcmp(n->iname, func->x) == 0 ) { //|| strcmp(n->iname, func->dx) == 0
         struct Node *pntr = createOperation(TMISC);
         pntr->children = n;
         occ = appendStatement(occ, pntr);
-      } else {
-        struct Variable *tmpvar = vars;
-        while (tmpvar != NULL) {
-          if (tmpvar->rel != NULL) {
-            if (strcmp(n->iname, tmpvar->iname) == 0) {
-              struct Node *pntr = createOperation(TMISC);
-              pntr->children = n;
-              occ = appendStatement(occ, pntr);
-            }
-          }
-          tmpvar = tmpvar->next;
-        }
       }
+//       else {
+//         struct Variable *tmpvar = vars;
+//         while (tmpvar != NULL) {
+//           if (tmpvar->rel != NULL) {
+//             if (strcmp(n->iname, tmpvar->iname) == 0) {
+//               struct Node *pntr = createOperation(TMISC);
+//               pntr->children = n;
+//               occ = appendStatement(occ, pntr);
+//             }
+//           }
+//           tmpvar = tmpvar->next;
+//         }
+//       }
     } else {
       tmp = n->children;
       while (tmp != NULL) {

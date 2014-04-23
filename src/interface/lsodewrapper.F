@@ -294,48 +294,48 @@ c Benchmarking
 #endif
 
 c Adjust the tolerances if necessary
-        if ((istate .eq. -3) .or. (istate .eq. -5)) then
-          tolsf = rwork(14)
-          if (tolsf .gt. 1.0d0) then
-            atols = atols * tolsf
-            rtols = rtols * tolsf
-
-            write(line,160) tolsf
-  160       format('Tolerances scaled up by a factor ',d10.4, '.')
-            k = mexPrintf(line//achar(13))
-
-            istate = 3
-            go to 175
-          elseif ((rtols .le. 1.0d-5) .and. (atols .le. 1.0d-5)) then
-            tolsf = 1000
-
-            atols = atols * tolsf
-            rtols = rtols * tolsf
-
-            write(line,165) tolsf
-  165       format('Tolerances scaled up by a factor ',d10.4, '. ')
-            k = mexPrintf(line//achar(13))
-
-            write(line,166) iout
-  166       format('At iout = ',i4,'.')
-            k = mexPrintf(line//achar(13))
-
-            write(line,167) rtols
-  167       format('RTol = ',d10.4, '.')
-            k = mexPrintf(line//achar(13))
-
-            write(line,168) atols
-  168       format('ATol = ',d10.4, '.')
-            k = mexPrintf(line//achar(13))
-
-            istate = 3
-            go to 175
-          else
-            write(line,169)
-  169       format('Tolerances to large to scale up more.')
-            k = mexPrintf(line//achar(13))     
-          endif
-        endif
+!         if ((istate .eq. -3) .or. (istate .eq. -5)) then
+!           tolsf = rwork(14)
+!           if (tolsf .gt. 1.0d0) then
+!             atols = atols * tolsf
+!             rtols = rtols * tolsf
+! 
+!             write(line,160) tolsf
+!   160       format('Tolerances scaled up by a factor ',d10.4, '.')
+!             k = mexPrintf(line//achar(13))
+! 
+!             istate = 3
+!             go to 175
+!           elseif ((rtols .le. 1.0d-5) .and. (atols .le. 1.0d-5)) then
+!             tolsf = 1000
+! 
+!             atols = atols * tolsf
+!             rtols = rtols * tolsf
+! 
+!             write(line,165) tolsf
+!   165       format('Tolerances scaled up by a factor ',d10.4, '. ')
+!             k = mexPrintf(line//achar(13))
+! 
+!             write(line,166) iout
+!   166       format('At iout = ',i4,'.')
+!             k = mexPrintf(line//achar(13))
+! 
+!             write(line,167) rtols
+!   167       format('RTol = ',d10.4, '.')
+!             k = mexPrintf(line//achar(13))
+! 
+!             write(line,168) atols
+!   168       format('ATol = ',d10.4, '.')
+!             k = mexPrintf(line//achar(13))
+! 
+!             istate = 3
+!             go to 175
+!           else
+!             write(line,169)
+!   169       format('Tolerances to large to scale up more.')
+!             k = mexPrintf(line//achar(13))     
+!           endif
+!         endif
 
 c Check whether the solver was successful.
         if (istate .lt. 0) then

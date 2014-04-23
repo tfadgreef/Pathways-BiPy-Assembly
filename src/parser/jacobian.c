@@ -42,16 +42,16 @@ struct Node *derivative(struct Node *n, struct Node *j) {
             return tmp;
           }
         }
-        if (n->children->next->tag == TARRAYINDEX) {
-          if (strcmp(n->children->next->iname, func->x) == 0) {
-            struct Variable *var = registerVariable(n->children->iname, TDOUBLE); // Should just find the variable, not register.
-            if (var != NULL) {
-              if (var->type == TDOUBLEARRAY) {
-                return copyNode(n);
-              }
-            }
-          }
-        }
+//         if (n->children->next->tag == TARRAYINDEX) {
+//           if (strcmp(n->children->next->iname, func->x) == 0) {
+//             struct Variable *var = registerVariable(n->children->iname, TDOUBLE); // Should just find the variable, not register.
+//             if (var != NULL) {
+//               if (var->type == TDOUBLEARRAY) {
+//                 return copyNode(n);
+//               }
+//             }
+//           }
+//         }
         tmp = createOperation(TCOMBINE);
         appendChild(tmp, copyNode(n));
         appendChild(tmp, D_assign(n->children, n->children->next));
@@ -77,29 +77,56 @@ struct Node *derivative(struct Node *n, struct Node *j) {
               tmp = tmp->next;
             }
             return createConstant(0.0);
-          } else {
-            struct Node *rel = getRelativeToY(n->iname);
-            if (rel != NULL) {
-              if (j == NULL) {
-                return createConstant(0.0);
-              } else {
-                tmp = j;
-                while (tmp != NULL){
-                  if (compareNodes(n->children, tmp->children) == 1) {
-                    return createConstant(1.0);//D_arrayindex(n->iname, n->children);//createConstant(1.0);
-                  }
-                  tmp = tmp->next;
-                }
-                return D_arrayindex(n->iname, n->children);
-              }
-              //return D_arrayindex(D(n->iname), n->children);
-              //return createConstant(0.0);
-            }
-            return D_arrayindex(n->iname, n->children);
-            //return createConstant(0.0);
-            //return D_arrayindex(n->iname, n->children);
           }
+          
+//           tmp = j;
+//           while (tmp != NULL){
+//               if (compareNodes(n, tmp->children) == 1) {
+//                 return D_arrayindex(n->iname, n->children);
+//               }
+//             tmp = tmp->next;
+//           }
+//           return createConstant(0.0);
+          return D_arrayindex(n->iname, n->children);
         }
+//         if (n->parent->tag == TASSIGN && n->parent->children == n) {
+//           // Left hand side of assign
+//           return D_arrayindex(n->iname, n->children);
+//         } else {
+//           // Right hand side of assign
+//           if (strcmp(n->iname, func->p) == 0) {
+//             return createConstant(0.0);
+//           } else if (strcmp(n->iname, func->x) == 0) {
+//             tmp = j;
+//             while (tmp != NULL){
+//               if (compareNodes(n, tmp->children) == 1) {
+//                 return createConstant(1.0);
+//               }
+//               tmp = tmp->next;
+//             }
+//             return createConstant(0.0);
+//           } else {
+//             struct Node *rel = getRelativeToY(n->iname);
+//             if (rel != NULL) {
+//               if (j == NULL) {
+//                 return createConstant(0.0);
+//               } else {
+//                 tmp = j;
+//                 while (tmp != NULL){
+//                   if (compareNodes(n->children, tmp->children) == 1) {
+//                     return createConstant(1.0);//D_arrayindex(n->iname, n->children);//createConstant(1.0);
+//                   }
+//                   tmp = tmp->next;
+//                 }
+//                 return D_arrayindex(n->iname, n->children);
+//               }
+//               //return D_arrayindex(D(n->iname), n->children);
+//               //return createConstant(0.0);
+//             }
+//             return createConstant(0.0);
+//             //return D_arrayindex(n->iname, n->children);
+//           }
+//         }
       case TPLUS : return D_plus(n->children, n->children->next, j);
       case TMINUS : return D_minus(n->children, n->children->next, j);
       case TNEGATIVE : return D_negative(n->children, j);
@@ -419,7 +446,9 @@ struct Node *D_assign(struct Node *n1, struct Node *n2){
     struct Node *r1a = createOperation(TEQ_OP);
     appendChild(r1a, createVariable(func->j));
     struct Node *rely = getRelativeToY(tmp->children->iname);
-    if (rely->tag == TNUM && rely->ival == 1) {
+    if (rely == NULL) {
+      appendChild(r1a, createConstant(1.0));
+    } else if (rely->tag == TNUM && rely->ival == 1) {
       if (tmp->children->tag == TARRAYINDEX) {
         appendChild(r1a, copyNode(tmp->children->children));
       } else {
