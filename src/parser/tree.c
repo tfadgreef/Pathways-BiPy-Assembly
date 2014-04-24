@@ -155,30 +155,30 @@ void processFunctionHeader(struct Node* f) {
 }
 
 void processDependentVectorIdentifier(char *s, struct Node *rel) {
-  if (strcmp(s, func->t) != 0 && strcmp(s, func->x) != 0 && strcmp(s, func->p) != 0 && strcmp(s, func->dx) != 0 && strcmp(s, D(func->dx)) && strcmp(s, func->neq) != 0 && strcmp(s, func->np) != 0 && strcmp(s, func->j) && strcmp(s, "zeros") != 0) {
-    if (vars == NULL) {
-      fatalError("Internal error: No variables available.");
-    } else {
-      struct Variable *tmp = vars;
-      while (1) {
-        if (strcmp(tmp->iname, s) == 0) {
-          if (tmp->rel == NULL) {
-            tmp->rel = createOperation(TMISC);
-            appendChild(tmp->rel, copyNode(rel));
-            fprintf(warn, "Vector '%s' (%s) relative to Y.\n", s, toFortran(rel));
-          } else {
-            fprintf(warn, "Relative record of '%s' already exists, ignoring new one.\n", s);
-          }
-          return;
-        }
-        if (tmp->next == NULL)
-          break;
-        tmp = tmp->next;
-      }
-      fprintf(warn, "Trying to find '%s' (%s) relative to Y.\n", s, toFortran(rel));
-      fatalError("Internal error: Variable not found.");
-    }
-  }
+//   if (strcmp(s, func->t) != 0 && strcmp(s, func->x) != 0 && strcmp(s, func->p) != 0 && strcmp(s, func->dx) != 0 && strcmp(s, D(func->dx)) && strcmp(s, func->neq) != 0 && strcmp(s, func->np) != 0 && strcmp(s, func->j) && strcmp(s, "zeros") != 0) {
+//     if (vars == NULL) {
+//       fatalError("Internal error: No variables available.");
+//     } else {
+//       struct Variable *tmp = vars;
+//       while (1) {
+//         if (strcmp(tmp->iname, s) == 0) {
+//           if (tmp->rel == NULL) {
+//             tmp->rel = createOperation(TMISC);
+//             appendChild(tmp->rel, copyNode(rel));
+//             fprintf(warn, "Vector '%s' (%s) relative to Y.\n", s, toFortran(rel));
+//           } else {
+//             fprintf(warn, "Relative record of '%s' already exists, ignoring new one.\n", s);
+//           }
+//           return;
+//         }
+//         if (tmp->next == NULL)
+//           break;
+//         tmp = tmp->next;
+//       }
+//       fprintf(warn, "Trying to find '%s' (%s) relative to Y.\n", s, toFortran(rel));
+//       fatalError("Internal error: Variable not found.");
+//     }
+//   }
 }
 
 struct Node *getRelativeToY(char *s) {

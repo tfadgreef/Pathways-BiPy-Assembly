@@ -21,7 +21,7 @@
 
 %type <node> iteration_statement statement statement_list assignment_statement expression_statement selection_statement
 
-%type <node> expression additive_expression multiplicative_expression assignment_expression postfix_expression unary_expression or_expression and_expression equality_expression relational_expression array_expression primary_expression index_expression
+%type <node> expression additive_expression multiplicative_expression assignment_expression postfix_expression unary_expression or_expression and_expression equality_expression relational_expression array_expression primary_expression index_expression power_expression
 
 %type <node> elseif_clause index_expression_list func_ident_list func_return_list function_declare_lhs function_declare
 
@@ -86,17 +86,28 @@ array_expression
         }
         ;
 
-unary_expression
+power_expression
         : postfix_expression
         { $$ = $1; }
-        | '+' postfix_expression
+        | power_expression '^' postfix_expression
+        { 
+          $$ = createOperation(TPOW);
+          appendChild($$, $1);
+          appendChild($$, $3);
+        }
+        ;
+
+unary_expression
+        : power_expression
+        { $$ = $1; }
+        | '+' power_expression
         { $$ = $2; }
-        | '-' postfix_expression
+        | '-' power_expression
         {
           $$ = createOperation(TNEGATIVE);
           appendChild($$, $2);
         }
-        | '~' postfix_expression
+        | '~' power_expression
         {
           $$ = createOperation(TNOT);
           appendChild($$, $2);
@@ -129,12 +140,12 @@ multiplicative_expression
         }
         | multiplicative_expression '\\' unary_expression
         { $$ = NULL; fatalError("Backslash operator not supported."); }
-        | multiplicative_expression '^' unary_expression
+/*        | multiplicative_expression '^' unary_expression
         { 
           $$ = createOperation(TPOW);
           appendChild($$, $1);
           appendChild($$, $3);
-        }
+        }*/
         | multiplicative_expression ARRAYMUL unary_expression
         { $$ = NULL; fatalError("Array multiplication not supported."); }
         | multiplicative_expression ARRAYDIV unary_expression
