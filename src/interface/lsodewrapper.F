@@ -136,6 +136,9 @@ c function.
 #elif defined(SWITCHINGSOLVER)
       lrw = 22 + neq * max(16, neq + 9)
       liw = 20 + neq
+#elif defined(KRYLOVSOLVER)
+      lrw = 61 + 17*neq
+      liw = 35
 #elif defined(BDFSPARSESOLVER) || defined(SWITCHINGSPARSESOLVER)
 #if defined(INPUTNONZERO)
       nnz = int(oret(1))
@@ -219,6 +222,13 @@ c No optional inputs.
       iopt = 0
 #endif
 
+#if defined(KRYLOVSOLVER)
+      iwork(1) = 0
+      iwork(2) = 0
+      iwork(3) = 0
+      iwork(4) = 0
+#endif
+
 c Always start at t=0.
       t = 0.0d0
 c Initial value for the ODE problem.
@@ -281,6 +291,9 @@ c Call the solver
 #elif defined(SWITCHINGSOLVER)
         call dlsoda(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
      1   istate, iopt, rwork, lrw, iwork, liw, dummy, jt)
+#elif defined(KRYLOVSOLVER)
+        call dlsodpk(lsfunc, neq, y, t, tout, itol, rtols, atols, itask,
+     1   istate, iopt, rwork, lrw, iwork, liw, dummy, dummy, 22)
 #endif
 c Copy the value of y(:) to the output vector.
         yret(iout, :) = y

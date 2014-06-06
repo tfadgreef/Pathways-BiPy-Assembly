@@ -1,7 +1,7 @@
-\chapter{Usage} \label{ch:Usage}
+\pchapter{Usage}
 The ODE solvers need an ODE system to be provided as a \Fortran~subroutine (function), this can be done either manually or using the parser provided by the \PPODESUITE. Both options are described in the next two sections.
-\section{Manual ODE Function}
-\subsection{Introduction}
+\psection{Manual ODE Function}
+\psubsection{Introduction}
 The ODE function of the problem should be written in \Fortran~95. Here are some main \Fortran~peculiarities to consider when writing \Fortran~code.
 \begin{description}
  \item[Line Formatting] The maximum line width is 72 characters. The first character is used to indicate whether the line is a comment line. The second to fifth character are used to indicate labels. The $6^{th}$ character is used to indicate the continuation of the previous line.
@@ -26,7 +26,7 @@ c23456789012345678901234567890123456789012345678901234567890123456789012
  \item[Vectors] Vectors indexing starts at 0, just like in \MATLAB.
 \end{description}
 
-\subsection{Template}
+\psubsection{Template}
 The \Fortran~subroutine that defines the ODE system should have the following arguments:
 \begin{description}
  \item[neq] \emph{input} Number of equations.
@@ -41,11 +41,11 @@ The \Fortran~subroutine that defines the ODE system should have the following ar
 
 Examples can be found in the \filepath{\ph{\PPODESUITE~Source}/examples} folder.
 
-\section{Parser} \label{sec:Parser}
-\PPODESUITE can translate a \MATLAB function to \Fortran. The function that executes this procedure is PPODE\_translate. The parser is created using a combination of lex and yacc/bison. The parser interprets the the \MATLAB code and creates a tree structure out of it. This tree structure is then used to create the \Fortran code. This provides more flexibility and better interpretation than more direct forms of translation. An additional benefit is that the structure can be used to determine the Jacobian of the function.
+\psection{Parser} \label{sec:Parser}
+\PPODESUITE~can translate a \MATLAB~function to \Fortran. The function that executes this procedure is PPODE\_translate. The parser is created using a combination of lex and yacc/bison. The parser interprets the the \MATLAB~code and creates a tree structure out of it. This tree structure is then used to create the \Fortran~code. This provides more flexibility and better interpretation than more direct forms of translation. An additional benefit is that the structure can be used to determine the Jacobian of the function.
 
-\subsection{Restrictions and Pitfalls}
-The \MATLAB ODE function should have the following structure:
+\psubsection{Restrictions and Pitfalls}
+The \MATLAB~ODE function should have the following structure:
 \matlabcmd{\ph{dx} = func( \ph{t}, \ph{x}, \ph{par}, \ph{neq}, \ph{np} )}
 Where \ph{t} is the independent variable, \ph{x} the dependent variable(s) and \ph{par} the parameter values. The last two arguments are optional and represent the number of equations (\ph{neq}) and number of parameters (\ph{np}).
 
@@ -60,20 +60,20 @@ Here, the vector \texttt{dx} is initialized as an empty vector and changes size 
 
 Furtermore, bear in mind that \MATLAB~has a lot of specific functions, that will are not implemented in \Fortran~or the parser and will therefore not work.
 
-\section[Building]{Building the MEX Function}
+\psection{Building the MEX Function}
 The \MATLAB~function \sourceword{PPODE\_build}, included in the \PPODESUITE, can be used to build the ODE \Fortran~file against the right solver libraries. First of all, make sure the \PPODESUITE~paths are added to the \MATLAB~path variable.
 \matlabcmd{PPODE\_addPaths}
 And the libraries are build.
 \matlabcmd{PPODE\_init}
 Now the function \sourceword{PPODE\_build} can be used. Extensive help can of course be acquired using \matlabcmdinline{help PPODE\_build}. The simplest usage of the function is the following:
-\matlabcmd{PPODE\_build('odeproblem.F', 'odeproblem\_stiffsolver')}
-This command will generate a MEX file named 'odeproblem\_stiffsolver' of the problem defined by 'odeproblem.F', using the default (stiff) solver. The correct file extension is automatically added to the MEX file, so do not supply an extension for the second function argument.
+\matlabcmd{PPODE\_build('odeproblem.F', 'odeproblem\_autosolver')}
+This command will generate a MEX file named 'odeproblem\_autosolver' of the problem defined by 'odeproblem.F', using the default (automatic) solver. The correct file extension is automatically added to the MEX file, so do not supply an extension for the second function argument.
 
 The first two mandatory arguments, extra options can be specified. This is done by first giving the option name and then the value. For example, if the problem is not stiff and one would like verbose output, a non-stiff solver should be specified and the verbose mode should be enabled:
-\matlabcmd{PPODE\_build('odeproblem.F', 'odeproblem\_stiffsolver', ...\\\indent\indent'Solver', 'Non-Stiff', 'Verbose', 1)}
+\matlabcmd{PPODE\_build('odeproblem.F', 'odeproblem\_nonstiffsolver', ...\\\indent\indent'Solver', 'Non-Stiff', 'Verbose', 1)}
 Note that both the option name and value are case insensitive.
 
-\subsection{Sparse Jacobian Matrix}
+\psubsection{Sparse Jacobian Matrix}
 When using the solver that uses a sparse matrix implementation for the Jacobian matrix, the number of non-zero values of the Jacobian matrix should be supplied. There are two options to tackle this problem.
 
 The first and default option needs an analytical Jacobian to be specified. The generated function will evaluate the Jacobian two times to determine the number of non-zero elements. This option can be selected by setting 'INPUTNNZ' to zero.
@@ -92,7 +92,7 @@ In order to determine the number of non-zero elements of the Jacobian matrix, co
 In the case of an ODE system, $m$ and $n$ are both equal to the number of equations. $F$ represents the system of ODEs.
 The number of nonzero elements can also be determined using trial and error. By just trying some values for \sourceword{nnz}, the error messages might give away the correlation between \sourceword{nnz} and the parameter and number of equations (this does not work with LSODES).
 
-\section[Execution]{Executing the MEX Function}
+\psection{Executing the MEX Function}
 The MEX function generated by the PPODE build function can be called as follows:
 \matlabcmd{[\ph{t}, \ph{y}] = \ph{F}(\ph{neq}, \ph{abstol}, \ph{reltol}, \ph{times}, \ph{par}, \ph{y0})}
 Where \ph{F} is the name of the MEX function, \ph{neq} is the number of equations, \ph{abstol} and ph{reltol} are the absolute and relative tolerances respectively, \ph{times} is a vector of time points at which output is desired, \ph{par} is a vector of parameter values and \ph{y0} is a vector of the initial values of the states. The function returns the vector \ph{t} with the time points at which the values of the states are calculated. The matrix \ph{y} contains the values of all states at the time points specified by \ph{t}.

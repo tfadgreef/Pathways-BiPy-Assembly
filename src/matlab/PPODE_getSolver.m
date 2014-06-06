@@ -100,6 +100,28 @@ switch upper(name)
         solver.interface = {'lsodaswrapper', 'ppodemex'};
         solver.defs = {'SWITCHINGSPARSESOLVER', 'ODEPACK', 'LSODAS'};
         solver.maxorder = [5 12];
+    case {'BDF-SPIGMR', 'LSODPK-SPIGMR'}
+        solver.name = ['LSODES: Backward Differential '...
+                      'Formulas using a Sparse Jacobian Matrix'...
+                      '[1-5] (Stiff)'];
+        solver.libs = {'ODEPACK'};
+        solver.interface = {'lsodewrapper', 'ppodemex'};
+        solver.defs = {'KRYLOVSOLVER', 'ODEPACK'};
+        solver.maxorder = 5;
+    case {'BDF2-SPIGMR', 'VODPK-SPIGMR'}
+        solver.name = ['VODPK: Backward Differential '...
+                      'Formulas using a Sparse Jacobian Matrix'...
+                      '[1-5] (Stiff)'];
+        solver.libs = {'VODE'};
+        solver.interface = {'vodewrapper', 'ppodemex'};
+        solver.defs = {'VODPKSPIGMRSOLVER', 'VODE'};
+        solver.maxorder = 5;
+    case {'AUTO', 'AUTOSWITCHING'}
+        solver.name = ['Automatically chooses the right solver.'];
+        solver.libs = {'ODEPACK'};
+        solver.interface = {'autowrapper', 'ppodemex'};
+        solver.defs = {'AUTOSOLVER', 'ODEPACK'};
+        solver.maxorder = [5 12];
     otherwise
         solver.error = true;
 end

@@ -23,9 +23,31 @@ void functionToJacobian(struct Node *t) {
     nodep = nodep->next;
   }
   
+  struct Node *init = createOperation(TASSIGN);
+  appendChild(init, createOperation(TARRAYINDEX));
+  setIdentifier(init->children, D(func->x));
+  appendChild(init->children, createOperation(TVAR));
+  setIdentifier(init->children->children, func->j);
+  appendChild(init, createConstant(1.0));
+  
+  jac = appendStatement(init, jac);
+  
+  init = createOperation(TASSIGN);
+  appendChild(init, createOperation(TARRAYINDEX));
+  setIdentifier(init->children, D(func->x));
+  appendChild(init->children, createOperation(TRANGE));
+  appendChild(init, createConstant(0.0));
+  
+  jac = appendStatement(init, jac);
+  
+  registerUsedVariable(D(func->dx));
   simplifyStructure(jac);
   
+  //fprintf(warn, "\n"); print_tree(0, jac); fprintf(warn, "\n");
+  
   printFortranFunction(jac, 1);
+  
+  //fprintf(warn, "\n"); print_tree(0, jac); fprintf(warn, "\n");
 }
 
 struct Node *derivative(struct Node *n, struct Node *j) {
@@ -42,16 +64,6 @@ struct Node *derivative(struct Node *n, struct Node *j) {
             return tmp;
           }
         }
-//         if (n->children->next->tag == TARRAYINDEX) {
-//           if (strcmp(n->children->next->iname, func->x) == 0) {
-//             struct Variable *var = registerVariable(n->children->iname, TDOUBLE); // Should just find the variable, not register.
-//             if (var != NULL) {
-//               if (var->type == TDOUBLEARRAY) {
-//                 return copyNode(n);
-//               }
-//             }
-//           }
-//         }
         tmp = createOperation(TCOMBINE);
         appendChild(tmp, copyNode(n));
         appendChild(tmp, D_assign(n->children, n->children->next));
@@ -61,72 +73,11 @@ struct Node *derivative(struct Node *n, struct Node *j) {
       case TVAR :
         return D_var(n);
       case TARRAYINDEX :
-        if (n->parent->tag == TASSIGN && n->parent->children == n) {
-          // Left hand side of assign
-          return D_arrayindex(n->iname, n->children);
+        if (strcmp(n->iname, func->p) == 0) {
+          return createConstant(0.0);
         } else {
-          // Right hand side of assign
-          if (strcmp(n->iname, func->p) == 0) {
-            return createConstant(0.0);
-          } else if (strcmp(n->iname, func->x) == 0) {
-            tmp = j;
-            while (tmp != NULL){
-              if (compareNodes(n, tmp->children) == 1) {
-                return createConstant(1.0);
-              }
-              tmp = tmp->next;
-            }
-            return createConstant(0.0);
-          }
-          
-//           tmp = j;
-//           while (tmp != NULL){
-//               if (compareNodes(n, tmp->children) == 1) {
-//                 return D_arrayindex(n->iname, n->children);
-//               }
-//             tmp = tmp->next;
-//           }
-//           return createConstant(0.0);
           return D_arrayindex(n->iname, n->children);
         }
-//         if (n->parent->tag == TASSIGN && n->parent->children == n) {
-//           // Left hand side of assign
-//           return D_arrayindex(n->iname, n->children);
-//         } else {
-//           // Right hand side of assign
-//           if (strcmp(n->iname, func->p) == 0) {
-//             return createConstant(0.0);
-//           } else if (strcmp(n->iname, func->x) == 0) {
-//             tmp = j;
-//             while (tmp != NULL){
-//               if (compareNodes(n, tmp->children) == 1) {
-//                 return createConstant(1.0);
-//               }
-//               tmp = tmp->next;
-//             }
-//             return createConstant(0.0);
-//           } else {
-//             struct Node *rel = getRelativeToY(n->iname);
-//             if (rel != NULL) {
-//               if (j == NULL) {
-//                 return createConstant(0.0);
-//               } else {
-//                 tmp = j;
-//                 while (tmp != NULL){
-//                   if (compareNodes(n->children, tmp->children) == 1) {
-//                     return createConstant(1.0);//D_arrayindex(n->iname, n->children);//createConstant(1.0);
-//                   }
-//                   tmp = tmp->next;
-//                 }
-//                 return D_arrayindex(n->iname, n->children);
-//               }
-//               //return D_arrayindex(D(n->iname), n->children);
-//               //return createConstant(0.0);
-//             }
-//             return createConstant(0.0);
-//             //return D_arrayindex(n->iname, n->children);
-//           }
-//         }
       case TPLUS : return D_plus(n->children, n->children->next, j);
       case TMINUS : return D_minus(n->children, n->children->next, j);
       case TNEGATIVE : return D_negative(n->children, j);
@@ -309,176 +260,11 @@ struct Node *D_var(struct Node *n){
   return createVariable(D(n->iname));
 }
 
-struct Node *D_assign(struct Node *n1, struct Node *n2){
-  // Find the occurences of the independent variable.
-  struct Node *occ = findVariable(n2);
-  struct Node *r = NULL;
-  
-  struct Node *dflt = createOperation(TASSIGN);
-  appendChild(dflt, derivative(n1, NULL));
-  appendChild(dflt, derivative(n2, NULL));
-  r = appendStatement(r, dflt);
-  
-  struct Node *tmp = occ;
-  
-  // Clean up
-  while (tmp != NULL) {
-    int equal = 0;
-    struct Node *cmp = occ;
-    while (cmp != tmp && equal == 0) {
-      equal = compareNodes(tmp->children, cmp->children);
-      cmp = cmp->next;
-    }
-    if (equal != 0) {
-      if (tmp == occ) {
-        occ = tmp->next;
-        if (tmp->next != NULL) {
-          tmp->next->previous = NULL;
-        }
-      } else {
-        if (tmp->previous != NULL) {
-          tmp->previous->next = tmp->next;
-        }
-        if (tmp->next != NULL) {
-          tmp->next->previous = tmp->previous;
-        }
-      }
-      struct Node *obs = tmp;
-      tmp = tmp->next;
-      free(obs);
-    } else {
-      tmp = tmp->next;
-    }
-  }
-
-  tmp = occ;
-  
-  struct Node *rifs = NULL;
-  
-  while (tmp != NULL) {
-    struct Node *tmp2 = tmp->next;
-    while (tmp2 != NULL){
-      struct Node *r1;
-      struct Node *r11;
-      struct Node *r12;
-      if (rifs == NULL) {
-        r1 = createOperation(TIF);
-        rifs = r1;
-      } else {
-        rifs->tag = TIFELSEIF;
-        r1 = createOperation(TELSEIF);
-        appendChild(rifs, r1);
-      }
-      
-      r11 = createOperation(TAND);
-      
-      struct Node *r1a = createOperation(TEQ_OP);
-      appendChild(r1a, createVariable(func->j));
-      struct Node *rely = getRelativeToY(tmp->children->iname);
-      if (rely->tag == TNUM && rely->ival == 1) {
-        if (tmp->children->tag == TARRAYINDEX) {
-          appendChild(r1a, copyNode(tmp->children->children));
-        } else {
-          appendChild(r1a, copyNode(rely));
-        }
-      } else {
-        if (tmp->children->tag == TARRAYINDEX) {
-          struct Node *appendRely = createOperation(TPLUS);
-          appendChild(appendRely, copyNode(rely));
-          appendChild(appendRely, copyNode(tmp->children->children));
-          struct Node *subOne = createOperation(TMINUS);
-          appendChild(subOne, appendRely);
-          appendChild(subOne, createConstant(1.0));
-          
-          appendChild(r1a, subOne);
-        } else {
-          appendChild(r1a, copyNode(rely));
-        }
-      }
-      appendChild(r11, r1a);
-      
-      struct Node *r1a2 = createOperation(TEQ_OP);
-      appendChild(r1a2, createVariable(func->j));
-      struct Node *rely2 = getRelativeToY(tmp2->children->iname);
-      if (rely2->tag == TNUM && rely2->ival == 1) {
-        if (tmp2->children->tag == TARRAYINDEX) {
-          appendChild(r1a2, copyNode(tmp2->children->children));
-        } else {
-          appendChild(r1a2, copyNode(rely2));
-        }
-      } else {
-        if (tmp2->children->tag == TARRAYINDEX) {
-          struct Node *appendRely2 = createOperation(TPLUS);
-          appendChild(appendRely2, copyNode(rely2));
-          appendChild(appendRely2, copyNode(tmp2->children->children));
-          struct Node *subOne2 = createOperation(TMINUS);
-          appendChild(subOne2, appendRely2);
-          appendChild(subOne2, createConstant(1.0));
-          
-          appendChild(r1a2, subOne2);
-        } else {
-          appendChild(r1a2, copyNode(rely2));
-        }
-      }
-      appendChild(r11, r1a2);
-      
-      appendChild(r1, r11);
-      
-      struct Node *r2 = createOperation(TASSIGN);
-      appendChild(r2, derivative(n1, NULL));
-      struct Node *deriv = copyNode(tmp);
-      appendStatement(deriv, copyNode(tmp2));
-      appendChild(r2, derivative(n2, deriv));
-      appendChild(r1, r2);
-      tmp2 = tmp2->next;
-    }
-    
-    struct Node *r1;
-    if (rifs == NULL) {
-      r1 = createOperation(TIF);
-      rifs = r1;
-    } else {
-      rifs->tag = TIFELSEIF;
-      r1 = createOperation(TELSEIF);
-      appendChild(rifs, r1);
-    }
-    
-    struct Node *r1a = createOperation(TEQ_OP);
-    appendChild(r1a, createVariable(func->j));
-    struct Node *rely = getRelativeToY(tmp->children->iname);
-    if (rely == NULL) {
-      appendChild(r1a, createConstant(1.0));
-    } else if (rely->tag == TNUM && rely->ival == 1) {
-      if (tmp->children->tag == TARRAYINDEX) {
-        appendChild(r1a, copyNode(tmp->children->children));
-      } else {
-        appendChild(r1a, copyNode(rely));
-      }
-    } else {
-      if (tmp->children->tag == TARRAYINDEX) {
-        struct Node *appendRely = createOperation(TPLUS);
-        appendChild(appendRely, copyNode(rely));
-        appendChild(appendRely, copyNode(tmp->children->children));
-        struct Node *subOne = createOperation(TMINUS);
-        appendChild(subOne, appendRely);
-        appendChild(subOne, createConstant(1.0));
-        
-        appendChild(r1a, subOne);
-      } else {
-        appendChild(r1a, copyNode(rely));
-      }
-    }
-    appendChild(r1, r1a);
-    
-    struct Node *r2 = createOperation(TASSIGN);
-    appendChild(r2, derivative(n1, NULL));
-    appendChild(r2, derivative(n2, copyNode(tmp)));
-    appendChild(r1, r2);
-    
-    tmp = tmp->next;
-  }
-  
-  r = appendStatement(r, rifs);
+struct Node *D_assign(struct Node *n1, struct Node *n2){  
+  struct Node *r = createOperation(TASSIGN);
+  appendChild(r, derivative(n1, NULL));
+  appendChild(r, derivative(n2, NULL));
+  r = appendStatement(r, r);
   
   return r;
 }
@@ -510,7 +296,10 @@ struct Node *D_for(char *iden, struct Node *n1, struct Node *n2){
   setIdentifier(r, iden);
   appendChild(r, copyNode(n1));
 
-  struct Node *r1 = NULL;
+  struct Node *r1 = createOperation(TASSIGN);
+  appendChild(r1, createVariable(D(iden)));
+  appendChild(r1, createConstant(0.0));
+  
   struct Node *tmp = n2;
   while (tmp != NULL) {
     r1 = appendStatement(r1, derivative(tmp, NULL));

@@ -17,9 +17,9 @@ function PPODE_build(infile, outfile, varargin)
 %     'VERBOSE' Sets the verbose output mode. 1 to enable, 0 to disable.
 %      'SOLVER' Specifies the solver to be used for the problem. 
 %               Available solvers are:
-%                'STIFF' (or 'BDF'): (default)
+%                'STIFF' (or 'BDF'):
 %                  LSODE: Backward Differential Formulas [1-5] (Stiff)
-%                'STIFF2' (or 'VODE'): (default)
+%                'STIFF2' (or 'VODE'):
 %                  VODE: Backward Differential Formulas [1-5] (Stiff)
 %                'NON-STIFF' (or 'ADAMS-MOULTON'):
 %                  LSODE: Adams Moulton Method [1-12] (Non-Stiff)
@@ -35,6 +35,12 @@ function PPODE_build(infile, outfile, varargin)
 %                'LSODES' (or 'BDFSparse'):
 %                  LSODES: Backward Differential Formulas
 %                  using a Sparse Jacobian Matrix [1-5] (Stiff)
+%                'LSODAS' (or 'SWITCHINGSPARSE'):
+%                  LSODAS: Adaptive method, switching between:
+%                  (a) Sparse Jacobian BDF [1-5] (Stiff) and 
+%                  (b) Adams Moulton Method [1-12] (Non-Stiff)
+%                'AUTO' (or 'AUTOSWITCHING'): (DEFAULT)
+%                  Automatically chooses between LSODA and LSODAS.
 %                'RK23':
 %                  RKSUITE: Runge-Kutta Methods [2-3] (Non-Stiff)
 %                'RK45':
@@ -117,7 +123,7 @@ mexflags = '';
 %% Handle the options passed to the function.
 opts = {'VERBOSE','DEBUG','MAXSTEPS','SOLVER','TIMING','MAXORDER', ...
         'MAXTIME', 'ANAJAC', 'INPUTNNZ'};
-defaults = {0, 0, 0, 'Stiff',0,0, ...
+defaults = {0, 0, 0, 'AUTO',0,0, ...
             0, 0, 0};
 
 values = PPODE_getProperties(opts, defaults, varargin);

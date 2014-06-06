@@ -20,7 +20,7 @@ function s = PPODE_translate(filename, varargin)
 %
 
 opts = {'ANAJAC'};
-defaults = {0};
+defaults = {1};
 
 values = PPODE_getProperties(opts, defaults, varargin);
 

@@ -35,8 +35,6 @@ struct Variable {
   struct Variable *previous;
   //! Name/identifier of the variable.
   char *iname;
-  //! The relation of the variable to the independent variable of the ODE system.
-  struct Node *rel;
   //! 1 when this variable is always zero, 0 otherwise.
   int zero;
 };
@@ -96,6 +94,8 @@ void print_tree(int d, struct Node *t);
 //! Variables used in the ODE function.
 struct Variable *vars;
 
+void removeVariable(struct Variable *v);
+
 enum NodeTag getIdentifierType(char *s);
 struct MatlabFunction *getFunctionInformation(char *s);
 void initializeKnownFunctions();
@@ -103,8 +103,5 @@ void initializeKnownFunctions();
 struct Variable *registerVariable(char *s, enum VariableType tp);
 char *processIdentifier(char *nm, enum VariableType tp);
 
-void processDependentVectorIdentifier(char *s, struct Node *rel);
-
 void processFunctionHeader(struct Node* f);
-struct Node *getRelativeToY(char *s);
 

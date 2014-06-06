@@ -1,8 +1,7 @@
 \contentsline {chapter}{\numberline {1}Introduction}{1}
-\contentsline {section}{\numberline {1.1}Ordinary Differential Equations}{1}
-\contentsline {section}{\numberline {1.2}PPODE SUITE}{1}
+\contentsline {section}{\numberline {1.1}PPODE SUITE}{1}
 \contentsline {chapter}{\numberline {2}Installation}{5}
-\contentsline {section}{\numberline {2.1}\textborn nix}{5}
+\contentsline {section}{\numberline {2.1}Linux and other Unix variants}{5}
 \contentsline {section}{\numberline {2.2}Windows}{5}
 \contentsline {section}{\numberline {2.3}General}{5}
 \contentsline {chapter}{\numberline {3}Usage}{7}
@@ -11,9 +10,9 @@
 \contentsline {subsection}{\numberline {3.1.2}Template}{8}
 \contentsline {section}{\numberline {3.2}Parser}{9}
 \contentsline {subsection}{\numberline {3.2.1}Restrictions and Pitfalls}{9}
-\contentsline {section}{\numberline {3.3}Building}{10}
+\contentsline {section}{\numberline {3.3}Building the MEX Function}{10}
 \contentsline {subsection}{\numberline {3.3.1}Sparse Jacobian Matrix}{10}
-\contentsline {section}{\numberline {3.4}Execution}{11}
+\contentsline {section}{\numberline {3.4}Executing the MEX Function}{11}
 \contentsline {chapter}{\numberline {4}Solvers}{13}
 \contentsline {section}{\numberline {4.1}Introduction}{13}
 \contentsline {section}{\numberline {4.2}Stiff}{13}

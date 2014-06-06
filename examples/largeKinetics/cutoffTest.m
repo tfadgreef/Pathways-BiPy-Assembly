@@ -22,7 +22,7 @@ for i=1:length(Ns)
     y0 = zeros(N,1);
     y0(1) = 100;
 
-    if (N <= 1000)
+    if (N <= 500)
         % The ode15s solver
         tic;
         [t1, y1] = ode15s(@(t,y)(kin(t,y,par,N)),t,y0,options);

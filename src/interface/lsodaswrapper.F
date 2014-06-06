@@ -93,7 +93,7 @@ c Declare local variables.
      1 tolsf, atols, maxint
       double precision :: y(neq)
       double precision, allocatable :: rwork(:)
-      double precision pdj1(neq), pdj2(neq), y1(neq)
+      double precision pdj1(neq), y1(neq)
       integer jat(neq), nnzt
       integer, allocatable :: jatt(:), ja(:)
 #ifdef MAXTIME
@@ -154,19 +154,14 @@ c Start with all zeros.
         jat(i) = 0.0d0
   605  continue
        nnzt = 0
-       do 610 i = 1, neq
-        pdj1(i) = 0.0d0
-        pdj2(i) = 0.0d0
-  610  continue
 
 c Calculate for two series of values.
-       call jac(neq, 0.0d0, y0, npar, par, j, pdj1)
-       call jac(neq, 0.0d0, y1, npar, par, j, pdj2)
+       call jac(neq, 0.0d0, y1, npar, par, j, pdj1)
 
 c Add one to the number of non-zero elements if one of the two values of
 c a certain position in the matrix is not zero.
        do 630 i = 1, neq
-        if ((pdj1(i) .ne. 0.0d0) .or. (pdj2(i) .ne. 0.0d0)) then
+        if (pdj1(i) .ne. 0.0d0) then
          nnzt = nnzt + 1
          jat(nnzt) = i
         end if

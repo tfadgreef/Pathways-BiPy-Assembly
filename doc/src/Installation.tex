@@ -1,23 +1,23 @@
-\chapter[Installation]{Installation} \label{ch:Installation}
-The \PPODESUITE package depends on:
+\pchapter{Installation} \label{ch:Installation}
+The \PPODESUITE~package depends on:
 \begin{description}
   \item[\MATLAB] Tested on \MATLAB~version R2013b (8.2) 64-bit.
   \item[gfortran and GCC] Tested on version 4.8.1 64-bit.
 \end{description}
 
-\section[\nix]{Linux and other Unix variants}
+\psection{Linux and other Unix variants}
 \begin{enumerate}
  \item Meet the software requirements by installing \MATLAB~and the GCC package. \MATLAB~download and installation instructions can be found on the \MATHWORKS~website. The gfortran/GCC package can be obtained from the \nix~distribution repository through the distribution package manager. Using \UBUNTU~for example:
  \shellcmd{sudo apt-get install gfortran gcc}
 \end{enumerate}
 
-\section[Windows]{\MSDOS}
+\psection{\MSDOS}
 \textbf{Currently, running the \PPODESUITE~on \MSDOS~is not supported nor tested.}
 \begin{enumerate}
  \item Running the \PPODESUITE~on \MSDOS~would require installing a combination of GCC/Cygwin and gnumex (\hyperlink{http://gnumex.sourceforge.net/}) or the Intel Visual Fortran Composer. To check which versions are supported by \MATLAB, check \hyperlink{http://www.mathworks.nl/support/compilers/R2013b/} substituting R2013b with the right version number.
 \end{enumerate}
 
-\section{General}
+\psection{General}
 \begin{enumerate}[resume]
  \item Download and extract the \PPODESUITE~package.
  \item Open matlab and navigate to the extracted \PPODESUITE~folder. Add the \PPODE~paths to the matlab path variable.

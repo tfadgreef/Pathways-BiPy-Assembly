@@ -244,8 +244,8 @@ c Copy the value of the arguments.
       CALL mxcopyptrtoreal8(parp, par, nel)
 
 c Call the correct solver.
-#if defined(LSODAS)
-      call lsodasw(neq, atol, rtol, nout, times, npar, par, y0, t, y,
+#if defined(AUTOSOLVER) || defined(LSODAS)
+      call autow(neq, atol, rtol, nout, times, npar, par, y0, t, y,
      + opt)
 #elif defined(ODEPACK)
       call lsodew(neq, atol, rtol, nout, times, npar, par, y0, t, y,
@@ -274,7 +274,7 @@ c Copy the result.
       return
       end
 
-#if ( defined(MEBDFSO) || defined(BDFSPARSESOLVER) || defined(SWITCHINGSPARSESOLVER))
+#if (( defined(MEBDFSO) || defined(BDFSPARSESOLVER) || defined(SWITCHINGSPARSESOLVER)) && !defined(INPUTNONZERO))
 c-----------------------------------------------------------------------
 c
 c NNZ from analytical Jacobian

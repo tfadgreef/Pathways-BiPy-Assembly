@@ -13,6 +13,11 @@ void simplifyStructure(struct Node *t) {
   enum SimplifyState i;
   for (i = 0; i < simplifyStateSize; i = i + 1) {
     struct Node *pntr = t;
+    if (i == RemoveUnusedVariables) {
+      while (pntr->next != NULL) {
+        pntr = pntr->next;
+      }
+    }
     while (pntr != NULL) {
       switch (i) {
         case ZeroAssignments:
@@ -23,10 +28,26 @@ void simplifyStructure(struct Node *t) {
           if (S_replaceZeroAssignments(pntr) == 0) {
             pntr = pntr->next;
           }
+          if (pntr == NULL) {
+            struct Variable *tmp = vars;
+            while (tmp != NULL) {
+              if (tmp->zero == 1) {
+                removeVariable(tmp);
+              }
+              tmp = tmp->next;
+            }
+          }
           break;
         case RemovePlusZero:
           S_removePlusZero(pntr);
           pntr = pntr->next;
+          break;
+        case RemoveUnusedVariables:
+          if (pntr != NULL) {
+            struct Node *tmp = pntr;
+            pntr = pntr->previous;
+            S_removeUnusedVariables(tmp);
+          }
           break;
         default:
           pntr = pntr->next;
@@ -70,7 +91,7 @@ void S_zeroAssignments(struct Node *t) {
 }
 
 void registerZeroVar(char *s, int zero) {
-    if (strcmp(s, func->t) != 0 && strcmp(s, func->x) != 0 && strcmp(s, func->p) != 0 && strcmp(s, func->dx) != 0 && strcmp(s, D(func->dx)) && strcmp(s, func->neq) != 0 && strcmp(s, func->np) != 0 && strcmp(s, func->j) && strcmp(s, "zeros") != 0) {
+    if (strcmp(s, func->t) != 0 && strcmp(s, func->x) != 0 && strcmp(s, func->p) != 0 && strcmp(s, func->dx) != 0 && strcmp(s, D(func->dx)) && strcmp(s, func->neq) != 0 && strcmp(s, func->np) != 0 && strcmp(s, func->j) && strcmp(s, "zeros") != 0 && strcmp(s, D(func->x)) != 0) {
     if (vars == NULL) {
       return;
     } else {
@@ -93,7 +114,7 @@ void registerZeroVar(char *s, int zero) {
 }
 
 int getVariableZero(char *s) {
-    if (strcmp(s, func->t) != 0 && strcmp(s, func->x) != 0 && strcmp(s, func->p) != 0 && strcmp(s, func->dx) != 0 && strcmp(s, D(func->dx)) && strcmp(s, func->neq) != 0 && strcmp(s, func->np) != 0 && strcmp(s, func->j) && strcmp(s, "zeros") != 0) {
+    if (strcmp(s, func->t) != 0 && strcmp(s, func->x) != 0 && strcmp(s, func->p) != 0 && strcmp(s, func->dx) != 0 && strcmp(s, D(func->dx)) != 0 && strcmp(s, func->neq) != 0 && strcmp(s, func->np) != 0 && strcmp(s, func->j) != 0 && strcmp(s, "zeros") != 0 && strcmp(s, D(func->x)) != 0) {
     if (vars == NULL) {
       return 0;
     } else {
@@ -153,7 +174,7 @@ void S_removePlusZero(struct Node *t) {
     pntr = pntr->next;
   }
   
-  if (t->tag == TPLUS || t->tag == TMUL || t->tag == TMINUS || t->tag == TNEGATIVE) {
+  if (t->tag == TPLUS || t->tag == TMUL || t->tag == TMINUS || t->tag == TNEGATIVE || t->tag == TPOW) {
     if (
       (
         (t->tag == TPLUS || t->tag == TMUL)
@@ -177,6 +198,12 @@ void S_removePlusZero(struct Node *t) {
         (t->tag == TNEGATIVE)
         &&
         (t->children->tag == TNUM && t->children->ival == 0.0)
+      )
+      ||
+      (
+        (t->tag == TPOW)
+        &&
+        (t->children->next->tag == TNUM && t->children->next->ival == 1.0)
       )
     ) {
       struct Node *obs;
@@ -206,6 +233,9 @@ void S_removePlusZero(struct Node *t) {
       } else if ((t->tag == TNEGATIVE) && (t->children->tag == TNUM && t->children->ival == 0.0)) {
         nod = t->children;
         obs = NULL;
+      } else if ((t->tag == TPOW) && (t->children->next->tag == TNUM && t->children->next->ival == 1.0)) {
+        nod = t->children;
+        obs = t->children->next;
       }
       
       struct Node *parent = t->parent;
@@ -232,5 +262,111 @@ void S_removePlusZero(struct Node *t) {
       }
       free(t);
     }
+  }
+}
+
+int S_removeUnusedVariables(struct Node *t) {
+  if (t == NULL)
+    return 0;
+  
+  if (t->tag == TASSIGN) {
+    char *name = t->children->iname;
+    if (variableIsUsed(name) == 0) {
+      fprintf(warn, "Removing Variable Assignment: %s\n", name);
+      if (t->parent != NULL) {
+        if (t->parent->children == t) {
+          t->parent->children = t->next;
+        }
+      }
+      removeNode(t);
+      return 1;
+    } else {
+      registerAllUsedVariables(t->children->next);
+      return 0;
+    }
+  }else if (t->tag == TCOMBINE) {
+    struct Node *pntr = t->children;
+    struct Node *tmp = NULL;
+    if (pntr == NULL) {
+      return 0;
+    }
+    while (pntr->next != NULL) {
+      pntr = pntr->next;
+    }
+    while (pntr != NULL) {
+      tmp = pntr;
+      pntr = pntr->previous;
+      S_removeUnusedVariables(tmp);
+    }
+    if (t->children == NULL) {
+      removeNode(t);
+      return 1;
+    }
+  } else {
+    struct Node *tmp = t->children;
+    while (tmp != NULL) {
+      registerAllUsedVariables(tmp);
+      tmp = tmp->next;
+    }
+    return 0;
+  }
+  return 0;
+}
+
+struct Variable *registerUsedVariable(char *s) {
+    if (usedVariables == NULL) {
+      usedVariables = emalloc(sizeof(*vars));
+      usedVariables->next = NULL;
+      usedVariables->previous = NULL;
+      usedVariables->iname = emalloc(sizeof(char) * strlen(s));
+      usedVariables->type = TDOUBLE;
+      usedVariables->zero = -1;
+      strcpy(usedVariables->iname, s);
+      return usedVariables;
+    } else {
+      struct Variable *tmp = usedVariables;
+      while (1) {
+        if (strcmp(tmp->iname, s) == 0) {
+          return tmp;
+        }
+        if (tmp->next == NULL)
+          break;
+        tmp = tmp->next;
+      }
+      tmp->next = emalloc(sizeof(*tmp->next));
+      tmp->next->previous = tmp;
+      
+      tmp = tmp->next;
+      tmp->next = NULL;
+      
+      tmp->iname = emalloc(sizeof(*tmp));
+      strcpy(tmp->iname, s);
+      tmp->type = TDOUBLE;
+      tmp->zero = -1;
+      return tmp;
+    }
+  return NULL;
+}
+
+int variableIsUsed(char *s) {
+  struct Variable *tmp = usedVariables;
+  while (tmp != NULL) {
+    if (strcmp(tmp->iname, s) == 0) {
+      return 1;
+    }
+    tmp = tmp->next;
+  }
+  return 0;
+}
+
+void registerAllUsedVariables(struct Node *t) {
+  struct Node *tmp = t;
+  while (tmp != NULL) {
+    if (tmp->tag == TVAR || tmp->tag == TARRAYINDEX) {
+      registerUsedVariable(tmp->iname);
+    } else {
+      registerAllUsedVariables(tmp->children);
+    }
+    tmp = tmp->next;
   }
 }

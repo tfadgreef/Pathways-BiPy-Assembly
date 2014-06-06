@@ -1377,7 +1377,7 @@ C Next process and check the optional inputs. --------------------------
       IF (SETH .LT. 0.0D0) GO TO 609
 CSwitching
 C Reset the counter
-      ICOUNT = 20
+      ICOUNT = 1000
 C Check RTOL and ATOL for legality. ------------------------------------
  60   RTOLI = RTOL(1)
       ATOLI = ATOL(1)
@@ -1621,8 +1621,9 @@ C Block D.
 C The next code block is for continuation calls only (ISTATE = 2 or 3)
 C and is to check stop conditions before taking a step.
 C-----------------------------------------------------------------------
- 200  NSLAST = NST
-      GO TO (210, 250, 220, 230, 240), ITASK
+ 200  IF (ISTATE .EQ. 3) GO TO 205
+        NSLAST = NST
+ 205  GO TO (210, 250, 220, 230, 240), ITASK
  210  IF ((TN - TOUT)*H .LT. 0.0D0) GO TO 250
       CALL DINTDY (TOUT, 0, RWORK(LYH), NYH, Y, IFLAG)
       IF (IFLAG .NE. 0) GO TO 627
@@ -1806,9 +1807,10 @@ C KFLAG = -3.  Fatal error flag returned by DPRJS or DSOLSS (CDRV). ----
       CALL XERRWD (MSG, 40, 207, 0, 0, 0, 0, 2, TN, H)
       ISTATE = -7
       GO TO 580
- 555  MSG = 'DLSODAS- Time to switch solver. At T=R1           '
-      CALL XERRWD (MSG, 50, 208, 0, 0, 0, 0, 1, TN, 0.0D0)
-      ISTATE = -42
+!  555  MSG = 'DLSODAS- Time to switch solver. At T=R1           '
+!       CALL XERRWD (MSG, 50, 208, 0, 0, 0, 0, 1, TN, 0.0D0)
+!       ISTATE = -42
+ 555  ISTATE = -42
       GO TO 580
 C Compute IMXER if relevant. -------------------------------------------
  560  BIG = 0.0D0
@@ -2094,7 +2096,7 @@ C**End
      2   CCMAX, EL0, H, HMIN, HMXI, HU, RC, TN, UROUND
       DOUBLE PRECISION DCON, DDN, DEL, DELP, DSM, DUP, EXDN, EXSM, EXUP,
      1   R, RH, RHDN, RHSM, RHUP, TOLD, DVNORM
-      INTEGER ICOUNT, IRFLAG
+      INTEGER ICOUNT, IRFLAG, TOTCOUNT
       DOUBLE PRECISION PDEST, PDLAST, RATIOP, RATIOM, PDNORM
       COMMON /DLS001/ CONIT, CRATE, EL(13), ELCO(13,12),
      1   HOLD, RMAX, TESCO(3,12),
@@ -2104,7 +2106,7 @@ C**End
      4   LYH, LEWT, LACOR, LSAVF, LWM, LIWM, METH, MITER,
      5   MAXORD, MAXCOR, MSBP, MXNCF, N, NQ, NST, NFE, NJE, NQU
       COMMON /DLSAS01/ PDEST, PDLAST, RATIOP, PDNORM, RATIOM, ICOUNT, 
-     1   IRFLAG, CM1(12), CM2(5)
+     1   IRFLAG, TOTCOUNT, CM1(12), CM2(5)
       DOUBLE PRECISION ALPHA, DM1,DM2, EXM1,EXM2,
      1   PDH, PNORM, RATE, RH1, RH1IT, RH2, RM, SM1(12)
       SAVE SM1
@@ -2145,12 +2147,13 @@ C-----------------------------------------------------------------------
       IPUP = MITER
       IRET = 3
 CSWITCHING START
-      ICOUNT = 20
+      ICOUNT = 1000
       IRFLAG = 0
       PDEST = 0.0D0
       PDLAST = 0.0D0
-      RATIOP = 5.0D0
-      RATIOM = 5.0D0
+      RATIOP = 10.0D0
+      RATIOM = 10.0D0
+      TOTCOUNT = 0
       CALL DCFODE (2, ELCO, TESCO)
       DO 10 I = 1,5
  10     CM2(I) = TESCO(2,I)*ELCO(I+1,I)
@@ -2401,6 +2404,7 @@ C-----------------------------------------------------------------------
 CSWITCHING START
       ICOUNT = ICOUNT - 1
       IF (ICOUNT .GE. 0) GO TO 488
+C .OR. (TOTCOUNT .GE. 100))
       IF (METH .EQ. 2) GO TO 480
 C-----------------------------------------------------------------------
 C We are currently using an Adams method.  Consider switching to BDF.
@@ -2446,20 +2450,21 @@ C-----------------------------------------------------------------------
       RH2 = 1.0D0/(1.2D0*DM2**EXSM + 0.0000012D0)
       NQM2 = NQ
  476  CONTINUE
-c      WRITE(6,477) RH1, RH2, RATIOP
-c 477  FORMAT(///'RH1(N) = ',D15.3/
-c     1 'RH2(S) = ',D15.3/
-c     2 'RATIOP = ',D15.3)
 c NOTE: Switching ratio (5.0d0 * )
 cP      IF (RH2 .LT. RATIO*RH1) GO TO 488
       IF (RH2 .LT. RATIOP*RH1) GO TO 488
+!       WRITE(6,477) RH1, RH2, RATIOP
+!  477  FORMAT(///'RH1(N) = ',D15.3/
+!      1 'RH2(S) = ',D15.3/
+!      2 'RATIOP = ',D15.3)
 C THE SWITCH TEST PASSED.  RESET RELEVANT QUANTITIES FOR BDF. ----------
 c 478  RH = RH2
   478 CONTINUE
-      ICOUNT = 20
+      ICOUNT = 1000
 C      METH = 2
 C      MITER = JTYP
       PDLAST = 0.0D0
+      TOTCOUNT = TOTCOUNT + 1
 C      NQ = NQM2
 C      L = NQ + 1
       
@@ -2507,10 +2512,11 @@ c      print*,"Check 4"
 c      print*,"Check 5"
 C The switch test passed.  Reset relevant quantities for Adams. --------
 C      RH = RH1
-      ICOUNT = 20
+      ICOUNT = 1000
 C      METH = 1
 C      MITER = 0
       PDLAST = 0.0D0
+      TOTCOUNT = TOTCOUNT + 1
 C      NQ = NQM1
 C      L = NQ + 1
       GO TO 685

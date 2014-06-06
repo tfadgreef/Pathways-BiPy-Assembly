@@ -219,7 +219,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -227,6 +227,23 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <text
+       sodipodi:linespacing="125%"
+       id="text3237-9-6-2"
+       y="184.76793"
+       x="230.54033"
+       style="font-size:36px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#434343;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         style="font-size:14px;fill:#000000;fill-opacity:1"
+         y="184.76793"
+         x="230.54033"
+         sodipodi:role="line"
+         id="tspan4293">High</tspan><tspan
+         style="font-size:14px;fill:#000000;fill-opacity:1"
+         y="202.26793"
+         x="230.54033"
+         sodipodi:role="line"
+         id="tspan4315">Sparseness</tspan></text>
     <path
        inkscape:connector-curvature="0"
        id="path5431"
@@ -413,37 +430,20 @@
        d="m 206.84528,115.76412 c 8.88566,61.38796 64.38968,51.61579 112.48229,54.90182"
        style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow2Mend)" />
     <text
-       sodipodi:linespacing="125%"
-       id="text3237-9-6-2"
-       y="30.767933"
-       x="230.54033"
-       style="font-size:36px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#434343;fill-opacity:1;stroke:none;font-family:Sans"
-       xml:space="preserve"><tspan
-         style="font-size:14px;fill:#000000;fill-opacity:1"
-         y="30.767933"
-         x="230.54033"
-         sodipodi:role="line"
-         id="tspan4293">High</tspan><tspan
-         style="font-size:14px;fill:#000000;fill-opacity:1"
-         y="48.267933"
-         x="230.54033"
-         sodipodi:role="line"
-         id="tspan4315">Sparseness</tspan></text>
-    <text
        xml:space="preserve"
        style="font-size:36px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#434343;fill-opacity:1;stroke:none;font-family:Sans"
        x="230.54033"
-       y="184.48366"
+       y="28.483658"
        id="text4297"
        sodipodi:linespacing="125%"><tspan
          id="tspan4303"
          sodipodi:role="line"
          x="230.54033"
-         y="184.48366"
+         y="28.483658"
          style="font-size:14px;fill:#000000;fill-opacity:1">Low</tspan><tspan
          sodipodi:role="line"
          x="230.54033"
-         y="201.98366"
+         y="45.983658"
          style="font-size:14px;fill:#000000;fill-opacity:1"
          id="tspan4313">Sparseness</tspan></text>
     <path

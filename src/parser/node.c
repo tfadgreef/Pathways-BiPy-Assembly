@@ -33,6 +33,12 @@ void appendChild(struct Node *parent, struct Node *child) {
   if (parent == NULL || child == NULL)
     return;
   
+  struct Node *tmp = child;
+  while (tmp != NULL) {
+    tmp->parent = parent;
+    tmp = tmp->next;
+  }
+  
   if (parent->children == NULL) {
     parent->children = child;
   } else {
@@ -41,7 +47,7 @@ void appendChild(struct Node *parent, struct Node *child) {
     child->previous = l;
   }
   
-  child->parent = parent;
+  //child->parent = parent;
   
   if (child->tag != TASSIGN && parent->ignore == 0 && child->ignore == 1) {
     parent->ignore = 1;
@@ -136,19 +142,6 @@ struct Node *findVariable(struct Node *n) {
         pntr->children = n;
         occ = appendStatement(occ, pntr);
       }
-//       else {
-//         struct Variable *tmpvar = vars;
-//         while (tmpvar != NULL) {
-//           if (tmpvar->rel != NULL) {
-//             if (strcmp(n->iname, tmpvar->iname) == 0) {
-//               struct Node *pntr = createOperation(TMISC);
-//               pntr->children = n;
-//               occ = appendStatement(occ, pntr);
-//             }
-//           }
-//           tmpvar = tmpvar->next;
-//         }
-//       }
     } else {
       tmp = n->children;
       while (tmp != NULL) {
@@ -204,7 +197,7 @@ void removeNode(struct Node *n) {
   if (n->next != NULL) {
     n->next->previous = n->previous;
   }
-  
+    
   struct Node *tmp;
   while(n->children != NULL) {
     tmp = n->children;

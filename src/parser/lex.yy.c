@@ -2157,7 +2157,8 @@ void count()
                 else
                         column++;
 
-//         ECHO;
+         //ECHO;
+         fprintf(stderr, "%s", yytext );
 }
 
 /*--------------------------------------------------------------*/

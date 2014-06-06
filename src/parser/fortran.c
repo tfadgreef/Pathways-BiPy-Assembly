@@ -40,7 +40,7 @@ void printFortranFunction(struct Node *t, int jac) {
   if (jac == 0) {
     asprintf(&l, "double precision %s, %s, %s, %s", func->t, func->x, func->dx, func->p);
   } else {
-    asprintf(&l, "double precision %s, %s, %s, %s, %s", func->t, func->x, func->dx, func->p, D(func->dx));
+    asprintf(&l, "double precision %s, %s, %s, %s, %s, %s", func->t, func->x, func->dx, func->p, D(func->dx), D(func->x));
   }
   fprintf(out, "%s", line(0, l));
   free(l);
@@ -102,7 +102,7 @@ void printFortranFunction(struct Node *t, int jac) {
   if (jac == 0) {
     asprintf(&l, "dimension %s(%s), %s(%s), %s(%s)", func->x, func->neq, func->dx, func->neq, func->p, func->np);
   } else {
-    asprintf(&l, "dimension %s(%s), %s(%s), %s(%s), %s(%s)", func->x, func->neq, func->dx, func->neq, func->p, func->np, D(func->dx), func->neq);
+    asprintf(&l, "dimension %s(%s), %s(%s), %s(%s), %s(%s), %s(%s)", func->x, func->neq, func->dx, func->neq, func->p, func->np, D(func->dx), func->neq, D(func->x), func->neq);
   }
   fprintf(out, "%s", line(0, l));
   free(l);
@@ -190,7 +190,6 @@ char *toFortran(struct Node *t) {
               rel = nd->children->next->children;
             }
             registerVariable(nd->children->iname, TDOUBLE);
-            processDependentVectorIdentifier(nd->children->iname, rel);
           }
         }
         return  F_assign(toFortran(nd->children), toFortran(nd->children->next));
@@ -207,7 +206,11 @@ char *toFortran(struct Node *t) {
           }
           return F_range(s1, s2, s3);
         } else {
-          return F_indexrange(toFortran(nd->children), toFortran(nd->children->next));
+          if (nd->children != NULL) {
+            return F_indexrange(toFortran(nd->children), toFortran(nd->children->next));
+          } else {
+            return ":";
+          }
         }
       case TOR : return F_or(toFortran(nd->children), toFortran(nd->children->next));
       case TAND : return F_and(toFortran(nd->children), toFortran(nd->children->next));
@@ -461,20 +464,16 @@ char *F_indexrange(char *s1, char *s2) {
 }
 
 char *F_zeros(char *s1, char *s2, int allocate) {
-  char *s, *l1, *l2, *l3, *l4;
+  char *s, *l1, *l2;
   s = "";
   if (allocate == 1) {
     asprintf(&l1, "allocate(%s(%s))", s1, s2);
     asprintf(&s, "%s", line(0, l1));
     free(l1);
   }
-  asprintf(&l2, "do %d ppodei = 1, %s", labelcount, s2);
-  registerVariable("ppodei", TINT);
-  asprintf(&l3, "%s(ppodei) = 0.0d0", s1);
-  asprintf(&l4, "continue");
-  asprintf(&s, "%s%s%s%s", s, line(0, l2), line(0, l3), line(labelcount, l4));
-  labelcount += 10;
-  free(l2); free(l3); free(l4);
+  asprintf(&l2, "%s(:) = 0", s1);
+  asprintf(&s, "%s%s", s, line(0, l2));
+  free(l2);
   return s;
 }
 

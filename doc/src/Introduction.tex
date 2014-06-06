@@ -1,17 +1,14 @@
-\chapter[Introduction]{Introduction}
-\section{Ordinary Differential Equations}
-
-
-\section{\PPODESUITE}
-The \PPODESUITE aims to bring ordinary differential equation (ODE) solvers to \MATLAB~that - in a lot of cases - will increase the performance with respect to the default ODE solvers provided \MATLAB. The default \MATLAB~ODE solvers use the \MATLAB~language to define the ODE system, which allows access to the wide variety of \MATLAB~functions and toolboxes. However, since \MATLAB~is a scripting language, the execution of \MATLAB~code requires an extra interpretation step at every execution compared to languages like C/C++ and \Fortran, which require a translation step only once (Figure \ref{fig:InterpretationVSCompilation}).
+\pchapter{Introduction}
+\psection{\PPODESUITE}
+The \PPODESUITE~aims to bring ordinary differential equation (ODE) solvers to \MATLAB~that - in a lot of cases - will increase the performance with respect to the default ODE solvers provided \MATLAB. The default \MATLAB~ODE solvers use the \MATLAB~language to define the ODE system, which allows access to the wide variety of \MATLAB~functions and toolboxes. However, since \MATLAB~is a scripting language, the execution of \MATLAB~code requires an extra interpretation step at every execution compared to languages like C/C++ and \Fortran, which require a translation step only once (Figure \ref{fig:InterpretationVSCompilation}).
 \begin{figure}[hb]
  \centering
- \includegraphics[width=0.6\textwidth]{./graphics/interpreter-vs-compiler.eps}
+ \includegraphics[width=0.6\textwidth]{\figPath interpreter-vs-compiler.eps}
  \caption{Schematic overview of the difference between translation/compilation and interpretation. Dotted arrows represent translation steps, whereas solid arrows represent execution steps. Interpretation generates has a delay every execution, compilation only requires a (slow) execution step once. This compilation step generates a binary machine-readable file, which can be executed almost directly on the hardware layer of a computer.}
  \label{fig:InterpretationVSCompilation}
 \end{figure}
 
-Considering the differences between compilation and interpretation, various cases can be identified where compilation would be preferable over interpretation. In general, compilation is superior when the number of executions desired eliminates the overhead of the compilation procedure (e.g. data fitting). This holds as long as no \MATLAB specific functions or toolboxes are being used, which is mostly not the case for ODE systems.
+Considering the differences between compilation and interpretation, various cases can be identified where compilation would be preferable over interpretation. In general, compilation is superior when the number of executions desired eliminates the overhead of the compilation procedure (e.g. data fitting). This holds as long as no \MATLAB~specific functions or toolboxes are being used, which is mostly not the case for ODE systems.
 
 %TODO: Reference to PUAMAT/CVODE Parser
 

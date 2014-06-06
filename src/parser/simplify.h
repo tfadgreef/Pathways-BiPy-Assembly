@@ -6,7 +6,8 @@ struct Variable;
 enum SimplifyState {
   ZeroAssignments = 0,
   ReplaceZeroAssignments = 1,
-  RemovePlusZero = 2
+  RemovePlusZero = 2,
+  RemoveUnusedVariables = 3
 };
 enum SimplifyState simplifyStateSize;
 
@@ -17,5 +18,11 @@ int getVariableZero(char *s);
 void S_zeroAssignments(struct Node *t);
 int S_replaceZeroAssignments(struct Node *t);
 void S_removePlusZero(struct Node *t);
+
+struct Variable *usedVariables;
+
+struct Variable *registerUsedVariable(char *s);
+int variableIsUsed(char *s);
+void registerAllUsedVariables(struct Node *t);
 
 #endif // SIMPLIFY_H

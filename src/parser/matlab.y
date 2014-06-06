@@ -4,6 +4,7 @@
     #include <string.h>
 
     #include "fortran.h"
+    #include "jacobian.h"
     #include "simplify.h"
     #include "tree.h"
     #include "node.h"
@@ -89,7 +90,7 @@ array_expression
 power_expression
         : postfix_expression
         { $$ = $1; }
-        | power_expression '^' postfix_expression
+        | power_expression '^' unary_expression
         { 
           $$ = createOperation(TPOW);
           appendChild($$, $1);
@@ -428,7 +429,7 @@ translation_unit
           if (createJac == 1) {
             functionToJacobian($4);
           }
-          /*fprintf(warn, "\n"); print_tree(0, $4); fprintf(warn, "\n");*/
+          //fprintf(warn, "\n"); print_tree(0, $4); fprintf(warn, "\n");
         }
         ;
 
@@ -505,6 +506,7 @@ int main(unsigned int argc, unsigned char *argv[]) {
   simplifyStateSize = 3;
   knownFunctions = NULL;
   initializeKnownFunctions();
+  usedVariables = NULL;
 
   createJac = 1;
   if (argc > 1) {

@@ -67,7 +67,7 @@ c
 c-----------------------------------------------------------------------
 
 c Declare externals.
-      external func, vodefunc, dummy, vodejac
+      external func, vodefunc, dummy, vodejac, psol, pjac
 c Declare input arguments.
       integer, intent(in) :: neq, npar, nout
 
@@ -124,8 +124,16 @@ c-----------------------------------------------------------------------
 c Calculate the correct size of the iwork and rwork
 c variables, based on the description of the VODE
 c function.
+#if defined(VODPKSPIGMRSOLVER)
+!       ml = 1
+!       mu = 1
+
+      lrw = 61 + 17*neq !+ (2*ml+mu+1)*neq + 10
+      liw = 30 !+ neq + 10
+#else
       lrw = 22 +  9*neq + 2*neq**2
       liw = 30 + neq
+#endif
 c The first time to output is the first value in the times
 c vector.
       tout = times(1)
@@ -184,6 +192,13 @@ c No optional inputs.
       iopt = 0
 #endif
 
+#if defined(VODPKSPIGMRSOLVER)
+      iwork(1) = 0!(2*ml+mu+1)*neq + 10
+      iwork(2) = 0!10 + neq
+      iwork(3) = 0!1
+      iwork(4) = 0!1
+#endif
+
 c Always start at t=0.
       t = 0.0d0
 c Initial value for the ODE problem.
@@ -236,6 +251,9 @@ c Call the solver
 #elif defined(VODENONSTIFFSOLVER)
         call dvode(vodefunc, neq, y, t, tout, itol, rtols, atols,
      1   itask, istate, iopt, rwork, lrw, iwork, liw, dummy, 10)
+#elif defined(VODPKSPIGMRSOLVER)
+        call dvodpk(vodefunc, neq, y, t, tout, itol, rtols, atols,
+     1   itask, istate, iopt, rwork, lrw, iwork, liw, dummy, dummy, 21)
 #endif
 
 c Copy the value of y(:) to the output vector.
@@ -407,3 +425,113 @@ c-----------------------------------------------------------------------
       return
       end
 #endif
+
+! 
+!       subroutine pjac (f, neq, t, y, ysv, rewt, fty, v, hrl1,
+!      1                wp, iwp, ier, rpar, ipar)
+!       EXTERNAL jac, f
+!       DOUBLE PRECISION T, Y(NEQ), YSV(NEQ), REWT(NEQ), FTY(NEQ),
+!      1                 V(NEQ), HRL1, RPAR(*), pdj(neq), b(neq),
+!      2                 rh
+!       double precision, target :: wp(*)
+!       integer, target :: iwp(*)
+!       INTEGER IPAR(*), i, np, nnz, lja, nrhs, info, ldb, iopt,
+!      1 lia, lwp, ml, mu, m, k, j, i1, i2, lda
+!       double precision, pointer :: p(:)
+!       double precision, pointer, contiguous :: wpd(:,:)
+!       integer, pointer :: ipvt(:)
+!       common  /funcpar/ np, p
+! ! 
+! 
+!       ml = 1
+!       mu = 1
+!       m = ml + mu + 1
+!       lda = 2*ml + mu + 1
+! 
+! 
+!       wpd(1:lda,1:neq) => wp(3:(2+(lda*neq)))
+!       ipvt(1:neq) => iwp(3:(2+neq))
+! 
+!       rh = wp(2) / hrl1
+! !      write(*,*) "rh=",rh
+! 
+!       if ((iwp(1) .eq. 1) .and. (rh .lt. 1.0d5) .and. (rh .gt. 1.0d-5))
+!      +  then
+!         ier = 0
+!         return
+!       end if
+! 
+! !      print *, "PJAC"
+! 
+!       do 550 j = 1, neq
+! 
+!         call jac(neq, t, y, np, p, j, pdj)
+! 
+!         I1 = MAX(1, j-mu)
+!         I2 = MIN(neq, j+ml)
+!         DO 10 I = I1, I2
+!           K = I - J + M
+!           if (i .eq. j) then
+!             wpd(k,j) = (pdj(i) * -hrl1) + 1
+!           else
+!             wpd(k,j) = pdj(i) * -hrl1
+!           endif
+!   10    CONTINUE
+!   550 continue
+! 
+! !      call dgbfa(wpd, lda, neq, ml, mu, ipvt, info)
+! 
+! !      write(*,*) "Info: ", info
+! 
+!       if (iwp(1) .ne. 1) then
+!         iwp(1) = 1
+!         ipvt(:) = 0
+!       end if
+!       wp(2) = hrl1
+! 
+!       ier = 0
+! 
+! !       write(6, '(I7)') iwp(lja)
+! 
+!       return
+!       end
+! 
+!       subroutine psol (neq, t, y, fty, wk, hrl1, wp, iwp, b, lr,
+!      1                 ier, rpar, ipar)
+!       external dgbsl
+!       double precision t, y(neq), fty(neq), wk(neq), hrl1,
+!      1                 b(neq), rpar(*), hold, rh
+!       integer ipar(*), lja, nnz, lia, iopt, nrhs, ldb, info,
+!      1 lwp, ml, mu, m, k, j, lda
+!       double precision, target :: wp(*)
+!       integer, target :: iwp(*)
+!       double precision, pointer, contiguous :: wpd(:,:)
+!       integer, pointer :: ipvt(:)
+! 
+!       ml = 1
+!       mu = 1
+!       m = ml + mu + 1
+!       lda = 2*ml + mu + 1
+! 
+!       wpd(1:lda,1:neq) => wp(3:(2+(lda*neq)))
+!       ipvt(1:neq) => iwp(3:(2+neq))
+! 
+! 
+! !      write(*,*) "wpd(1,1): ", wpd(1,1)
+! !      write(*,*) "ipvt(1): ", ipvt(1)
+! 
+! !      write(*,*) "B(1): ", b(1), "(before)"
+! 
+!       call dgbsl(wpd, lda, neq, ml, mu, ipvt, b, 0)
+! 
+! !      write(*,*) "B(1): ", b(1), "(after)"
+! 
+! !       do 600 i=1, neq
+! !         b(i) = b(i)/wpd(1,i)
+! !   600 continue
+! 
+!       ierr = 0
+! 
+!       return
+!       end
+! 

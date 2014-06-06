@@ -34,7 +34,7 @@ void print_tree(int d, struct Node *t) {
   while (nd != NULL) {
     depth(d);
     if (nd->tag == TNUM) {
-      fprintf(warn, "%f", nd->ival);
+      fprintf(warn, "%g", nd->ival);
     } else if (nd->tag == TVAR) {
       fprintf(warn, "%s", nd->iname);
     }else {
@@ -44,26 +44,31 @@ void print_tree(int d, struct Node *t) {
         case TMUL : fprintf(warn, "*"); break;
         case TDIV : fprintf(warn, "/"); break;
         case TPOW : fprintf(warn, "^"); break;
-        case TFOR : fprintf(warn, "FOR[%s]", t->iname); break;
-        case TWHILE : fprintf(warn, "WHILE"); break;
+        case TFOR : fprintf(warn, "for (%s = ...)", nd->iname); break;
+        case TWHILE : fprintf(warn, "while"); break;
         case TASSIGN : fprintf(warn, "="); break;
         case TRANGE : fprintf(warn, ":"); break;
         case TOR : fprintf(warn, "|"); break;
         case TAND : fprintf(warn, "&"); break;
-        case TIF : fprintf(warn, "IF"); break;
-        case TIFELSE : fprintf(warn, "IFELSE"); break;
-        case TIFELSEIF : fprintf(warn, "IFELSEIF"); break;
-        case TIFELSEIFELSE : fprintf(warn, "IFELSEIFELSE"); break;
-        case TELSEIF : fprintf(warn, "ELSEIF"); break;
-        case TARRAYINDEX : fprintf(warn, "ARRAYINDEX: '%s'", nd->iname); break;
+        case TIF : fprintf(warn, "if"); break;
+        case TIFELSE : fprintf(warn, "if-else"); break;
+        case TIFELSEIF : fprintf(warn, "if-else-if"); break;
+        case TIFELSEIFELSE : fprintf(warn, "if-else-if-else"); break;
+        case TELSEIF : fprintf(warn, "else-if"); break;
+        case TARRAYINDEX : fprintf(warn, "%s[...]", nd->iname); break;
         case TEQ_OP : fprintf(warn, "=="); break;
         case TNE_OP : fprintf(warn, "!="); break;
         case TGT_OP : fprintf(warn, ">"); break;
         case TGE_OP : fprintf(warn, ">="); break;
         case TLT_OP : fprintf(warn, "<"); break;
         case TLE_OP : fprintf(warn, "<="); break;
-        case TLIST : fprintf(warn, "LIST"); break;
+        case TLIST : fprintf(warn, "..., ..., ..."); break;
         case TFUNCDEC : fprintf(warn, "FUNCDEC"); break;
+        case TFUNCTION : fprintf(warn, "%s(...)", nd->iname); break;
+        case TNEGATIVE : fprintf(warn, "-(...)"); break;
+        case TIFBODY : fprintf(warn, "if () ... end"); break;
+        case TCOMBINE : fprintf(warn, "...; ...; ..."); break;
+        case TMISC : fprintf(warn, "Undefined"); break;
         default: fprintf(warn, "???");
       }
       print_tree(d+1, nd->children);
@@ -73,14 +78,13 @@ void print_tree(int d, struct Node *t) {
 }
 
 struct Variable *registerVariable(char *s, enum VariableType tp) {
-  if (strcmp(s, func->t) != 0 && strcmp(s, func->x) != 0 && strcmp(s, func->p) != 0 && strcmp(s, func->dx) != 0 && strcmp(s, D(func->dx)) && strcmp(s, func->neq) != 0 && strcmp(s, func->np) != 0 && strcmp(s, func->j) && strcmp(s, "zeros") != 0) {
+  if (strcmp(s, func->t) != 0 && strcmp(s, func->x) != 0 && strcmp(s, func->p) != 0 && strcmp(s, func->dx) != 0 && strcmp(s, D(func->dx)) && strcmp(s, func->neq) != 0 && strcmp(s, func->np) != 0 && strcmp(s, func->j) && strcmp(s, "zeros") != 0 && strcmp(s, D(func->x)) != 0) {
     if (vars == NULL) {
       vars = emalloc(sizeof(*vars));
       vars->next = NULL;
       vars->previous = NULL;
       vars->iname = emalloc(sizeof(char) * strlen(s));
       vars->type = tp;
-      vars->rel = NULL;
       vars->zero = -1;
       strcpy(vars->iname, s);
       return vars;
@@ -108,7 +112,6 @@ struct Variable *registerVariable(char *s, enum VariableType tp) {
       tmp->iname = emalloc(sizeof(*tmp));
       strcpy(tmp->iname, s);
       tmp->type = tp;
-      tmp->rel = NULL;
       tmp->zero = -1;
       return tmp;
     }
@@ -152,53 +155,6 @@ void processFunctionHeader(struct Node* f) {
   if (f->children->children != NULL) {
     func->dx = f->children->children->iname;
   }
-}
-
-void processDependentVectorIdentifier(char *s, struct Node *rel) {
-//   if (strcmp(s, func->t) != 0 && strcmp(s, func->x) != 0 && strcmp(s, func->p) != 0 && strcmp(s, func->dx) != 0 && strcmp(s, D(func->dx)) && strcmp(s, func->neq) != 0 && strcmp(s, func->np) != 0 && strcmp(s, func->j) && strcmp(s, "zeros") != 0) {
-//     if (vars == NULL) {
-//       fatalError("Internal error: No variables available.");
-//     } else {
-//       struct Variable *tmp = vars;
-//       while (1) {
-//         if (strcmp(tmp->iname, s) == 0) {
-//           if (tmp->rel == NULL) {
-//             tmp->rel = createOperation(TMISC);
-//             appendChild(tmp->rel, copyNode(rel));
-//             fprintf(warn, "Vector '%s' (%s) relative to Y.\n", s, toFortran(rel));
-//           } else {
-//             fprintf(warn, "Relative record of '%s' already exists, ignoring new one.\n", s);
-//           }
-//           return;
-//         }
-//         if (tmp->next == NULL)
-//           break;
-//         tmp = tmp->next;
-//       }
-//       fprintf(warn, "Trying to find '%s' (%s) relative to Y.\n", s, toFortran(rel));
-//       fatalError("Internal error: Variable not found.");
-//     }
-//   }
-}
-
-struct Node *getRelativeToY(char *s) {
-  if (strcmp(s, func->t) != 0 != 0 && strcmp(s, func->p) != 0 && strcmp(s, D(func->dx)) != 0 && strcmp(s, func->neq) != 0 && strcmp(s, func->np) != 0 && strcmp(s, func->j) && strcmp(s, "zeros") != 0) {
-    if (strcmp(s, func->x) == 0) { //|| strcmp(s, func->dx) == 0
-      return createConstant(1.0);
-    }
-//     if (vars == NULL) {
-//       fatalError("Internal error: No variables available.");
-//     } else {
-//       struct Variable *tmp = vars;
-//       while (tmp != NULL) {
-//         if (strcmp(tmp->iname, s) == 0) {
-//           return tmp->rel;
-//         }
-//         tmp = tmp->next;
-//       }
-//     }
-  }
-  return NULL;
 }
 
 void initializeKnownFunctions() {
@@ -364,4 +320,24 @@ struct MatlabFunction *getFunctionInformation(char *s){
     tmp = tmp->next;
   }
   return NULL;
+}
+
+void removeVariable(struct Variable *v) {
+  if (v == NULL) {
+    return;
+  }
+  
+  if (v->previous != NULL) {
+    v->previous->next = v->next;
+  } else {
+    vars = v->next;
+  }
+  if (v->next != NULL) {
+    v->next->previous = v->previous;
+  }
+  
+  if (v->iname != NULL) {
+    free(v->iname);
+  }
+  free(v);
 }

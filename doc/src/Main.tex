@@ -35,6 +35,12 @@
   escapechar=\%
 }
 
+\newcommand{\pchapter}[1]{\chapter{#1}}
+\newcommand{\psection}[1]{\section{#1}}
+\newcommand{\psubsection}[1]{\subsection{#1}}
+
+\def \figPath {./graphics/}
+
 \title{\PPODESUITE\\Manual}
 \author{Pascal A. Pieters}
 \date{March 2014}
@@ -47,11 +53,8 @@
 
 \mainmatter
 \include{Introduction}
-
 \include{Installation}
-
 \include{Usage}
-
 \include{Solvers}
 
 \end{document}

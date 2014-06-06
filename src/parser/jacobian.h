@@ -23,6 +23,6 @@ struct Node *D_zeros(char *iden, struct Node *n);
 struct Node *D_arrayindex(char *iden, struct Node *n);
 struct Node *D_function(char *iden, struct Node *n, struct Node *j);
 
-int main(void);
+//int main(void);
 
 #endif // JACOBIAN_H
