@@ -1,0 +1,52 @@
+Fri, 6 Jun 2014 15:59:40 +0200: Final changes for BEP report
+
+Thu, 24 Apr 2014 17:22:47 +0200: Removing all REL records
+
+Wed, 23 Apr 2014 16:45:41 +0200: Better Jacobian generation
+
+Tue, 22 Apr 2014 23:45:50 +0200: About to change a lot :S
+
+Tue, 22 Apr 2014 13:06:25 +0200: Updates
+
+Thu, 10 Apr 2014 09:04:27 +0200: LSODAS added
+
+Tue, 8 Apr 2014 14:39:26 +0200: Lots of changes agains
+
+Mon, 31 Mar 2014 11:14:54 +0200: Lots of changes...
+
+Sun, 23 Mar 2014 16:43:13 +0100: Updates
+
+Mon, 17 Mar 2014 14:48:48 +0100: Loads of changes
+
+Wed, 12 Mar 2014 12:31:19 +0100: Changed function structure
+
+Tue, 11 Mar 2014 13:34:14 +0100: Changing function calls
+
+Tue, 11 Mar 2014 13:07:53 +0100: Rewritten Node struct
+
+Tue, 11 Mar 2014 12:09:15 +0100: About to change node structure...
+
+Tue, 11 Mar 2014 09:29:39 +0100: Added the parser
+
+Mon, 24 Feb 2014 11:21:41 +0100: Documentation
+
+Mon, 24 Feb 2014 11:21:18 +0100: Added documentation
+
+Wed, 19 Feb 2014 16:48:16 +0100: Fixed the BDFSparse bug
+
+Tue, 18 Feb 2014 12:19:58 +0100: Added the BDF Sparse library
+
+Mon, 17 Feb 2014 15:35:41 +0100: Small improvements
+
+Sun, 16 Feb 2014 23:28:41 +0100: Nicer output when error in LSODE
+
+Sun, 16 Feb 2014 23:00:16 +0100: Optimization and a lot of commenting
+
+Sun, 16 Feb 2014 14:20:29 +0100: Added build files (2)
+
+Sun, 16 Feb 2014 14:19:37 +0100: Added build files
+
+Sun, 16 Feb 2014 11:51:56 +0100: .gitignore to ignore mex files
+
+Sun, 16 Feb 2014 11:51:24 +0100: Initial commit
+
