@@ -22,7 +22,7 @@ PPODE_addPaths
 
 % Define all libraries, files, etcetera.
 libnames = {'ODEPACK', 'RKSUITE', 'MEBDFSO', 'VODE'};
-libdeps = {{'opkdmain', 'lsodas', 'opkda1', 'opkda2'}, {'rksuite'}, {'yale', 'helpers', 'mebdfso'}, {'vode', 'vodpk', 'helpers'}};
+libdeps = {{'opkdmain', 'lsodas', 'opkda1'}, {'rksuite'}, {'yale', 'helpers', 'mebdfso'}, {'vode', 'vodpk', 'helpers'}}; %, 'opkda2'
 
 [basedir, ~, ~] = fileparts(mfilename('fullpath'));
 builddir = fullfile(basedir, 'build');
@@ -37,7 +37,7 @@ gendep = {'extramath'};
 genlibsourcedir = fullfile(basedir, 'src', genlibname);
 
 % The default flags for mex and the fortran compiler.
-mexfflags = '-fPIC';
+mexfflags = '-fPIC -llapack -lblas';
 mexflags = '';
 
 %% Handle the options passed to the function.

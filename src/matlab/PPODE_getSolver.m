@@ -97,7 +97,7 @@ switch upper(name)
                       'Formulas using a Sparse Jacobian Matrix'...
                       '[1-5] (Stiff)'];
         solver.libs = {'ODEPACK'};
-        solver.interface = {'lsodaswrapper', 'ppodemex'};
+        solver.interface = {'autowrapper', 'ppodemex'};
         solver.defs = {'SWITCHINGSPARSESOLVER', 'ODEPACK', 'LSODAS'};
         solver.maxorder = [5 12];
     case {'BDF-SPIGMR', 'LSODPK-SPIGMR'}

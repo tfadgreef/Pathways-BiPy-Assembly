@@ -142,8 +142,6 @@ c function.
 #elif defined(BDFSPARSESOLVER) || defined(SWITCHINGSPARSESOLVER)
 #if defined(INPUTNONZERO)
       nnz = int(oret(1))
-      write(line,*) 'Calculated NNZ = ', nnz
-      k = mexPrintf(line//achar(13))
 #else
       call jacnonzero(neq, y0, npar, par, nnz)
 #endif

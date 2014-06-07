@@ -117,7 +117,7 @@ buildext = '.o';
 libext = '.a';
 
 % The default flags for mex and the fortran compiler.
-mexfflags = '-fPIC';
+mexfflags = '-fPIC -llapack -lblas';
 mexflags = '';
 
 %% Handle the options passed to the function.

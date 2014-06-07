@@ -224,10 +224,10 @@ c a certain position in the matrix is not zero.
       allocate(rwork(lrw))
       allocate(iwork(liw))
 
-      if (sparse) then
-      iwork(31:(31+neq)) = ia(1:(neq+1))
-      iwork((32+neq):(32+neq+nnz)) = ja(1:nnz)
-      end if
+c      if (sparse) then
+c      iwork(31:(31+neq)) = ia(1:(neq+1))
+c      iwork((32+neq):(32+neq+nnz)) = ja(1:nnz)
+c      end if
 c The first time to output is the first value in the times
 c vector.
       tout = times(1)
