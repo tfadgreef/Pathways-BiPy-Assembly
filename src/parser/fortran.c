@@ -139,6 +139,7 @@ char *toFortran(struct Node *t) {
     char *s2;
     char *s3;
     struct Node *tmp;
+	struct Variable *var;
     switch (nd->tag) {
       case TPLUS :
         s1 = toFortran(nd->children);
@@ -239,7 +240,16 @@ char *toFortran(struct Node *t) {
           tmp = tmp->next;
         }
         return  F_ifelseifelse(toFortran(nd->children), toFortran(nd->children->next), s1, toFortran(tmp));
-      case TARRAYINDEX : return  F_arrayindex(processIdentifier(nd->iname, TINT), toFortran(nd->children));
+      case TARRAYINDEX :
+		  var = registerVariable(nd->iname, TINT);
+		  if (var != NULL){
+			if (var->type != TDOUBLEARRAY){
+				s1 = "";
+				asprintf(&s1, "'%s': Array not initialized using 'zeros' or unknown function.", nd->iname);
+				fatalError(s1);
+			}
+		  }
+		  return  F_arrayindex(processIdentifier(nd->iname, TINT), toFortran(nd->children));
       case TCOMBINE :
         s1 = "";
         tmp = nd->children;

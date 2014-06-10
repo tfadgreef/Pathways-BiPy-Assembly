@@ -105,3 +105,5 @@ char *processIdentifier(char *nm, enum VariableType tp);
 
 void processFunctionHeader(struct Node* f);
 
+void printLine();
+

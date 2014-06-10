@@ -18,7 +18,9 @@ void *emalloc(size_t nbytes) {
 }
 
 void fatalError(char *message) {
+  printLine();
   fprintf(warn, "ERROR: %s\n", message);
+  printLine();
   exit(1);
 }
 
@@ -340,4 +342,8 @@ void removeVariable(struct Variable *v) {
     free(v->iname);
   }
   free(v);
+}
+
+void printLine() {
+	fprintf(warn, "-------------------------------------------------------------------\n");
 }

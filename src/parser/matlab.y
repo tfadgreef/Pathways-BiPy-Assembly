@@ -514,7 +514,15 @@ int main(unsigned int argc, unsigned char *argv[]) {
       createJac = 0;
     }
   }
-
+  
+  printLine();
+  fprintf(stderr, "Starting parsing...\n");
+  printLine();
   yyparse();
+  printLine();
+  fprintf(stderr, "Completed parsing\n" );
+  printLine();
   return 0;
 }
+
+// yacc -d matlab.y && flex matlab.l && cc -g lex.yy.c y.tab.c fortran.c jacobian.c simplify.c tree.c node.c -o '../../build/PPODE_matlab2fortran'

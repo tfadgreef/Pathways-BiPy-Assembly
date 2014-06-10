@@ -85,6 +85,7 @@ end
 
 if values('REINIT')
     PPODE_init
+    disp('Libraries re-intialized.');
 end
 
 end

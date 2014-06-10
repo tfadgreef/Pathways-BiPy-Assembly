@@ -1,3 +1,5 @@
+Sat, 7 Jun 2014 11:39:10 +0200: Building ODEPACK against native LAPACK/BLAS libraries. Crash when using INPUTNNZ with LSODAS/AUTO fixed.
+
 Fri, 6 Jun 2014 19:25:59 +0200: Added update scripts. PPODE_update can now be used to get the PPODESUITE up-to-date. PPODE_update(Changelog,1,Download,0,Install,0,ReInit,0) will solely show the changelog.
 
 Fri, 6 Jun 2014 15:59:40 +0200: Final changes for BEP report
