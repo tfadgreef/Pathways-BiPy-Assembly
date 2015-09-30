@@ -1,0 +1,21 @@
+This manual contains directions for performing a thermodynamic parameter optimization routine using Matlab. 
+The routine entails three steps, explained in detail below. The required scripts are located in 
+corresponding folders, and require knowledge of Matlab to operate or adapt. Depending on the sample
+size, step 2 can be quite cumbersome and as such is usually parallellized on multiple cores. 
+
+N.B.: The two-pathway optimization was performed before the single-pathway version chronologically, and as 
+such contains minor implementational differences. 
+
+1. Generating Initial Parameters
+	Running GenerateStartingParams_TP, an initial parameter set is generated.
+
+2. Solving Mass Balances in Parallel
+	These scripts (InitiateVariableTemperatureFit_TP.m, SolveMassBalance_TP.m and MassBalanceExpression_TP.m)
+	contain routines to fit spectral response predicted by the competitive two-pathway model 
+	to the experimental spectra, starting from the parameter values generated in Step 1. After running 
+	InitiateVariableTemperatureFit_TP.m, output files for different initial parameter values are stored. 
+
+3. Find Best Solution
+	Running ThermodynamicFitSorter_TP.m sorts the output files from the fit according. Subsequently, 
+	running AnalyzerThermodynamicFit_TP.m will identify the best fit, and plot overlays of this fit 
+	with the data. Additionally, it can be used to create a pseudo-phase diagram.

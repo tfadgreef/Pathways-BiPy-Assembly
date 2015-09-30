@@ -1,0 +1,22 @@
+This manual contains directions for performing a thermodynamic parameter optimization routine using Matlab. 
+The routine entails three steps, explained in detail below. The required scripts are located in 
+corresponding folders, and require knowledge of Matlab to operate or adapt. Depending on the sample
+size, step 2 can be quite cumbersome and as such is usually parallellized on multiple cores. 
+
+1. Generating Initial Parameters
+	Running GenerateStartingParams_SP.m on one processor, an initial parameter set is generated, and split up 
+	into separate matrices for use on different cores. 
+
+2. Solving Mass Balances in Parallel
+	These scripts (InitiateVariableTemperatureFit_SP.m, SolveMassBalance_SP.m and MassBalanceExpression_SP.m)
+	are to be duplicated on every core along with the spectroscopic data and the corresponding starting
+	parameter matrix. The scripts contain routines to fit spectral response predicted by the single-pathway model 
+	to the experimental spectra, starting from the parameter values generated in Step 1. After running 
+	InitiateVariableTemperatureFit_SP.m on every core, output files for different nucleus sizes and initial 
+	parameter values are stored. 
+
+3. Find Best Solution
+	Running ThermodynamicFitSorter_SP.m on one processor again sorts the output files from the fit according 
+	to nucleus size. Subsequently, running AnalyzerThermodynamicFit_SP.m will identify the best fit for each 
+	nucleus size, and plot overlays of this fit with the data. Additionally, it can be used to create a pseudo 
+	phase diagram.

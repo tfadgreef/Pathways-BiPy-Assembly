@@ -1,0 +1,3 @@
+The script that is used to plot the pseudo phase diagram in Figure 5a is contained within the corresponding model.
+In this case, the two-pathway model has been used to plot the pseudo phase diagram, more specifically, the script
+AnalyzerThermodynamicFit_TP.

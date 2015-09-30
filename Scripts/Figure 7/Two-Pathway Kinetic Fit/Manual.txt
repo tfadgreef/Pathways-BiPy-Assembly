@@ -1,0 +1,13 @@
+This manual contains directions for performing a kinetic simulation mimicking a T-jump experiment. The scripts as
+given here utilize a custom ODE-solver named PPODESUITE, which should be installed on a Linux system (in our case, 
+Linux Mint 17 was used). The scripts should be copied to such a system, and functions of each script are detailed below. 
+
+KineticSimulationTJump_TP.m initiates kinetic simulations using the two-pathway kinetic model. The ODEs corresponding to 
+this model are supplied as a Matlab-file gTP.m, in a specific format. This file is translated to a Fortran definition of 
+the ODE-system, which is then accessed through the Matlab MEX interface in PPODESUITE. The kinetic and thermodynamic 
+parameters for the simulation need to be inserted manually into KineticSimulationTJump_TP.m. With these parameters, the
+script calculates the initial distribution of molecules (using TwoPathwayTherm.m and TwoPathwayTherm_func.m). From this
+initial distribution, the kinetic simulation is started and all molecular distributions are followed as a function of time. 
+After convergence of this simulation, several plots of these distributions are made using plotting scripts tfracphiloglogplot.m,
+tncnucloglogcontourf.m and tnphinucloglogcontourf.m. These scripts rely on dependent scripts monoToDistribution.m and 
+speciesToFractions.m to convert the concentration of individual species to mole fractions of particular states. 
